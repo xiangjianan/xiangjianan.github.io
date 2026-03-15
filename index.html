@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XIANGJIANAN // 赛博空间</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-cyan: #00f5ff;
+            --neon-pink: #ff00ff;
+            --neon-yellow: #f0ff00;
+            --neon-purple: #bf00ff;
+            --dark-bg: #0a0a0f;
+            --grid-color: rgba(0, 245, 255, 0.1);
+        }
+
+        body {
+            background: var(--dark-bg);
+            min-height: 100vh;
+            font-family: 'Share Tech Mono', monospace;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+            z-index: -2;
+        }
+
+        @keyframes gridMove {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.1),
+                rgba(0, 0, 0, 0.1) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.8) 100%);
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding-top: 40px;
+        }
+
+        .glitch {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            position: relative;
+            text-shadow: 
+                0 0 10px var(--neon-cyan),
+                0 0 20px var(--neon-cyan),
+                0 0 40px var(--neon-cyan),
+                0 0 80px var(--neon-cyan);
+            animation: textFlicker 3s infinite;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch::before {
+            color: var(--neon-pink);
+            animation: glitch-1 2s infinite linear alternate-reverse;
+            clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+            text-shadow: 
+                0 0 10px var(--neon-pink),
+                0 0 20px var(--neon-pink),
+                0 0 40px var(--neon-pink);
+        }
+
+        .glitch::after {
+            color: var(--neon-yellow);
+            animation: glitch-2 3s infinite linear alternate-reverse;
+            clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+            text-shadow: 
+                0 0 10px var(--neon-yellow),
+                0 0 20px var(--neon-yellow),
+                0 0 40px var(--neon-yellow);
+        }
+
+        @keyframes glitch-1 {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-3px, 3px); }
+            40% { transform: translate(-3px, -3px); }
+            60% { transform: translate(3px, 3px); }
+            80% { transform: translate(3px, -3px); }
+        }
+
+        @keyframes glitch-2 {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(3px, -3px); }
+            40% { transform: translate(3px, 3px); }
+            60% { transform: translate(-3px, -3px); }
+            80% { transform: translate(-3px, 3px); }
+        }
+
+        @keyframes textFlicker {
+            0%, 100% { opacity: 1; }
+            92% { opacity: 1; }
+            93% { opacity: 0.8; }
+            94% { opacity: 1; }
+            95% { opacity: 0.9; }
+            96% { opacity: 1; }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--neon-cyan);
+            margin-top: 20px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            border: 1px solid var(--neon-cyan);
+            background: rgba(0, 245, 255, 0.1);
+            position: relative;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+
+        .status-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.2), transparent);
+            animation: scanEffect 2s linear infinite;
+        }
+
+        @keyframes scanEffect {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--neon-cyan);
+            border-radius: 50%;
+            animation: pulse 1.5s ease-in-out infinite;
+            box-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: rgba(10, 10, 20, 0.8);
+            border: 1px solid var(--neon-purple);
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-purple), transparent);
+            animation: borderGlow 2s linear infinite;
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, var(--neon-purple), transparent 30%);
+            animation: rotate 4s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .card:hover::after {
+            opacity: 0.1;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--neon-pink);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        .card-title::before {
+            content: '//';
+            color: var(--neon-cyan);
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .bio {
+            line-height: 1.8;
+            color: #ccc;
+        }
+
+        .bio p {
+            margin-bottom: 15px;
+        }
+
+        .highlight {
+            color: var(--neon-yellow);
+            text-shadow: 0 0 5px var(--neon-yellow);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 0, 255, 0.05);
+            border: 1px solid rgba(255, 0, 255, 0.3);
+            transition: all 0.3s;
+        }
+
+        .stat-item:hover {
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+        }
+
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 20px var(--neon-cyan);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 5px;
+        }
+
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tech-tag {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.1), rgba(191, 0, 255, 0.1));
+            border: 1px solid var(--neon-cyan);
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tech-tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .tech-tag:hover::before {
+            left: 100%;
+        }
+
+        .tech-tag:hover {
+            box-shadow: 0 0 15px var(--neon-cyan);
+            transform: translateY(-2px);
+        }
+
+        .links-list {
+            list-style: none;
+        }
+
+        .links-list li {
+            margin-bottom: 15px;
+        }
+
+        .cyber-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(240, 255, 0, 0.05);
+            border-left: 3px solid var(--neon-yellow);
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cyber-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: rgba(240, 255, 0, 0.1);
+            transition: width 0.3s;
+        }
+
+        .cyber-link:hover::before {
+            width: 100%;
+        }
+
+        .cyber-link:hover {
+            border-left-width: 10px;
+            transform: translateX(5px);
+        }
+
+        .cyber-link .icon {
+            font-size: 1.5rem;
+            width: 40px;
+            text-align: center;
+        }
+
+        .cyber-link .link-text {
+            flex: 1;
+        }
+
+        .cyber-link .link-title {
+            font-weight: bold;
+            color: var(--neon-yellow);
+            text-shadow: 0 0 5px var(--neon-yellow);
+        }
+
+        .cyber-link .link-desc {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 3px;
+        }
+
+        .cyber-link .arrow {
+            color: var(--neon-cyan);
+            transition: transform 0.3s;
+        }
+
+        .cyber-link:hover .arrow {
+            transform: translateX(5px);
+        }
+
+        .terminal {
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid var(--neon-cyan);
+            padding: 20px;
+            font-family: 'Share Tech Mono', monospace;
+            position: relative;
+        }
+
+        .terminal::before {
+            content: 'TERMINAL v2.077';
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--dark-bg);
+            padding: 0 10px;
+            color: var(--neon-cyan);
+            font-size: 0.8rem;
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 245, 255, 0.3);
+        }
+
+        .terminal-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-btn.red { background: #ff5f56; }
+        .terminal-btn.yellow { background: #ffbd2e; }
+        .terminal-btn.green { background: #27ca40; }
+
+        .terminal-line {
+            margin-bottom: 10px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .terminal-prompt {
+            color: var(--neon-cyan);
+            margin-right: 10px;
+        }
+
+        .terminal-command {
+            color: var(--neon-yellow);
+        }
+
+        .terminal-output {
+            color: #0f0;
+            margin-left: 0;
+            width: 100%;
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+
+        .typing-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background: var(--neon-cyan);
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            border-top: 1px solid rgba(0, 245, 255, 0.2);
+        }
+
+        .footer-text {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .footer-text .neon {
+            color: var(--neon-pink);
+            text-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        .cyber-decoration {
+            position: fixed;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.7rem;
+            color: rgba(0, 245, 255, 0.3);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .decoration-top-left {
+            top: 20px;
+            left: 20px;
+        }
+
+        .decoration-top-right {
+            top: 20px;
+            right: 20px;
+            text-align: right;
+        }
+
+        .decoration-bottom-left {
+            bottom: 20px;
+            left: 20px;
+        }
+
+        .decoration-bottom-right {
+            bottom: 20px;
+            right: 20px;
+            text-align: right;
+        }
+
+        .hex-code {
+            display: inline-block;
+            padding: 2px 6px;
+            background: rgba(0, 245, 255, 0.1);
+            margin: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .cyber-decoration {
+                display: none;
+            }
+            
+            .status-bar {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .rain-drop {
+            position: absolute;
+            width: 2px;
+            height: 20px;
+            background: linear-gradient(transparent, var(--neon-cyan));
+            opacity: 0.3;
+            animation: rain 1s linear infinite;
+        }
+
+        @keyframes rain {
+            0% { transform: translateY(-100vh); }
+            100% { transform: translateY(100vh); }
+        }
+    </style>
+</head>
+<body>
+    <div class="rain" id="rain"></div>
+    <div class="grid-bg"></div>
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
+    
+    <div class="cyber-decoration decoration-top-left">
+        <div class="hex-code">SYS.INIT</div>
+        <div class="hex-code">0x7F3A</div>
+        <div class="hex-code" id="datetime"></div>
+    </div>
+    
+    <div class="cyber-decoration decoration-top-right">
+        <div class="hex-code">STATUS: ONLINE</div>
+        <div class="hex-code">SECURE_CONN</div>
+        <div class="hex-code" id="random-hex"></div>
+    </div>
+    
+    <div class="cyber-decoration decoration-bottom-left">
+        <div class="hex-code">NODE: ASIA-EAST</div>
+        <div class="hex-code">LAT: 31.2304</div>
+        <div class="hex-code">LNG: 121.4737</div>
+    </div>
+    
+    <div class="cyber-decoration decoration-bottom-right">
+        <div class="hex-code">BUILD: 2077.03</div>
+        <div class="hex-code">CYBER_OS</div>
+        <div class="hex-code" id="uptime"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <h1 class="glitch" data-text="XIANGJIANAN">XIANGJIANAN</h1>
+            <p class="subtitle">// DEVELOPER // CREATOR // CYBERPUNK //</p>
+            
+            <div class="status-bar">
+                <div class="status-item">
+                    <div class="status-dot"></div>
+                    <span>SYSTEM ACTIVE</span>
+                </div>
+                <div class="status-item">
+                    <div class="status-dot"></div>
+                    <span>NEURAL LINKED</span>
+                </div>
+                <div class="status-item">
+                    <div class="status-dot"></div>
+                    <span>DATA SYNC</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="card">
+                <h2 class="card-title">ABOUT ME</h2>
+                <div class="card-content bio">
+                    <p>Welcome to my <span class="highlight">cyber space</span>. I'm a developer passionate about creating digital experiences that push boundaries.</p>
+                    <p>In this neon-lit corner of the internet, I share my projects, experiments, and the code that powers my journey through the <span class="highlight">digital frontier</span>.</p>
+                    <p>Always exploring. Always building. Always evolving.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">STATS</h2>
+                <div class="card-content">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number">5</div>
+                            <div class="stat-label">Repositories</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">118</div>
+                            <div class="stat-label">Followers</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">13</div>
+                            <div class="stat-label">Stars Earned</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">∞</div>
+                            <div class="stat-label">Possibilities</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">TECH ARSENAL</h2>
+                <div class="card-content">
+                    <div class="tech-list">
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">TypeScript</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Vue.js</span>
+                        <span class="tech-tag">CSS3</span>
+                        <span class="tech-tag">HTML5</span>
+                        <span class="tech-tag">Git</span>
+                        <span class="tech-tag">Linux</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">CONNECT</h2>
+                <div class="card-content">
+                    <ul class="links-list">
+                        <li>
+                            <a href="https://github.com/xiangjianan" class="cyber-link" target="_blank">
+                                <span class="icon">⚡</span>
+                                <span class="link-text">
+                                    <span class="link-title">GitHub</span>
+                                    <span class="link-desc">View my repositories</span>
+                                </span>
+                                <span class="arrow">→</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/xiangjianan?tab=repositories" class="cyber-link" target="_blank">
+                                <span class="icon">◈</span>
+                                <span class="link-text">
+                                    <span class="link-title">Projects</span>
+                                    <span class="link-desc">Explore my work</span>
+                                </span>
+                                <span class="arrow">→</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/xiangjianan?tab=stars" class="cyber-link" target="_blank">
+                                <span class="icon">★</span>
+                                <span class="link-text">
+                                    <span class="link-title">Stars</span>
+                                    <span class="link-desc">What I find interesting</span>
+                                </span>
+                                <span class="arrow">→</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card" style="grid-column: span 2;">
+                <h2 class="card-title">TERMINAL</h2>
+                <div class="card-content">
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <span class="terminal-btn red"></span>
+                            <span class="terminal-btn yellow"></span>
+                            <span class="terminal-btn green"></span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">guest@cyberspace:~$</span>
+                            <span class="terminal-command">whoami</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">xiangjianan // developer // creator</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">guest@cyberspace:~$</span>
+                            <span class="terminal-command">cat mission.txt</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">Building the future, one commit at a time.</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">guest@cyberspace:~$</span>
+                            <span class="terminal-command">echo $STATUS</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">READY_FOR_NEXT_CHALLENGE</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">guest@cyberspace:~$</span>
+                            <span class="typing-cursor"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p class="footer-text">
+                Designed in <span class="neon">2077</span> // Built with <span class="neon">♥</span> and <span class="neon">code</span>
+            </p>
+            <p class="footer-text" style="margin-top: 10px;">
+                © <span id="year"></span> XIANGJIANAN // ALL RIGHTS RESERVED
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        function updateDateTime() {
+            const now = new Date();
+            const formatted = now.toISOString().slice(0, 19).replace('T', ' ');
+            document.getElementById('datetime').textContent = formatted;
+        }
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+        
+        function updateRandomHex() {
+            const hex = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0').toUpperCase();
+            document.getElementById('random-hex').textContent = hex;
+        }
+        updateRandomHex();
+        setInterval(updateRandomHex, 3000);
+        
+        const startTime = Date.now();
+        function updateUptime() {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const hours = Math.floor(elapsed / 3600);
+            const minutes = Math.floor((elapsed % 3600) / 60);
+            const seconds = elapsed % 60;
+            document.getElementById('uptime').textContent = 
+                `UPTIME: ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        updateUptime();
+        setInterval(updateUptime, 1000);
+        
+        const rain = document.getElementById('rain');
+        for (let i = 0; i < 50; i++) {
+            const drop = document.createElement('div');
+            drop.className = 'rain-drop';
+            drop.style.left = Math.random() * 100 + '%';
+            drop.style.animationDelay = Math.random() * 2 + 's';
+            drop.style.animationDuration = (Math.random() * 1 + 0.5) + 's';
+            rain.appendChild(drop);
+        }
+    </script>
+</body>
+</html>
