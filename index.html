@@ -580,17 +580,189 @@
         }
 
         @media (max-width: 768px) {
-            .cyber-decoration {
-                display: none;
+            /* 隐藏重性能的装饰元素 */
+            .cyber-decoration,
+            .rain,
+            .scanlines {
+                display: none !important;
             }
-            
+
+            /* 容器间距优化 */
+            .container {
+                padding: 20px 15px;
+            }
+
+            .header {
+                padding-top: 20px;
+                margin-bottom: 30px;
+            }
+
+            /* 标题优化 */
+            .glitch {
+                font-size: clamp(1.8rem, 10vw, 2.5rem);
+            }
+
+            .glitch::before,
+            .glitch::after {
+                /* 移动端禁用复杂的 glitch 动画以节省性能 */
+                animation: none;
+            }
+
+            .subtitle {
+                font-size: 0.9rem;
+                letter-spacing: 0.15em;
+            }
+
+            /* 状态栏纵向排列 */
             .status-bar {
                 flex-direction: column;
-                align-items: center;
+                align-items: stretch;
+                gap: 10px;
             }
-            
+
+            .status-item {
+                justify-content: center;
+            }
+
+            /* 卡片网格 */
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            /* TERMINAL 卡片取消横跨 */
+            .card[style*="grid-column: span 2"] {
+                grid-column: span 1 !important;
+            }
+
+            /* 卡片内部优化 */
+            .card {
+                padding: 20px;
+            }
+
+            .card-title {
+                font-size: 1.2rem;
+            }
+
+            /* 统计网格单列 */
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .stat-item {
+                padding: 15px 10px;
+            }
+
+            .stat-number {
+                font-size: 1.8rem;
+            }
+
+            /* 技术标签优化 */
+            .tech-tag {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+
+            /* 链接列表优化 */
+            .cyber-link {
+                padding: 12px;
+            }
+
+            .cyber-link .icon {
+                font-size: 1.2rem;
+                width: 30px;
+            }
+
+            /* 终端优化 */
+            .terminal {
+                padding: 15px;
+                font-size: 0.85rem;
+            }
+
+            .terminal-line {
+                flex-wrap: wrap;
+            }
+
+            .terminal-output {
+                padding-left: 10px;
+            }
+
+            /* 页脚优化 */
+            .footer {
+                margin-top: 30px;
+                padding: 20px;
+            }
+
+            .footer-text {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* 超小屏幕（< 400px）进一步优化 */
+        @media (max-width: 400px) {
+            .container {
+                padding: 15px 10px;
+            }
+
+            .glitch {
+                font-size: 1.5rem;
+            }
+
+            .subtitle {
+                font-size: 0.75rem;
+                letter-spacing: 0.1em;
+            }
+
+            .card {
+                padding: 15px;
+            }
+
+            .card-title {
+                font-size: 1rem;
+                margin-bottom: 15px;
+            }
+
             .stats-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .stat-number {
+                font-size: 1.5rem;
+            }
+
+            .stat-label {
+                font-size: 0.8rem;
+            }
+
+            .tech-tag {
+                padding: 5px 10px;
+                font-size: 0.8rem;
+            }
+
+            .bio {
+                font-size: 0.9rem;
+            }
+
+            .terminal {
+                padding: 12px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* 减少动画（用户偏好） */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .rain,
+            .scanlines {
+                display: none !important;
             }
         }
 
