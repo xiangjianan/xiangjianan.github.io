@@ -10,7 +10,7 @@
 import { useEffect, useRef, useState } from "react";
 import {
   Github, ExternalLink, Star, GitFork, MapPin, Users,
-  Code2, Zap, Terminal, ChevronDown, Globe, Cpu, Sparkles, Bot
+  Code2, Zap, Terminal, ChevronDown, Globe, Cpu, Sparkles, Bot, Mail
 } from "lucide-react";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
@@ -875,7 +875,7 @@ function ContactSection() {
         </h2>
         <p className="text-sm mb-12 max-w-lg" style={{ color: "oklch(0.6 0.04 220)" }}>
           Have an interesting project to collaborate on, or just want to say hello?
-          Feel free to reach out via GitHub.
+          Feel free to reach out via GitHub or Email.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl">
           {[
@@ -888,6 +888,16 @@ function ContactSection() {
               hoverBorder: "oklch(0.82 0.18 195 / 60%)",
               hoverGlow: "oklch(0.82 0.18 195 / 15%)",
               iconColor: "oklch(0.82 0.18 195)",
+            },
+            {
+              href: "mailto:xiang9872@126.com",
+              icon: Mail,
+              label: "Email",
+              sub: "xiang9872@126.com",
+              border: "oklch(0.8 0.15 150 / 25%)",
+              hoverBorder: "oklch(0.8 0.15 150 / 60%)",
+              hoverGlow: "oklch(0.8 0.15 150 / 15%)",
+              iconColor: "oklch(0.8 0.15 150)",
             },
             {
               href: "https://xiangjianan.github.io",
