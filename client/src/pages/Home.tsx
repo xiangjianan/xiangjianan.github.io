@@ -343,7 +343,7 @@ function AIBuiltBanner() {
                   <span style={{ color: "oklch(0.72 0.22 42)" }}>100% AI BUILT</span>
                   <span style={{ color: "oklch(0.5 0.04 220)" }}>·</span>
                   <Cpu size={11} style={{ color: "oklch(0.82 0.18 195)", flexShrink: 0 }} />
-                  <span style={{ color: "oklch(0.82 0.18 195)" }}>DESIGNED BY MANUS AI</span>
+                  <span style={{ color: "oklch(0.82 0.18 195)" }}>DESIGNED BY MANUS & OPENCLAW</span>
                   <span style={{ color: "oklch(0.5 0.04 220)" }}>·</span>
                   <Sparkles size={11} style={{ color: "oklch(0.75 0.2 290)", flexShrink: 0 }} />
                   <span style={{ color: "oklch(0.75 0.2 290)" }}>ZERO HUMAN CODE</span>
@@ -535,7 +535,7 @@ function HeroSection() {
                 <span style={{ color: "oklch(0.5 0.04 220)", fontSize: "0.65rem", fontFamily: "JetBrains Mono, monospace" }}>·</span>
                 <Cpu size={12} style={{ color: "oklch(0.82 0.18 195)" }} />
                 <span style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.72rem", color: "oklch(0.82 0.18 195)", letterSpacing: "0.1em" }}>
-                  POWERED BY MANUS
+                  POWERED BY MANUS & OPENCLAW
                 </span>
               </div>
             </div>
@@ -661,13 +661,13 @@ function AboutSection() {
                     100% AI Built
                   </div>
                   <div className="text-xs" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.5 0.04 220)" }}>
-                    Designed & Developed by Manus AI
+                    Designed & Developed by MANUS & OpenClaw
                   </div>
                 </div>
               </div>
               <p className="text-sm leading-relaxed" style={{ color: "oklch(0.65 0.04 220)" }}>
                 This entire website — every line of code, every design decision, every animation —
-                was autonomously created by <span style={{ color: "oklch(0.82 0.18 195)" }}>Manus AI</span> without
+                was autonomously created by <span style={{ color: "oklch(0.82 0.18 195)" }}>MANUS & OpenClaw</span> without
                 any human-written code. From fetching GitHub data to crafting the cyberpunk aesthetic,
                 it's a testament to what AI can build end-to-end.
               </p>
@@ -676,7 +676,8 @@ function AboutSection() {
                 <CyberTag>Tailwind CSS 4</CyberTag>
                 <CyberTag variant="violet">Framer Motion</CyberTag>
                 <CyberTag variant="orange">TypeScript</CyberTag>
-                <CyberTag>Manus AI</CyberTag>
+                <CyberTag>MANUS</CyberTag>
+                <CyberTag variant="violet">OpenClaw</CyberTag>
               </div>
             </div>
 
@@ -937,7 +938,7 @@ function Footer() {
           style={{ border: "1px solid oklch(0.72 0.22 42 / 30%)", background: "oklch(0.72 0.22 42 / 5%)" }}>
           <Bot size={11} style={{ color: "oklch(0.72 0.22 42)" }} />
           <span className="text-xs" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.72 0.22 42 / 80%)", letterSpacing: "0.1em" }}>
-            100% AI BUILT · MANUS AI · {new Date().getFullYear()}
+            100% AI BUILT · MANUS & OPENCLAW · {new Date().getFullYear()}
           </span>
         </div>
 
