@@ -343,7 +343,7 @@ function AIBuiltBanner() {
                   <span style={{ color: "oklch(0.72 0.22 42)" }}>100% AI BUILT</span>
                   <span style={{ color: "oklch(0.5 0.04 220)" }}>·</span>
                   <Cpu size={11} style={{ color: "oklch(0.82 0.18 195)", flexShrink: 0 }} />
-                  <span style={{ color: "oklch(0.82 0.18 195)" }}>DESIGNED BY MANUS AI</span>
+                  <span style={{ color: "oklch(0.82 0.18 195)" }}>POWERED BY MANUS & OPENCLAW</span>
                   <span style={{ color: "oklch(0.5 0.04 220)" }}>·</span>
                   <Sparkles size={11} style={{ color: "oklch(0.75 0.2 290)", flexShrink: 0 }} />
                   <span style={{ color: "oklch(0.75 0.2 290)" }}>ZERO HUMAN CODE</span>
@@ -535,7 +535,7 @@ function HeroSection() {
                 <span style={{ color: "oklch(0.5 0.04 220)", fontSize: "0.65rem", fontFamily: "JetBrains Mono, monospace" }}>·</span>
                 <Cpu size={12} style={{ color: "oklch(0.82 0.18 195)" }} />
                 <span style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.72rem", color: "oklch(0.82 0.18 195)", letterSpacing: "0.1em" }}>
-                  POWERED BY MANUS
+                  POWERED BY MANUS & OPENCLAW
                 </span>
               </div>
             </div>
@@ -661,7 +661,7 @@ function AboutSection() {
                     100% AI Built
                   </div>
                   <div className="text-xs" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.5 0.04 220)" }}>
-                    Designed & Developed by Manus AI
+                    Designed & Developed by Manus & OpenClaw AI
                   </div>
                 </div>
               </div>
