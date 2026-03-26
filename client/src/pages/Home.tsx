@@ -899,16 +899,6 @@ function ContactSection() {
               hoverGlow: "oklch(0.8 0.15 150 / 15%)",
               iconColor: "oklch(0.8 0.15 150)",
             },
-            {
-              href: "https://xiangjianan.github.io",
-              icon: Globe,
-              label: "Personal Site",
-              sub: "xiangjianan.github.io",
-              border: "oklch(0.72 0.22 42 / 25%)",
-              hoverBorder: "oklch(0.72 0.22 42 / 60%)",
-              hoverGlow: "oklch(0.72 0.22 42 / 15%)",
-              iconColor: "oklch(0.72 0.22 42)",
-            },
           ].map((item) => (
             <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer" className="block" style={{ textDecoration: "none" }}>
               <div className="clip-corner p-6 transition-all duration-300"
