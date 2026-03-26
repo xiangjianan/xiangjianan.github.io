@@ -1,0 +1,17 @@
+{
+  "name": "xiangjianan | Cyberpunk Portfolio",
+  "short_name": "XJ",
+  "description": "Full-Stack Developer & Open Source Enthusiast",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d0d14",
+  "theme_color": "#0d0d14",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
