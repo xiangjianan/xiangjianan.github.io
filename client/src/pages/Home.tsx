@@ -98,7 +98,7 @@ const PROJECTS = [
     forks: 0,
     url: "https://github.com/xiangjianan/game-wechat-find100",
     featured: false,
-    color: "green",
+    color: "cyan",
   },
   {
     id: "kongming-chess",
