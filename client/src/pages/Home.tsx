@@ -89,6 +89,18 @@ const PROJECTS = [
     color: "orange",
   },
   {
+    id: "game-wechat-find100",
+    name: "game-wechat-find100",
+    emoji: "💬",
+    desc: "WeChat Mini Game — A number-finding puzzle game based on Voronoi diagrams, built as a WeChat Mini Program.",
+    lang: "JavaScript",
+    stars: 1,
+    forks: 0,
+    url: "https://github.com/xiangjianan/game-wechat-find100",
+    featured: false,
+    color: "green",
+  },
+  {
     id: "kongming-chess",
     name: "kongming-chess",
     emoji: "♟️",
@@ -713,6 +725,7 @@ function AboutSection() {
                   { repo: "skill-map", lang: "JavaScript", time: "Mar 2026" },
                   { repo: "ai-daily-news", lang: "HTML", time: "Mar 2026" },
                   { repo: "lks-api", lang: "Python", time: "Mar 2026" },
+                  { repo: "game-wechat-find100", lang: "JavaScript", time: "Mar 2026" },
                   { repo: "game-find100", lang: "JavaScript", time: "Mar 2026" },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
