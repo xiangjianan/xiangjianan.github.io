@@ -21,9 +21,11 @@ const GITHUB_USER = {
   avatar: "https://avatars.githubusercontent.com/xiangjianan",
   bio: "Full-Stack Developer · Open Source Enthusiast · Creator",
   location: "UTC+8",
-  followers: 118,
-  following: 3,
-  contributions: 272,
+  followers: 119,
+  following: 2,
+  commits: 895,
+  yearlyContributions: 944,
+  repoCount: 14,
   github: "https://github.com/xiangjianan",
 };
 
@@ -34,23 +36,47 @@ const PROJECTS = [
     emoji: "📚",
     desc: "LKs Website Collection — A curated list of 303 high-quality websites, compiled from the popular Bilibili series by UP主 LKs.",
     lang: "CSS",
-    stars: 442,
+    stars: 446,
     forks: 69,
     url: "https://github.com/xiangjianan/lks",
     featured: true,
     color: "cyan",
   },
   {
-    id: "lkszj",
-    name: "lkszj",
-    emoji: "🎨",
-    desc: "\"Create Beauty\" Submission Platform — An online creative works submission site supporting multiple original content types.",
-    lang: "JavaScript",
-    stars: 2,
+    id: "mini-desk",
+    name: "mini-desk",
+    emoji: "🖥️",
+    desc: "Mini Desk — A local-first personal workspace for notes, reminders, quick actions, screenshots, and everyday tools.",
+    lang: "TypeScript",
+    stars: 0,
     forks: 0,
-    url: "https://github.com/xiangjianan/lkszj",
+    url: "https://github.com/xiangjianan/mini-desk",
     featured: false,
     color: "orange",
+  },
+  {
+    id: "game-wechat-find100",
+    name: "game-wechat-find100",
+    emoji: "🎯",
+    desc: "WeChat Mini Game — A number-finding puzzle game based on Voronoi diagrams, built as a WeChat Mini Program.",
+    lang: "JavaScript",
+    stars: 2,
+    forks: 1,
+    url: "https://github.com/xiangjianan/game-wechat-find100",
+    featured: false,
+    color: "cyan",
+  },
+  {
+    id: "jindou-blog",
+    name: "jindou-blog",
+    emoji: "📝",
+    desc: "Jindou Blog — AI notes covering AI research, explainers, and technical writing.",
+    lang: "MDX",
+    stars: 0,
+    forks: 0,
+    url: "https://github.com/xiangjianan/jindou-blog",
+    featured: false,
+    color: "violet",
   },
   {
     id: "ai-daily-news",
@@ -58,77 +84,55 @@ const PROJECTS = [
     emoji: "🤖",
     desc: "AI Daily News — Automatically aggregates AI technology news every day to keep you up to date with the latest in artificial intelligence.",
     lang: "HTML",
-    stars: 0,
+    stars: 1,
     forks: 0,
     url: "https://github.com/xiangjianan/ai-daily-news",
     featured: false,
-    color: "violet",
+    color: "cyan",
+  },
+  {
+    id: "send-msg",
+    name: "send-msg",
+    emoji: "📡",
+    desc: "Send Msg — A LAN real-time message broadcasting service built with WebSocket and Express.",
+    lang: "HTML",
+    stars: 0,
+    forks: 0,
+    url: "https://github.com/xiangjianan/send-msg",
+    featured: false,
+    color: "orange",
   },
   {
     id: "lks-api",
     name: "lks-api",
     emoji: "🔧",
-    desc: "LKs Backend API Service — A high-performance data interface built with Django REST Framework powering the LKs website collection.",
+    desc: "LKs Backend API Service — A Django REST Framework data interface powering the LKs website collection.",
     lang: "Python",
     stars: 0,
     forks: 0,
     url: "https://github.com/xiangjianan/lks-api",
-    featured: false,
-    color: "cyan",
-  },
-  {
-    id: "game-find100",
-    name: "game-find100",
-    emoji: "🎯",
-    desc: "Number Challenge — A puzzle mini-game where you click numbers in sequence, testing your visual acuity and reaction speed.",
-    lang: "JavaScript",
-    stars: 0,
-    forks: 0,
-    url: "https://github.com/xiangjianan/game-find100",
-    featured: false,
-    color: "orange",
-  },
-  {
-    id: "game-wechat-find100",
-    name: "game-wechat-find100",
-    emoji: "💬",
-    desc: "WeChat Mini Game — A number-finding puzzle game based on Voronoi diagrams, built as a WeChat Mini Program.",
-    lang: "JavaScript",
-    stars: 1,
-    forks: 0,
-    url: "https://github.com/xiangjianan/game-wechat-find100",
-    featured: false,
-    color: "cyan",
-  },
-  {
-    id: "kongming-chess",
-    name: "kongming-chess",
-    emoji: "♟️",
-    desc: "Peg Solitaire — A web-based implementation of the classic peg solitaire board game, challenging your logical thinking.",
-    lang: "HTML",
-    stars: 0,
-    forks: 0,
-    url: "https://github.com/xiangjianan/kongming-chess",
     featured: false,
     color: "violet",
   },
 ];
 
 const SKILLS = [
-  { name: "JavaScript / TypeScript", level: 88, category: "Frontend" },
-  { name: "React / Vue", level: 82, category: "Frontend" },
-  { name: "HTML / CSS", level: 92, category: "Frontend" },
-  { name: "Python / Django", level: 78, category: "Backend" },
-  { name: "Node.js / Express", level: 75, category: "Backend" },
-  { name: "Git / GitHub", level: 90, category: "Tools" },
+  { name: "TypeScript", level: 32, category: "GitHub" },
+  { name: "HTML / CSS", level: 24, category: "GitHub" },
+  { name: "MDX / Astro", level: 17, category: "GitHub" },
+  { name: "JavaScript", level: 16, category: "GitHub" },
+  { name: "Vue", level: 10, category: "GitHub" },
+  { name: "Python / Django", level: 1, category: "GitHub" },
 ];
 
 const LANG_COLORS: Record<string, string> = {
   CSS: "#563d7c",
   JavaScript: "#f1e05a",
   HTML: "#e34c26",
+  MDX: "#fcb32c",
   Python: "#3572A5",
   TypeScript: "#2b7489",
+  Vue: "#41b883",
 };
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
@@ -611,8 +615,8 @@ function HeroSection() {
 
             <div className="grid grid-cols-3 gap-3 w-full max-w-xs">
               <StatCard value={GITHUB_USER.followers} label="FOLLOWERS" icon={Users} />
-              <StatCard value={GITHUB_USER.contributions} label="COMMITS" icon={Zap} />
-              <StatCard value="11" label="REPOS" icon={Code2} />
+              <StatCard value={GITHUB_USER.commits} label="COMMITS" icon={Zap} />
+              <StatCard value={GITHUB_USER.repoCount} label="REPOS" icon={Code2} />
             </div>
           </div>
         </div>
@@ -650,9 +654,9 @@ function AboutSection() {
                 to AI news aggregators, every project is an exploration of technology's boundaries.
               </p>
               <p className="text-sm leading-relaxed" style={{ color: "oklch(0.7 0.04 220)" }}>
-                Over the past year, I've made <span className="neon-orange font-semibold">272 commits</span> on GitHub,
-                created <span className="neon-orange font-semibold">11 repositories</span>, and my
-                <span className="neon-cyan font-semibold"> lks project</span> has earned 442 stars —
+                Over the past year, I've made <span className="neon-orange font-semibold">{GITHUB_USER.commits} commits</span> on GitHub,
+                maintain <span className="neon-orange font-semibold">{GITHUB_USER.repoCount} public repositories</span>, and my
+                <span className="neon-cyan font-semibold"> lks project</span> has earned {PROJECTS[0].stars} stars —
                 making it my most popular open-source work.
               </p>
             </div>
@@ -721,12 +725,12 @@ function AboutSection() {
               </div>
               <div className="space-y-4">
                 {[
-                  { repo: "kongming-chess", lang: "HTML", time: "Mar 2026" },
-                  { repo: "skill-map", lang: "JavaScript", time: "Mar 2026" },
-                  { repo: "ai-daily-news", lang: "HTML", time: "Mar 2026" },
-                  { repo: "lks-api", lang: "Python", time: "Mar 2026" },
-                  { repo: "game-wechat-find100", lang: "JavaScript", time: "Mar 2026" },
-                  { repo: "game-find100", lang: "JavaScript", time: "Mar 2026" },
+                  { repo: "lks", lang: "CSS", time: "Jun 2026" },
+                  { repo: "mini-desk", lang: "TypeScript", time: "Jun 2026" },
+                  { repo: "ai-daily-news", lang: "HTML", time: "Jun 2026" },
+                  { repo: "xiangjianan.github.io", lang: "TypeScript", time: "May 2026" },
+                  { repo: "jindou-blog", lang: "MDX", time: "May 2026" },
+                  { repo: "game-wechat-find100", lang: "JavaScript", time: "May 2026" },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "oklch(0.82 0.18 195)", boxShadow: "0 0 6px oklch(0.82 0.18 195)" }} />
@@ -742,7 +746,7 @@ function AboutSection() {
               </div>
               <div className="mt-6 pt-4 text-center" style={{ borderTop: "1px solid oklch(0.82 0.18 195 / 15%)" }}>
                 <span className="text-xs" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.5 0.04 220)" }}>
-                  272 contributions in the last year
+                  {GITHUB_USER.yearlyContributions} contributions in the last year
                 </span>
               </div>
             </div>
@@ -840,16 +844,16 @@ function SkillsSection() {
             <div className="cyber-card clip-corner p-6">
               <div className="flex items-center gap-2 mb-6">
                 <Code2 size={16} style={{ color: "oklch(0.72 0.22 42)" }} />
-                <span className="text-xs tracking-widest" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.72 0.22 42 / 70%)" }}>skill.matrix</span>
+                <span className="text-xs tracking-widest" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.72 0.22 42 / 70%)" }}>github.language.mix</span>
               </div>
               {SKILLS.map((s, i) => <SkillBar key={s.name} skill={s} index={i} />)}
             </div>
           </div>
           <div className="space-y-4">
             {[
-              { category: "Frontend", icon: Globe, color: "cyan", items: ["HTML5 / CSS3", "JavaScript ES2024", "TypeScript", "React", "Vue.js", "Tailwind CSS"] },
-              { category: "Backend", icon: Terminal, color: "orange", items: ["Python", "Django REST Framework", "Node.js", "Express.js"] },
-              { category: "Tools & Others", icon: Zap, color: "violet", items: ["Git / GitHub", "VS Code", "Linux", "RESTful API"] },
+              { category: "Frontend & Web", icon: Globe, color: "cyan", items: ["TypeScript", "JavaScript", "HTML5 / CSS3", "Vue", "Astro", "MDX"] },
+              { category: "Backend & Services", icon: Terminal, color: "orange", items: ["Python", "Django REST Framework", "Node.js", "Express", "WebSocket", "Shell"] },
+              { category: "Apps & Tooling", icon: Zap, color: "violet", items: ["React", "Vite", "Tailwind CSS", "WeChat Mini Program", "Git / GitHub", "RESTful API"] },
             ].map((cat) => {
               const colorMap = {
                 cyan:   { border: "oklch(0.82 0.18 195 / 25%)", icon: "oklch(0.82 0.18 195)", tag: "cyan" as const },
