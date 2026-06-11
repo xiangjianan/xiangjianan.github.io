@@ -159,6 +159,57 @@ function CyberTag({ children, variant = "cyan" }: { children: React.ReactNode; v
   );
 }
 
+function Reveal({
+  children,
+  className = "",
+  delay = 0,
+  direction = "up",
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+  direction?: "up" | "left" | "right";
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+      setVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { rootMargin: "0px 0px -48px 0px", threshold: 0.12 },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      data-reveal
+      data-reveal-direction={direction}
+      data-reveal-visible={visible ? "true" : "false"}
+      className={className}
+      style={{ "--reveal-delay": `${delay}ms` } as React.CSSProperties}
+    >
+      {children}
+    </div>
+  );
+}
+
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-3 mb-2">
@@ -170,21 +221,23 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
-function StatCard({ value, label, icon: Icon }: { value: string | number; label: string; icon: React.ElementType }) {
+function StatCard({ value, label, icon: Icon, delay = 0 }: { value: string | number; label: string; icon: React.ElementType; delay?: number }) {
   return (
-    <div className="cyber-card clip-corner p-4 text-center">
-      <Icon size={18} className="mx-auto mb-2" style={{ color: "oklch(0.82 0.18 195)" }} />
-      <div className="text-2xl font-bold" style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.72 0.22 42)" }}>
-        {value}
+    <Reveal delay={delay} className="h-full">
+      <div className="cyber-card clip-corner p-4 text-center h-full">
+        <Icon size={18} className="mx-auto mb-2" style={{ color: "oklch(0.82 0.18 195)" }} />
+        <div className="text-2xl font-bold" style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.72 0.22 42)" }}>
+          {value}
+        </div>
+        <div className="text-xs mt-1" style={{ color: "oklch(0.6 0.04 220)", fontFamily: "JetBrains Mono, monospace" }}>
+          {label}
+        </div>
       </div>
-      <div className="text-xs mt-1" style={{ color: "oklch(0.6 0.04 220)", fontFamily: "JetBrains Mono, monospace" }}>
-        {label}
-      </div>
-    </div>
+    </Reveal>
   );
 }
 
-function ProjectCard({ project }: { project: typeof PROJECTS[0] }) {
+function ProjectCard({ project, delay = 0 }: { project: typeof PROJECTS[0]; delay?: number }) {
   const colorMap = {
     cyan:   { border: "oklch(0.82 0.18 195 / 40%)", glow: "oklch(0.82 0.18 195 / 15%)", text: "oklch(0.82 0.18 195)" },
     orange: { border: "oklch(0.72 0.22 42 / 40%)",  glow: "oklch(0.72 0.22 42 / 15%)",  text: "oklch(0.72 0.22 42)"  },
@@ -193,64 +246,66 @@ function ProjectCard({ project }: { project: typeof PROJECTS[0] }) {
   const c = colorMap[project.color as keyof typeof colorMap];
 
   return (
-    <a href={project.url} target="_blank" rel="noopener noreferrer" className="block group" style={{ textDecoration: "none" }}>
-      <div
-        className="clip-corner h-full p-5 transition-all duration-300 relative overflow-hidden"
-        style={{ background: "oklch(0.11 0.022 265 / 80%)", backdropFilter: "blur(12px)", border: `1px solid ${c.border}` }}
-        onMouseEnter={(e) => {
-          const el = e.currentTarget as HTMLElement;
-          el.style.boxShadow = `0 0 24px ${c.glow}, 0 8px 32px oklch(0 0 0 / 40%)`;
-          el.style.transform = "translateY(-6px)";
-          el.style.borderColor = c.text;
-        }}
-        onMouseLeave={(e) => {
-          const el = e.currentTarget as HTMLElement;
-          el.style.boxShadow = "";
-          el.style.transform = "";
-          el.style.borderColor = c.border;
-        }}
-      >
-        <div className="absolute top-0 left-0 right-0 h-px" style={{ background: `linear-gradient(90deg, transparent, ${c.text}, transparent)` }} />
-        <div className="absolute top-0 right-0 w-6 h-6 overflow-hidden">
-          <div className="absolute top-0 right-0 w-0 h-0" style={{ borderLeft: "24px solid transparent", borderTop: `24px solid ${c.text}`, opacity: 0.4 }} />
-        </div>
-
-        <div className="flex items-start justify-between mb-3">
-          <div className="flex items-center gap-2">
-            <span className="text-xl">{project.emoji}</span>
-            <h3 className="text-base font-bold tracking-wide" style={{ fontFamily: "Rajdhani, sans-serif", color: c.text }}>
-              {project.name}
-            </h3>
+    <Reveal delay={delay} className="h-full">
+      <a href={project.url} target="_blank" rel="noopener noreferrer" className="block group h-full" style={{ textDecoration: "none" }}>
+        <div
+          className="clip-corner h-full p-5 transition-all duration-300 relative overflow-hidden"
+          style={{ background: "oklch(0.11 0.022 265 / 80%)", backdropFilter: "blur(12px)", border: `1px solid ${c.border}` }}
+          onMouseEnter={(e) => {
+            const el = e.currentTarget as HTMLElement;
+            el.style.boxShadow = `0 0 24px ${c.glow}, 0 8px 32px oklch(0 0 0 / 40%)`;
+            el.style.transform = "translateY(-6px)";
+            el.style.borderColor = c.text;
+          }}
+          onMouseLeave={(e) => {
+            const el = e.currentTarget as HTMLElement;
+            el.style.boxShadow = "";
+            el.style.transform = "";
+            el.style.borderColor = c.border;
+          }}
+        >
+          <div className="absolute top-0 left-0 right-0 h-px" style={{ background: `linear-gradient(90deg, transparent, ${c.text}, transparent)` }} />
+          <div className="absolute top-0 right-0 w-6 h-6 overflow-hidden">
+            <div className="absolute top-0 right-0 w-0 h-0" style={{ borderLeft: "24px solid transparent", borderTop: `24px solid ${c.text}`, opacity: 0.4 }} />
           </div>
-          <ExternalLink size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: c.text }} />
-        </div>
 
-        <p className="text-sm leading-relaxed mb-4" style={{ color: "oklch(0.65 0.04 220)" }}>
-          {project.desc}
-        </p>
-
-        <div className="flex items-center justify-between mt-auto">
-          <div className="flex items-center gap-1.5">
-            <div className="w-3 h-3 rounded-full" style={{ background: LANG_COLORS[project.lang] || "#888" }} />
-            <span className="text-xs" style={{ color: "oklch(0.6 0.04 220)", fontFamily: "JetBrains Mono, monospace" }}>
-              {project.lang}
-            </span>
+          <div className="flex items-start justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <span className="text-xl">{project.emoji}</span>
+              <h3 className="text-base font-bold tracking-wide" style={{ fontFamily: "Rajdhani, sans-serif", color: c.text }}>
+                {project.name}
+              </h3>
+            </div>
+            <ExternalLink size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: c.text }} />
           </div>
-          <div className="flex items-center gap-3">
-            {project.stars > 0 && (
-              <span className="flex items-center gap-1 text-xs" style={{ color: "oklch(0.72 0.22 42)" }}>
-                <Star size={11} fill="currentColor" /> {project.stars}
+
+          <p className="text-sm leading-relaxed mb-4" style={{ color: "oklch(0.65 0.04 220)" }}>
+            {project.desc}
+          </p>
+
+          <div className="flex items-center justify-between mt-auto">
+            <div className="flex items-center gap-1.5">
+              <div className="w-3 h-3 rounded-full" style={{ background: LANG_COLORS[project.lang] || "#888" }} />
+              <span className="text-xs" style={{ color: "oklch(0.6 0.04 220)", fontFamily: "JetBrains Mono, monospace" }}>
+                {project.lang}
               </span>
-            )}
-            {project.forks > 0 && (
-              <span className="flex items-center gap-1 text-xs" style={{ color: "oklch(0.6 0.04 220)" }}>
-                <GitFork size={11} /> {project.forks}
-              </span>
-            )}
+            </div>
+            <div className="flex items-center gap-3">
+              {project.stars > 0 && (
+                <span className="flex items-center gap-1 text-xs" style={{ color: "oklch(0.72 0.22 42)" }}>
+                  <Star size={11} fill="currentColor" /> {project.stars}
+                </span>
+              )}
+              {project.forks > 0 && (
+                <span className="flex items-center gap-1 text-xs" style={{ color: "oklch(0.6 0.04 220)" }}>
+                  <GitFork size={11} /> {project.forks}
+                </span>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </a>
+      </a>
+    </Reveal>
   );
 }
 
@@ -305,10 +360,10 @@ function MouseGlow() {
 function CyberBackground() {
   return (
     <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-      <div className="absolute inset-0" style={{
+      <div className="absolute inset-0 cyber-ambient-layer" style={{
         background: "radial-gradient(ellipse at 20% 50%, oklch(0.58 0.28 290 / 6%) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, oklch(0.82 0.18 195 / 5%) 0%, transparent 50%), radial-gradient(ellipse at 60% 80%, oklch(0.72 0.22 42 / 4%) 0%, transparent 50%)",
       }} />
-      <div className="absolute inset-0" style={{
+      <div className="absolute inset-0 cyber-grid-layer" style={{
         backgroundImage: `linear-gradient(oklch(0.82 0.18 195 / 4%) 1px, transparent 1px), linear-gradient(90deg, oklch(0.82 0.18 195 / 4%) 1px, transparent 1px)`,
         backgroundSize: "60px 60px",
       }} />
@@ -614,9 +669,9 @@ function HeroSection() {
             </div>
 
             <div className="grid grid-cols-3 gap-3 w-full max-w-xs">
-              <StatCard value={GITHUB_USER.followers} label="FOLLOWERS" icon={Users} />
-              <StatCard value={GITHUB_USER.commits} label="COMMITS" icon={Zap} />
-              <StatCard value={GITHUB_USER.repoCount} label="REPOS" icon={Code2} />
+              <StatCard value={GITHUB_USER.followers} label="FOLLOWERS" icon={Users} delay={80} />
+              <StatCard value={GITHUB_USER.commits} label="COMMITS" icon={Zap} delay={160} />
+              <StatCard value={GITHUB_USER.repoCount} label="REPOS" icon={Code2} delay={240} />
             </div>
           </div>
         </div>
@@ -636,14 +691,17 @@ function AboutSection() {
   return (
     <section id="about" className="relative py-24">
       <div className="container">
-        <SectionLabel>ABOUT ME</SectionLabel>
-        <h2 className="text-4xl font-black mb-12" style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.92 0.01 220)" }}>
-          About <span className="neon-orange">Me</span>
-        </h2>
+        <Reveal>
+          <SectionLabel>ABOUT ME</SectionLabel>
+          <h2 className="text-4xl font-black mb-12" style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.92 0.01 220)" }}>
+            About <span className="neon-orange">Me</span>
+          </h2>
+        </Reveal>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
           <div className="lg:col-span-3 space-y-6">
-            <div className="cyber-card clip-corner p-6">
+            <Reveal direction="left">
+              <div className="cyber-card clip-corner p-6">
               <div className="flex items-center gap-2 mb-4">
                 <Terminal size={16} style={{ color: "oklch(0.82 0.18 195)" }} />
                 <span className="text-xs tracking-widest" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.82 0.18 195 / 70%)" }}>user.profile</span>
@@ -659,10 +717,12 @@ function AboutSection() {
                 <span className="neon-cyan font-semibold"> lks project</span> has earned {PROJECTS[0].stars} stars —
                 making it my most popular open-source work.
               </p>
-            </div>
+              </div>
+            </Reveal>
 
             {/* AI Built card */}
-            <div className="clip-corner p-6 relative overflow-hidden" style={{
+            <Reveal direction="left" delay={100}>
+              <div className="clip-corner p-6 relative overflow-hidden" style={{
               background: "linear-gradient(135deg, oklch(0.11 0.022 265 / 90%), oklch(0.13 0.03 265 / 80%))",
               border: "1px solid oklch(0.72 0.22 42 / 35%)",
               boxShadow: "0 0 30px oklch(0.72 0.22 42 / 8%)",
@@ -695,7 +755,8 @@ function AboutSection() {
                 <CyberTag>MANUS</CyberTag>
                 <CyberTag variant="violet">OpenClaw</CyberTag>
               </div>
-            </div>
+              </div>
+            </Reveal>
 
             <div className="grid grid-cols-2 gap-4">
               {[
@@ -703,22 +764,25 @@ function AboutSection() {
                 { label: "GITHUB", value: "@xiangjianan", icon: Github },
                 { label: "FOCUS", value: "Web Development", icon: Code2 },
                 { label: "STATUS", value: "Open to Collab", icon: Zap },
-              ].map((item) => (
-                <div key={item.label} className="clip-corner p-4 flex items-center gap-3"
+              ].map((item, index) => (
+                <Reveal key={item.label} delay={index * 70}>
+                  <div className="clip-corner p-4 flex items-center gap-3 h-full"
                   style={{ background: "oklch(0.11 0.022 265 / 60%)", border: "1px solid oklch(0.82 0.18 195 / 15%)" }}>
                   <item.icon size={16} style={{ color: "oklch(0.82 0.18 195)", flexShrink: 0 }} />
                   <div>
                     <div className="text-xs" style={{ color: "oklch(0.5 0.04 220)", fontFamily: "JetBrains Mono, monospace" }}>{item.label}</div>
                     <div className="text-sm font-medium" style={{ color: "oklch(0.85 0.01 220)" }}>{item.value}</div>
                   </div>
-                </div>
+                  </div>
+                </Reveal>
               ))}
             </div>
           </div>
 
           {/* Right: Activity */}
           <div className="lg:col-span-2">
-            <div className="cyber-card clip-corner p-6 h-full">
+            <Reveal direction="right" delay={120} className="h-full">
+              <div className="cyber-card clip-corner p-6 h-full">
               <div className="flex items-center gap-2 mb-6">
                 <Zap size={16} style={{ color: "oklch(0.72 0.22 42)" }} />
                 <span className="text-xs tracking-widest" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.72 0.22 42 / 70%)" }}>recent.activity</span>
@@ -749,7 +813,8 @@ function AboutSection() {
                   {GITHUB_USER.yearlyContributions} contributions in the last year
                 </span>
               </div>
-            </div>
+              </div>
+            </Reveal>
           </div>
         </div>
       </div>
@@ -764,22 +829,24 @@ function ProjectsSection() {
     <section id="projects" className="relative py-24">
       <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, oklch(0.82 0.18 195 / 30%), oklch(0.72 0.22 42 / 30%), transparent)" }} />
       <div className="container">
-        <SectionLabel>PROJECTS</SectionLabel>
-        <div className="flex items-end justify-between mb-12">
-          <h2 className="text-4xl font-black" style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.92 0.01 220)" }}>
-            Open Source <span className="neon-cyan">Projects</span>
-          </h2>
-          <a href="https://github.com/xiangjianan?tab=repositories" target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-sm transition-colors"
-            style={{ color: "oklch(0.82 0.18 195 / 60%)", fontFamily: "JetBrains Mono, monospace" }}
-            onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "oklch(0.82 0.18 195)"}
-            onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "oklch(0.82 0.18 195 / 60%)"}>
-            View All <ExternalLink size={12} />
-          </a>
-        </div>
+        <Reveal>
+          <SectionLabel>PROJECTS</SectionLabel>
+          <div className="flex items-end justify-between mb-12">
+            <h2 className="text-4xl font-black" style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.92 0.01 220)" }}>
+              Open Source <span className="neon-cyan">Projects</span>
+            </h2>
+            <a href="https://github.com/xiangjianan?tab=repositories" target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-sm transition-colors"
+              style={{ color: "oklch(0.82 0.18 195 / 60%)", fontFamily: "JetBrains Mono, monospace" }}
+              onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "oklch(0.82 0.18 195)"}
+              onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "oklch(0.82 0.18 195 / 60%)"}>
+              View All <ExternalLink size={12} />
+            </a>
+          </div>
+        </Reveal>
 
         {/* Featured */}
-        <div className="mb-6">
+        <Reveal className="mb-6">
           <a href={PROJECTS[0].url} target="_blank" rel="noopener noreferrer" className="block group" style={{ textDecoration: "none" }}>
             <div className="relative overflow-hidden p-8 transition-all duration-300"
               style={{
@@ -818,10 +885,10 @@ function ProjectsSection() {
               </div>
             </div>
           </a>
-        </div>
+        </Reveal>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {PROJECTS.slice(1).map((p) => <ProjectCard key={p.id} project={p} />)}
+          {PROJECTS.slice(1).map((p, index) => <ProjectCard key={p.id} project={p} delay={index * 70} />)}
         </div>
       </div>
     </section>

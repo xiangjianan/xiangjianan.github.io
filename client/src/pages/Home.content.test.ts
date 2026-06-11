@@ -135,4 +135,15 @@ describe("Home page GitHub-backed content", () => {
       expect(skillsSectionSource).not.toContain(`"${tag}"`);
     }
   });
+
+  it("includes restrained animation scaffolding with reduced motion support", () => {
+    expect(source).toContain("function Reveal(");
+    expect(source).toContain('data-reveal');
+    expect(source).toContain("IntersectionObserver");
+
+    const cssSource = readFileSync(new URL("../index.css", import.meta.url), "utf8");
+    expect(cssSource).toContain("@keyframes cyber-grid-drift");
+    expect(cssSource).toContain("@media (prefers-reduced-motion: reduce)");
+    expect(cssSource).toContain("[data-reveal]");
+  });
 });
