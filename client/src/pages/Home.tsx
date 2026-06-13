@@ -78,7 +78,7 @@ const PROJECTS = [
     stars: 0,
     forks: 0,
     url: "https://github.com/xiangjianan/jindou-blog",
-    demoUrl: "https://jindou-blog.pages.dev",
+    demoUrl: "https://aiblog.helloxjn.com",
     featured: false,
     color: "violet",
   },

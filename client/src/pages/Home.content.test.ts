@@ -15,7 +15,7 @@ const expectedProjectDemoUrls = [
   "https://lkssite.vip",
   "https://minidesk.helloxjn.com",
   "https://taptap.helloxjn.com",
-  "https://jindou-blog.pages.dev",
+  "https://aiblog.helloxjn.com",
   "https://xiangjianan.github.io/ai-daily-news/",
 ];
 
