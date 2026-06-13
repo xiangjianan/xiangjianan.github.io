@@ -6,7 +6,7 @@ const source = readFileSync(new URL("./Home.tsx", import.meta.url), "utf8");
 const expectedProjectUrls = [
   "https://github.com/xiangjianan/lks",
   "https://github.com/xiangjianan/mini-desk",
-  "https://github.com/xiangjianan/game-wechat-find100",
+  "https://github.com/xiangjianan/taptap",
   "https://github.com/xiangjianan/jindou-blog",
   "https://github.com/xiangjianan/ai-daily-news",
 ];
@@ -25,7 +25,7 @@ const expectedRecentRepos = [
   "ai-daily-news",
   "xiangjianan.github.io",
   "jindou-blog",
-  "game-wechat-find100",
+  "taptap",
 ];
 
 const deletedRepoNames = [
@@ -107,10 +107,22 @@ describe("Home page GitHub-backed content", () => {
     expect(projectUrls).toEqual(expectedProjectUrls);
   });
 
-  it("includes separate work-page links for project cards", () => {
+  it("includes separate work-page links without whole-card overlays", () => {
     const projectDemoUrls = Array.from(extractProjectsSource().matchAll(/demoUrl: "([^"]+)"/g)).map(([, url]) => url);
 
     expect(projectDemoUrls).toEqual(expectedProjectDemoUrls);
+    expect(source).toContain('target="_blank"');
+    expect(source).not.toContain('aria-label={`Open ${project.name} work`}');
+    expect(source).not.toContain('aria-label={`Open ${PROJECTS[0].name} work`}');
+    expect(source).not.toContain('className="absolute inset-0 z-30"');
+    expect(source).not.toContain("group-hover:opacity-100");
+    expect(source).not.toContain("flex flex-col cursor-pointer");
+  });
+
+  it("uses the current contact email", () => {
+    expect(source).toContain("mailto:xiang9872@gmail.com");
+    expect(source).toContain("xiang9872@gmail.com");
+    expect(source).not.toContain("xiang9872@126.com");
   });
 
   it("does not reference deleted repositories", () => {
@@ -128,6 +140,13 @@ describe("Home page GitHub-backed content", () => {
     const repoNames = Array.from(recentActivitySource.matchAll(/repo: "([^"]+)"/g)).map(([, repo]) => repo);
 
     expect(repoNames).toEqual(expectedRecentRepos);
+    expect(recentActivitySource).toContain("repo-link");
+  });
+
+  it("disables hover affordances on static information cards", () => {
+    expect(source).toContain("cyber-card no-card-hover clip-corner p-4 text-center h-full");
+    expect(source).toContain("cyber-card no-card-hover clip-corner p-6");
+    expect(source).toContain("cyber-card no-card-hover clip-corner p-6 h-full");
   });
 
   it("uses the current GitHub-backed language mix", () => {
@@ -157,5 +176,6 @@ describe("Home page GitHub-backed content", () => {
     expect(cssSource).toContain("@keyframes cyber-grid-drift");
     expect(cssSource).toContain("@media (prefers-reduced-motion: reduce)");
     expect(cssSource).toContain("[data-reveal]");
+    expect(cssSource).toContain(".repo-link:hover");
   });
 });

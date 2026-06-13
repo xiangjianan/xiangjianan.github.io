@@ -235,6 +235,22 @@
     transform: translateY(-4px);
   }
 
+  .cyber-card.no-card-hover:hover {
+    border-color: oklch(0.82 0.18 195 / 20%);
+    box-shadow: none;
+    transform: none;
+  }
+
+  .repo-link {
+    transition: color 180ms ease, text-shadow 180ms ease, transform 180ms ease;
+  }
+
+  .repo-link:hover {
+    color: oklch(0.92 0.16 195) !important;
+    text-shadow: 0 0 10px oklch(0.82 0.18 195 / 65%);
+    transform: translateX(4px);
+  }
+
   .clip-corner {
     clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
   }

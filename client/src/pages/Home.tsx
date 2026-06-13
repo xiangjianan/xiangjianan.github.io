@@ -57,14 +57,14 @@ const PROJECTS = [
     color: "orange",
   },
   {
-    id: "game-wechat-find100",
-    name: "game-wechat-find100",
+    id: "taptap",
+    name: "taptap",
     emoji: "🎯",
     desc: "WeChat Mini Game — A number-finding puzzle game based on Voronoi diagrams, built as a WeChat Mini Program.",
     lang: "JavaScript",
     stars: 2,
     forks: 1,
-    url: "https://github.com/xiangjianan/game-wechat-find100",
+    url: "https://github.com/xiangjianan/taptap",
     demoUrl: "https://taptap.helloxjn.com",
     featured: false,
     color: "cyan",
@@ -205,7 +205,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 function StatCard({ value, label, icon: Icon, delay = 0 }: { value: string | number; label: string; icon: React.ElementType; delay?: number }) {
   return (
     <Reveal delay={delay} className="h-full">
-      <div className="cyber-card clip-corner p-4 text-center h-full">
+      <div className="cyber-card no-card-hover clip-corner p-4 text-center h-full">
         <Icon size={18} className="mx-auto mb-2" style={{ color: "oklch(0.82 0.18 195)" }} />
         <div className="text-2xl font-bold" style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.72 0.22 42)" }}>
           {value}
@@ -250,62 +250,63 @@ function ProjectCard({ project, delay = 0 }: { project: typeof PROJECTS[0]; dela
             <div className="absolute top-0 right-0 w-0 h-0" style={{ borderLeft: "24px solid transparent", borderTop: `24px solid ${c.text}`, opacity: 0.4 }} />
           </div>
 
-          <div className="flex items-start justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <span className="text-xl">{project.emoji}</span>
-              <h3 className="text-base font-bold tracking-wide" style={{ fontFamily: "Rajdhani, sans-serif", color: c.text }}>
-                {project.name}
-              </h3>
+          <div className="relative z-20 flex flex-col flex-1">
+            <div className="flex items-start justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">{project.emoji}</span>
+                <h3 className="text-base font-bold tracking-wide" style={{ fontFamily: "Rajdhani, sans-serif", color: c.text }}>
+                  {project.name}
+                </h3>
+              </div>
             </div>
-            <ExternalLink size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: c.text }} />
-          </div>
 
-          <p className="text-sm leading-relaxed mb-4" style={{ color: "oklch(0.65 0.04 220)" }}>
-            {project.desc}
-          </p>
+            <p className="text-sm leading-relaxed mb-4" style={{ color: "oklch(0.65 0.04 220)" }}>
+              {project.desc}
+            </p>
 
-          <div className="flex items-center justify-between mt-auto mb-4">
-            <div className="flex items-center gap-1.5">
-              <div className="w-3 h-3 rounded-full" style={{ background: LANG_COLORS[project.lang] || "#888" }} />
-              <span className="text-xs" style={{ color: "oklch(0.6 0.04 220)", fontFamily: "JetBrains Mono, monospace" }}>
-                {project.lang}
-              </span>
-            </div>
-            <div className="flex items-center gap-3">
-              {project.stars > 0 && (
-                <span className="flex items-center gap-1 text-xs" style={{ color: "oklch(0.72 0.22 42)" }}>
-                  <Star size={11} fill="currentColor" /> {project.stars}
+            <div className="flex items-center justify-between mt-auto mb-4">
+              <div className="flex items-center gap-1.5">
+                <div className="w-3 h-3 rounded-full" style={{ background: LANG_COLORS[project.lang] || "#888" }} />
+                <span className="text-xs" style={{ color: "oklch(0.6 0.04 220)", fontFamily: "JetBrains Mono, monospace" }}>
+                  {project.lang}
                 </span>
-              )}
-              {project.forks > 0 && (
-                <span className="flex items-center gap-1 text-xs" style={{ color: "oklch(0.6 0.04 220)" }}>
-                  <GitFork size={11} /> {project.forks}
-                </span>
-              )}
+              </div>
+              <div className="flex items-center gap-3">
+                {project.stars > 0 && (
+                  <span className="flex items-center gap-1 text-xs" style={{ color: "oklch(0.72 0.22 42)" }}>
+                    <Star size={11} fill="currentColor" /> {project.stars}
+                  </span>
+                )}
+                {project.forks > 0 && (
+                  <span className="flex items-center gap-1 text-xs" style={{ color: "oklch(0.6 0.04 220)" }}>
+                    <GitFork size={11} /> {project.forks}
+                  </span>
+                )}
+              </div>
             </div>
-          </div>
-          <div className="flex items-center justify-between gap-3 pt-3" style={{ borderTop: `1px solid ${c.border}` }}>
-            <a
-              href={project.demoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs font-bold tracking-widest transition-colors"
-              style={{ color: c.text, fontFamily: "Rajdhani, sans-serif", textTransform: "uppercase", textDecoration: "none" }}
-            >
-              <ExternalLink size={12} /> View Work
-            </a>
-            <a
-              href={project.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${project.name} source code`}
-              className="inline-flex h-8 w-8 items-center justify-center clip-corner transition-all duration-300"
-              style={{ border: `1px solid ${c.border}`, color: c.text, textDecoration: "none", background: "oklch(0.07 0.018 265 / 35%)" }}
-              onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = c.glow; el.style.borderColor = c.text; }}
-              onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = "oklch(0.07 0.018 265 / 35%)"; el.style.borderColor = c.border; }}
-            >
-              <Github size={14} />
-            </a>
+            <div className="flex items-center justify-between gap-3 pt-3" style={{ borderTop: `1px solid ${c.border}` }}>
+              <a
+                href={project.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs font-bold tracking-widest transition-colors"
+                style={{ color: c.text, fontFamily: "Rajdhani, sans-serif", textTransform: "uppercase", textDecoration: "none" }}
+              >
+                <ExternalLink size={12} /> View Work
+              </a>
+              <a
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${project.name} source code`}
+                className="inline-flex h-8 w-8 items-center justify-center clip-corner transition-all duration-300"
+                style={{ border: `1px solid ${c.border}`, color: c.text, textDecoration: "none", background: "oklch(0.07 0.018 265 / 35%)" }}
+                onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = c.glow; el.style.borderColor = c.text; }}
+                onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = "oklch(0.07 0.018 265 / 35%)"; el.style.borderColor = c.border; }}
+              >
+                <Github size={14} />
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -705,7 +706,7 @@ function AboutSection() {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
           <div className="lg:col-span-3 space-y-6">
             <Reveal direction="left">
-              <div className="cyber-card clip-corner p-6">
+              <div className="cyber-card no-card-hover clip-corner p-6">
               <div className="flex items-center gap-2 mb-4">
                 <Terminal size={16} style={{ color: "oklch(0.82 0.18 195)" }} />
                 <span className="text-xs tracking-widest" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.82 0.18 195 / 70%)" }}>user.profile</span>
@@ -785,24 +786,32 @@ function AboutSection() {
           {/* Right: Activity */}
           <div className="lg:col-span-2">
             <Reveal direction="right" delay={120} className="h-full">
-              <div className="cyber-card clip-corner p-6 h-full">
+              <div className="cyber-card no-card-hover clip-corner p-6 h-full">
               <div className="flex items-center gap-2 mb-6">
                 <Zap size={16} style={{ color: "oklch(0.72 0.22 42)" }} />
                 <span className="text-xs tracking-widest" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.72 0.22 42 / 70%)" }}>recent.activity</span>
               </div>
               <div className="space-y-4">
                 {[
-                  { repo: "lks", lang: "CSS", time: "Jun 2026" },
-                  { repo: "mini-desk", lang: "TypeScript", time: "Jun 2026" },
-                  { repo: "ai-daily-news", lang: "HTML", time: "Jun 2026" },
-                  { repo: "xiangjianan.github.io", lang: "TypeScript", time: "May 2026" },
-                  { repo: "jindou-blog", lang: "MDX", time: "May 2026" },
-                  { repo: "game-wechat-find100", lang: "JavaScript", time: "May 2026" },
+                  { repo: "lks", lang: "CSS", time: "Jun 2026", url: "https://github.com/xiangjianan/lks" },
+                  { repo: "mini-desk", lang: "TypeScript", time: "Jun 2026", url: "https://github.com/xiangjianan/mini-desk" },
+                  { repo: "ai-daily-news", lang: "HTML", time: "Jun 2026", url: "https://github.com/xiangjianan/ai-daily-news" },
+                  { repo: "xiangjianan.github.io", lang: "TypeScript", time: "May 2026", url: "https://github.com/xiangjianan/xiangjianan.github.io" },
+                  { repo: "jindou-blog", lang: "MDX", time: "May 2026", url: "https://github.com/xiangjianan/jindou-blog" },
+                  { repo: "taptap", lang: "JavaScript", time: "May 2026", url: "https://github.com/xiangjianan/taptap" },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "oklch(0.82 0.18 195)", boxShadow: "0 0 6px oklch(0.82 0.18 195)" }} />
                     <div className="flex-1 min-w-0">
-                      <span className="text-sm font-medium truncate block" style={{ color: "oklch(0.82 0.18 195)", fontFamily: "JetBrains Mono, monospace" }}>{item.repo}</span>
+                      <a
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="repo-link text-sm font-medium truncate block"
+                        style={{ color: "oklch(0.82 0.18 195)", fontFamily: "JetBrains Mono, monospace", textDecoration: "none" }}
+                      >
+                        {item.repo}
+                      </a>
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
                       <div className="w-2 h-2 rounded-full" style={{ background: LANG_COLORS[item.lang] || "#888" }} />
@@ -865,7 +874,7 @@ function ProjectsSection() {
               <div className="absolute top-0 right-0 w-8 h-8 overflow-hidden">
                 <div className="absolute top-0 right-0 w-0 h-0" style={{ borderLeft: "32px solid transparent", borderTop: "32px solid oklch(0.82 0.18 195 / 50%)" }} />
               </div>
-              <div className="relative flex flex-col md:flex-row md:items-center gap-6">
+              <div className="relative z-20 flex flex-col md:flex-row md:items-center gap-6">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-3">
                     <span className="text-2xl">{PROJECTS[0].emoji}</span>
@@ -928,7 +937,7 @@ function SkillsSection() {
         </h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div>
-            <div className="cyber-card clip-corner p-6">
+            <div className="cyber-card no-card-hover clip-corner p-6">
               <div className="flex items-center gap-2 mb-6">
                 <Code2 size={16} style={{ color: "oklch(0.72 0.22 42)" }} />
                 <span className="text-xs tracking-widest" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.72 0.22 42 / 70%)" }}>github.language.share</span>
@@ -995,10 +1004,10 @@ function ContactSection() {
               iconColor: "oklch(0.82 0.18 195)",
             },
             {
-              href: "mailto:xiang9872@126.com",
+              href: "mailto:xiang9872@gmail.com",
               icon: Mail,
               label: "Email",
-              sub: "xiang9872@126.com",
+              sub: "xiang9872@gmail.com",
               border: "oklch(0.8 0.15 150 / 25%)",
               hoverBorder: "oklch(0.8 0.15 150 / 60%)",
               hoverGlow: "oklch(0.8 0.15 150 / 15%)",
