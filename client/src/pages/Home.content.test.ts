@@ -9,8 +9,14 @@ const expectedProjectUrls = [
   "https://github.com/xiangjianan/game-wechat-find100",
   "https://github.com/xiangjianan/jindou-blog",
   "https://github.com/xiangjianan/ai-daily-news",
-  "https://github.com/xiangjianan/send-msg",
-  "https://github.com/xiangjianan/lks-api",
+];
+
+const expectedProjectDemoUrls = [
+  "https://lkssite.vip",
+  "https://minidesk.helloxjn.com",
+  "https://taptap.helloxjn.com",
+  "https://jindou-blog.pages.dev",
+  "https://xiangjianan.github.io/ai-daily-news/",
 ];
 
 const expectedRecentRepos = [
@@ -40,7 +46,7 @@ const deletedRepoUrls = [
   "https://github.com/xiangjianan/kongming-chess",
 ];
 
-const expectedSkillNames = ["TypeScript", "HTML / CSS", "MDX / Astro", "JavaScript", "Vue", "Python / Django"];
+const expectedLanguageNames = ["TypeScript", "HTML / CSS", "MDX / Astro", "JavaScript", "Vue", "Python / Django"];
 
 const expectedTechTags = [
   "TypeScript",
@@ -101,6 +107,12 @@ describe("Home page GitHub-backed content", () => {
     expect(projectUrls).toEqual(expectedProjectUrls);
   });
 
+  it("includes separate work-page links for project cards", () => {
+    const projectDemoUrls = Array.from(extractProjectsSource().matchAll(/demoUrl: "([^"]+)"/g)).map(([, url]) => url);
+
+    expect(projectDemoUrls).toEqual(expectedProjectDemoUrls);
+  });
+
   it("does not reference deleted repositories", () => {
     for (const repo of deletedRepoNames) {
       expect(source).not.toContain(repo);
@@ -118,21 +130,21 @@ describe("Home page GitHub-backed content", () => {
     expect(repoNames).toEqual(expectedRecentRepos);
   });
 
-  it("uses the current GitHub-backed tech stack", () => {
-    const skillsSource = extractSourceBetween("const SKILLS =", "const LANG_COLORS");
-    const skillsSectionSource = extractSourceBetween("function SkillsSection()", "function ContactSection()");
+  it("uses the current GitHub-backed language mix", () => {
+    const languageSource = extractSourceBetween("const SKILLS =", "const LANG_COLORS");
+    const languageSectionSource = extractSourceBetween("function SkillsSection()", "function ContactSection()");
 
-    for (const skillName of expectedSkillNames) {
-      expect(skillsSource).toContain(`name: "${skillName}"`);
+    for (const languageName of expectedLanguageNames) {
+      expect(languageSource).toContain(`name: "${languageName}"`);
     }
 
-    expect(skillsSectionSource).toContain("github.language.mix");
+    expect(languageSectionSource).toContain("github.language.share");
     for (const tag of expectedTechTags) {
-      expect(skillsSectionSource).toContain(`"${tag}"`);
+      expect(languageSectionSource).toContain(`"${tag}"`);
     }
 
     for (const tag of removedTechTags) {
-      expect(skillsSectionSource).not.toContain(`"${tag}"`);
+      expect(languageSectionSource).not.toContain(`"${tag}"`);
     }
   });
 

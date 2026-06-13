@@ -1,6 +1,6 @@
 /* ============================================================
    Home.tsx — J-Cyberpunk / Akira-Wave Design
-   - Full landing page: Nav, Hero, About, Projects, Skills, Contact
+   - Full landing page: Nav, Hero, About, Works, Language Mix, Contact
    - Neon orange (oklch 0.72 0.22 42) + Electric cyan (oklch 0.82 0.18 195)
    - Rajdhani headings, Space Grotesk body, JetBrains Mono code
    - Mouse-follow glow, glitch text, diagonal cuts, clip-corner cards
@@ -19,7 +19,7 @@ const GITHUB_USER = {
   name: "xiangjianan",
   username: "xiangjianan",
   avatar: "https://avatars.githubusercontent.com/xiangjianan",
-  bio: "Full-Stack Developer · Open Source Enthusiast · Creator",
+  bio: "Harness Engineer · Open Source Builder · AI Tooling",
   location: "UTC+8",
   followers: 119,
   following: 2,
@@ -39,6 +39,7 @@ const PROJECTS = [
     stars: 446,
     forks: 69,
     url: "https://github.com/xiangjianan/lks",
+    demoUrl: "https://lkssite.vip",
     featured: true,
     color: "cyan",
   },
@@ -51,6 +52,7 @@ const PROJECTS = [
     stars: 0,
     forks: 0,
     url: "https://github.com/xiangjianan/mini-desk",
+    demoUrl: "https://minidesk.helloxjn.com",
     featured: false,
     color: "orange",
   },
@@ -63,6 +65,7 @@ const PROJECTS = [
     stars: 2,
     forks: 1,
     url: "https://github.com/xiangjianan/game-wechat-find100",
+    demoUrl: "https://taptap.helloxjn.com",
     featured: false,
     color: "cyan",
   },
@@ -75,6 +78,7 @@ const PROJECTS = [
     stars: 0,
     forks: 0,
     url: "https://github.com/xiangjianan/jindou-blog",
+    demoUrl: "https://jindou-blog.pages.dev",
     featured: false,
     color: "violet",
   },
@@ -87,32 +91,9 @@ const PROJECTS = [
     stars: 1,
     forks: 0,
     url: "https://github.com/xiangjianan/ai-daily-news",
+    demoUrl: "https://xiangjianan.github.io/ai-daily-news/",
     featured: false,
     color: "cyan",
-  },
-  {
-    id: "send-msg",
-    name: "send-msg",
-    emoji: "📡",
-    desc: "Send Msg — A LAN real-time message broadcasting service built with WebSocket and Express.",
-    lang: "HTML",
-    stars: 0,
-    forks: 0,
-    url: "https://github.com/xiangjianan/send-msg",
-    featured: false,
-    color: "orange",
-  },
-  {
-    id: "lks-api",
-    name: "lks-api",
-    emoji: "🔧",
-    desc: "LKs Backend API Service — A Django REST Framework data interface powering the LKs website collection.",
-    lang: "Python",
-    stars: 0,
-    forks: 0,
-    url: "https://github.com/xiangjianan/lks-api",
-    featured: false,
-    color: "violet",
   },
 ];
 
@@ -247,9 +228,9 @@ function ProjectCard({ project, delay = 0 }: { project: typeof PROJECTS[0]; dela
 
   return (
     <Reveal delay={delay} className="h-full">
-      <a href={project.url} target="_blank" rel="noopener noreferrer" className="block group h-full" style={{ textDecoration: "none" }}>
+      <div className="group h-full">
         <div
-          className="clip-corner h-full p-5 transition-all duration-300 relative overflow-hidden"
+          className="clip-corner h-full p-5 transition-all duration-300 relative overflow-hidden flex flex-col"
           style={{ background: "oklch(0.11 0.022 265 / 80%)", backdropFilter: "blur(12px)", border: `1px solid ${c.border}` }}
           onMouseEnter={(e) => {
             const el = e.currentTarget as HTMLElement;
@@ -283,7 +264,7 @@ function ProjectCard({ project, delay = 0 }: { project: typeof PROJECTS[0]; dela
             {project.desc}
           </p>
 
-          <div className="flex items-center justify-between mt-auto">
+          <div className="flex items-center justify-between mt-auto mb-4">
             <div className="flex items-center gap-1.5">
               <div className="w-3 h-3 rounded-full" style={{ background: LANG_COLORS[project.lang] || "#888" }} />
               <span className="text-xs" style={{ color: "oklch(0.6 0.04 220)", fontFamily: "JetBrains Mono, monospace" }}>
@@ -303,8 +284,31 @@ function ProjectCard({ project, delay = 0 }: { project: typeof PROJECTS[0]; dela
               )}
             </div>
           </div>
+          <div className="flex items-center justify-between gap-3 pt-3" style={{ borderTop: `1px solid ${c.border}` }}>
+            <a
+              href={project.demoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs font-bold tracking-widest transition-colors"
+              style={{ color: c.text, fontFamily: "Rajdhani, sans-serif", textTransform: "uppercase", textDecoration: "none" }}
+            >
+              <ExternalLink size={12} /> View Work
+            </a>
+            <a
+              href={project.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${project.name} source code`}
+              className="inline-flex h-8 w-8 items-center justify-center clip-corner transition-all duration-300"
+              style={{ border: `1px solid ${c.border}`, color: c.text, textDecoration: "none", background: "oklch(0.07 0.018 265 / 35%)" }}
+              onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = c.glow; el.style.borderColor = c.text; }}
+              onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = "oklch(0.07 0.018 265 / 35%)"; el.style.borderColor = c.border; }}
+            >
+              <Github size={14} />
+            </a>
+          </div>
         </div>
-      </a>
+      </div>
     </Reveal>
   );
 }
@@ -414,7 +418,7 @@ function AIBuiltBanner() {
                   <span style={{ color: "oklch(0.72 0.22 42)" }}>100% AI BUILT</span>
                   <span style={{ color: "oklch(0.5 0.04 220)" }}>·</span>
                   <Cpu size={11} style={{ color: "oklch(0.82 0.18 195)", flexShrink: 0 }} />
-                  <span style={{ color: "oklch(0.82 0.18 195)" }}>DESIGNED BY MANUS & OPENCLAW</span>
+                  <span style={{ color: "oklch(0.82 0.18 195)" }}>POWERED BY CODEX</span>
                   <span style={{ color: "oklch(0.5 0.04 220)" }}>·</span>
                   <Sparkles size={11} style={{ color: "oklch(0.75 0.2 290)", flexShrink: 0 }} />
                   <span style={{ color: "oklch(0.75 0.2 290)" }}>ZERO HUMAN CODE</span>
@@ -499,8 +503,8 @@ function Navbar() {
           <div className="hidden md:flex items-center gap-5">
             {[
               { id: "about", label: "About" },
-              { id: "projects", label: "Projects" },
-              { id: "skills", label: "Skills" },
+              { id: "projects", label: "Works" },
+              { id: "skills", label: "Languages" },
               { id: "contact", label: "Contact" },
             ].map((item) => (
               <button key={item.id} onClick={() => scrollTo(item.id)} className={`nav-link ${active === item.id ? "active" : ""}`}>
@@ -576,7 +580,7 @@ function HeroSection() {
             {/* Title */}
             <div style={{ opacity: bootDone ? 1 : 0, transform: bootDone ? "translateY(0)" : "translateY(20px)", transition: "all 0.6s ease" }}>
               <div className="text-sm tracking-[0.4em] uppercase mb-2" style={{ color: "oklch(0.72 0.22 42)", fontFamily: "JetBrains Mono, monospace" }}>
-                // FULL-STACK DEVELOPER
+                // HARNESS ENGINEER
               </div>
               <h1 className="font-black leading-none mb-1" style={{ fontFamily: "Rajdhani, sans-serif", fontSize: "clamp(3rem, 8vw, 6rem)", color: "oklch(0.92 0.01 220)", letterSpacing: "0.05em" }}>
                 <GlitchTitle text="XIANG" />
@@ -588,8 +592,8 @@ function HeroSection() {
 
             {/* Bio */}
             <p className="text-base mb-6 max-w-md leading-relaxed mt-4" style={{ color: "oklch(0.65 0.04 220)", opacity: bootDone ? 1 : 0, transition: "opacity 0.6s ease 0.2s" }}>
-              Full-stack developer passionate about building useful open-source projects —
-              from website collections to AI news aggregators, creating value through code.
+              Harness Engineer focused on turning AI-assisted systems into reliable, useful works —
+              from website collections to automation tooling and daily news pipelines.
             </p>
 
             {/* AI Built badge */}
@@ -606,7 +610,7 @@ function HeroSection() {
                 <span style={{ color: "oklch(0.5 0.04 220)", fontSize: "0.65rem", fontFamily: "JetBrains Mono, monospace" }}>·</span>
                 <Cpu size={12} style={{ color: "oklch(0.82 0.18 195)" }} />
                 <span style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.72rem", color: "oklch(0.82 0.18 195)", letterSpacing: "0.1em" }}>
-                  POWERED BY MANUS & OPENCLAW
+                  POWERED BY CODEX
                 </span>
               </div>
             </div>
@@ -636,7 +640,7 @@ function HeroSection() {
                 onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = "oklch(0.82 0.18 195 / 10%)"; el.style.boxShadow = "0 0 16px oklch(0.82 0.18 195 / 30%)"; }}
                 onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = ""; el.style.boxShadow = ""; }}
               >
-                <Code2 size={16} /> Browse Projects
+                <Code2 size={16} /> Browse Works
               </button>
             </div>
           </div>
@@ -707,14 +711,14 @@ function AboutSection() {
                 <span className="text-xs tracking-widest" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.82 0.18 195 / 70%)" }}>user.profile</span>
               </div>
               <p className="text-sm leading-relaxed mb-4" style={{ color: "oklch(0.7 0.04 220)" }}>
-                I'm <span className="neon-cyan font-semibold">xiangjianan</span>, a full-stack developer who loves open source.
-                I focus on building practical and fun web applications — from website recommendation collections
-                to AI news aggregators, every project is an exploration of technology's boundaries.
+                I'm <span className="neon-cyan font-semibold">xiangjianan</span>, a Harness Engineer who uses AI-assisted
+                development to assemble, test, and refine practical open-source works. I focus on reliable harnesses
+                around web products, automation flows, data collection, and publishing pipelines.
               </p>
               <p className="text-sm leading-relaxed" style={{ color: "oklch(0.7 0.04 220)" }}>
                 Over the past year, I've made <span className="neon-orange font-semibold">{GITHUB_USER.commits} commits</span> on GitHub,
                 maintain <span className="neon-orange font-semibold">{GITHUB_USER.repoCount} public repositories</span>, and my
-                <span className="neon-cyan font-semibold"> lks project</span> has earned {PROJECTS[0].stars} stars —
+                <span className="neon-cyan font-semibold"> lks work</span> has earned {PROJECTS[0].stars} stars —
                 making it my most popular open-source work.
               </p>
               </div>
@@ -737,13 +741,13 @@ function AboutSection() {
                     100% AI Built
                   </div>
                   <div className="text-xs" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.5 0.04 220)" }}>
-                    Designed & Developed by MANUS & OpenClaw
+                    Powered by Codex
                   </div>
                 </div>
               </div>
               <p className="text-sm leading-relaxed" style={{ color: "oklch(0.65 0.04 220)" }}>
                 This entire website — every line of code, every design decision, every animation —
-                was autonomously created by <span style={{ color: "oklch(0.82 0.18 195)" }}>MANUS & OpenClaw</span> without
+                was autonomously created with <span style={{ color: "oklch(0.82 0.18 195)" }}>Codex</span> without
                 any human-written code. From fetching GitHub data to crafting the cyberpunk aesthetic,
                 it's a testament to what AI can build end-to-end.
               </p>
@@ -752,8 +756,7 @@ function AboutSection() {
                 <CyberTag>Tailwind CSS 4</CyberTag>
                 <CyberTag variant="violet">Framer Motion</CyberTag>
                 <CyberTag variant="orange">TypeScript</CyberTag>
-                <CyberTag>MANUS</CyberTag>
-                <CyberTag variant="violet">OpenClaw</CyberTag>
+                <CyberTag>Codex</CyberTag>
               </div>
               </div>
             </Reveal>
@@ -762,7 +765,7 @@ function AboutSection() {
               {[
                 { label: "LOCATION", value: "UTC+8", icon: MapPin },
                 { label: "GITHUB", value: "@xiangjianan", icon: Github },
-                { label: "FOCUS", value: "Web Development", icon: Code2 },
+                { label: "FOCUS", value: "Harness Engineering", icon: Code2 },
                 { label: "STATUS", value: "Open to Collab", icon: Zap },
               ].map((item, index) => (
                 <Reveal key={item.label} delay={index * 70}>
@@ -830,24 +833,24 @@ function ProjectsSection() {
       <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, oklch(0.82 0.18 195 / 30%), oklch(0.72 0.22 42 / 30%), transparent)" }} />
       <div className="container">
         <Reveal>
-          <SectionLabel>PROJECTS</SectionLabel>
+          <SectionLabel>WORKS</SectionLabel>
           <div className="flex items-end justify-between mb-12">
             <h2 className="text-4xl font-black" style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.92 0.01 220)" }}>
-              Open Source <span className="neon-cyan">Projects</span>
+              Open Source <span className="neon-cyan">Works</span>
             </h2>
             <a href="https://github.com/xiangjianan?tab=repositories" target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-1.5 text-sm transition-colors"
               style={{ color: "oklch(0.82 0.18 195 / 60%)", fontFamily: "JetBrains Mono, monospace" }}
               onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "oklch(0.82 0.18 195)"}
               onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "oklch(0.82 0.18 195 / 60%)"}>
-              View All <ExternalLink size={12} />
+              View All Works <ExternalLink size={12} />
             </a>
           </div>
         </Reveal>
 
         {/* Featured */}
         <Reveal className="mb-6">
-          <a href={PROJECTS[0].url} target="_blank" rel="noopener noreferrer" className="block group" style={{ textDecoration: "none" }}>
+          <div className="group">
             <div className="relative overflow-hidden p-8 transition-all duration-300"
               style={{
                 background: "linear-gradient(135deg, oklch(0.11 0.022 265 / 90%) 0%, oklch(0.14 0.025 265 / 80%) 100%)",
@@ -867,7 +870,7 @@ function ProjectsSection() {
                   <div className="flex items-center gap-3 mb-3">
                     <span className="text-2xl">{PROJECTS[0].emoji}</span>
                     <div>
-                      <div className="text-xs tracking-widest mb-1" style={{ color: "oklch(0.72 0.22 42)", fontFamily: "JetBrains Mono, monospace" }}>FEATURED PROJECT</div>
+                      <div className="text-xs tracking-widest mb-1" style={{ color: "oklch(0.72 0.22 42)", fontFamily: "JetBrains Mono, monospace" }}>FEATURED WORK</div>
                       <h3 className="text-2xl font-black tracking-wide neon-cyan" style={{ fontFamily: "Rajdhani, sans-serif" }}>{PROJECTS[0].name}</h3>
                     </div>
                   </div>
@@ -878,16 +881,33 @@ function ProjectsSection() {
                     <span className="flex items-center gap-1.5 text-sm" style={{ color: "oklch(0.6 0.04 220)" }}><GitFork size={14} /> {PROJECTS[0].forks} Forks</span>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 px-5 py-3 clip-corner text-sm font-bold tracking-widest transition-all duration-300 flex-shrink-0"
-                  style={{ border: "1px solid oklch(0.82 0.18 195 / 50%)", color: "oklch(0.82 0.18 195)", fontFamily: "Rajdhani, sans-serif", textTransform: "uppercase" }}>
-                  <ExternalLink size={14} /> View Project
+                <div className="flex items-center gap-3 flex-shrink-0">
+                  <a
+                    href={PROJECTS[0].demoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-5 py-3 clip-corner text-sm font-bold tracking-widest transition-all duration-300"
+                    style={{ border: "1px solid oklch(0.82 0.18 195 / 50%)", color: "oklch(0.82 0.18 195)", fontFamily: "Rajdhani, sans-serif", textTransform: "uppercase", textDecoration: "none" }}
+                  >
+                    <ExternalLink size={14} /> View Work
+                  </a>
+                  <a
+                    href={PROJECTS[0].url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${PROJECTS[0].name} source code`}
+                    className="flex h-11 w-11 items-center justify-center clip-corner transition-all duration-300"
+                    style={{ border: "1px solid oklch(0.82 0.18 195 / 35%)", color: "oklch(0.82 0.18 195)", background: "oklch(0.07 0.018 265 / 35%)" }}
+                  >
+                    <Github size={16} />
+                  </a>
                 </div>
               </div>
             </div>
-          </a>
+          </div>
         </Reveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {PROJECTS.slice(1).map((p, index) => <ProjectCard key={p.id} project={p} delay={index * 70} />)}
         </div>
       </div>
@@ -902,25 +922,25 @@ function SkillsSection() {
     <section id="skills" className="relative py-24">
       <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, oklch(0.72 0.22 42 / 30%), oklch(0.82 0.18 195 / 30%), transparent)" }} />
       <div className="container">
-        <SectionLabel>SKILLS</SectionLabel>
+        <SectionLabel>LANGUAGE MIX</SectionLabel>
         <h2 className="text-4xl font-black mb-12" style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.92 0.01 220)" }}>
-          Tech <span className="neon-orange">Stack</span>
+          Development <span className="neon-orange">Languages</span>
         </h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div>
             <div className="cyber-card clip-corner p-6">
               <div className="flex items-center gap-2 mb-6">
                 <Code2 size={16} style={{ color: "oklch(0.72 0.22 42)" }} />
-                <span className="text-xs tracking-widest" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.72 0.22 42 / 70%)" }}>github.language.mix</span>
+                <span className="text-xs tracking-widest" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.72 0.22 42 / 70%)" }}>github.language.share</span>
               </div>
               {SKILLS.map((s, i) => <SkillBar key={s.name} skill={s} index={i} />)}
             </div>
           </div>
           <div className="space-y-4">
             {[
-              { category: "Frontend & Web", icon: Globe, color: "cyan", items: ["TypeScript", "JavaScript", "HTML5 / CSS3", "Vue", "Astro", "MDX"] },
-              { category: "Backend & Services", icon: Terminal, color: "orange", items: ["Python", "Django REST Framework", "Node.js", "Express", "WebSocket", "Shell"] },
-              { category: "Apps & Tooling", icon: Zap, color: "violet", items: ["React", "Vite", "Tailwind CSS", "WeChat Mini Program", "Git / GitHub", "RESTful API"] },
+              { category: "Language Sources", icon: Globe, color: "cyan", items: ["TypeScript", "JavaScript", "HTML5 / CSS3", "Vue", "Astro", "MDX"] },
+              { category: "Service Languages", icon: Terminal, color: "orange", items: ["Python", "Django REST Framework", "Node.js", "Express", "WebSocket", "Shell"] },
+              { category: "Repository Context", icon: Zap, color: "violet", items: ["React", "Vite", "Tailwind CSS", "WeChat Mini Program", "Git / GitHub", "RESTful API"] },
             ].map((cat) => {
               const colorMap = {
                 cyan:   { border: "oklch(0.82 0.18 195 / 25%)", icon: "oklch(0.82 0.18 195)", tag: "cyan" as const },
@@ -959,7 +979,7 @@ function ContactSection() {
           Establish <span className="neon-cyan">Connection</span>
         </h2>
         <p className="text-sm mb-12 max-w-lg" style={{ color: "oklch(0.6 0.04 220)" }}>
-          Have an interesting project to collaborate on, or just want to say hello?
+          Have an interesting work to collaborate on, or just want to say hello?
           Feel free to reach out via GitHub or Email.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl">
@@ -1022,7 +1042,7 @@ function Footer() {
           style={{ border: "1px solid oklch(0.72 0.22 42 / 30%)", background: "oklch(0.72 0.22 42 / 5%)" }}>
           <Bot size={11} style={{ color: "oklch(0.72 0.22 42)" }} />
           <span className="text-xs" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.72 0.22 42 / 80%)", letterSpacing: "0.1em" }}>
-            100% AI BUILT · MANUS & OPENCLAW · {new Date().getFullYear()}
+            100% AI BUILT · CODEX · {new Date().getFullYear()}
           </span>
         </div>
 
