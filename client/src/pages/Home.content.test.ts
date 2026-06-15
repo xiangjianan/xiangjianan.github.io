@@ -149,6 +149,21 @@ describe("Home page GitHub-backed content", () => {
     expect(source).toContain("cyber-card no-card-hover clip-corner p-6 h-full");
   });
 
+  it("frames the about section around the website and works", () => {
+    const aboutSource = extractSourceBetween("function AboutSection()", "function ProjectsSection()");
+
+    expect(aboutSource).toContain("<SectionLabel>ABOUT</SectionLabel>");
+    expect(aboutSource).toContain("site.overview");
+    expect(aboutSource).toContain("This website collects practical open-source works");
+    expect(aboutSource).toContain("Works Catalog");
+    expect(aboutSource).toContain("Live Portfolio");
+    expect(aboutSource).not.toContain("ABOUT ME");
+    expect(aboutSource).not.toContain("About <span");
+    expect(aboutSource).not.toContain("I'm ");
+    expect(aboutSource).not.toContain("I've ");
+    expect(aboutSource).not.toContain("user.profile");
+  });
+
   it("uses the current GitHub-backed language mix", () => {
     const languageSource = extractSourceBetween("const SKILLS =", "const LANG_COLORS");
     const languageSectionSource = extractSourceBetween("function SkillsSection()", "function ContactSection()");

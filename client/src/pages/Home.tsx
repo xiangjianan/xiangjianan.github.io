@@ -9,7 +9,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import {
-  Github, ExternalLink, Star, GitFork, MapPin, Users,
+  Github, ExternalLink, Star, GitFork, Users,
   Code2, Zap, Terminal, ChevronDown, Globe, Cpu, Sparkles, Bot, Mail
 } from "lucide-react";
 
@@ -697,9 +697,9 @@ function AboutSection() {
     <section id="about" className="relative py-24">
       <div className="container">
         <Reveal>
-          <SectionLabel>ABOUT ME</SectionLabel>
+          <SectionLabel>ABOUT</SectionLabel>
           <h2 className="text-4xl font-black mb-12" style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.92 0.01 220)" }}>
-            About <span className="neon-orange">Me</span>
+            About
           </h2>
         </Reveal>
 
@@ -709,18 +709,18 @@ function AboutSection() {
               <div className="cyber-card no-card-hover clip-corner p-6">
               <div className="flex items-center gap-2 mb-4">
                 <Terminal size={16} style={{ color: "oklch(0.82 0.18 195)" }} />
-                <span className="text-xs tracking-widest" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.82 0.18 195 / 70%)" }}>user.profile</span>
+                <span className="text-xs tracking-widest" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.82 0.18 195 / 70%)" }}>site.overview</span>
               </div>
               <p className="text-sm leading-relaxed mb-4" style={{ color: "oklch(0.7 0.04 220)" }}>
-                I'm <span className="neon-cyan font-semibold">xiangjianan</span>, a Harness Engineer who uses AI-assisted
-                development to assemble, test, and refine practical open-source works. I focus on reliable harnesses
-                around web products, automation flows, data collection, and publishing pipelines.
+                This website collects practical open-source works into one portfolio surface: live demos,
+                source repositories, language signals, recent activity, and contact paths are arranged for
+                quick scanning.
               </p>
               <p className="text-sm leading-relaxed" style={{ color: "oklch(0.7 0.04 220)" }}>
-                Over the past year, I've made <span className="neon-orange font-semibold">{GITHUB_USER.commits} commits</span> on GitHub,
-                maintain <span className="neon-orange font-semibold">{GITHUB_USER.repoCount} public repositories</span>, and my
-                <span className="neon-cyan font-semibold"> lks work</span> has earned {PROJECTS[0].stars} stars —
-                making it my most popular open-source work.
+                The catalog is anchored by <span className="neon-orange font-semibold">{GITHUB_USER.repoCount} public repositories</span>,
+                <span className="neon-orange font-semibold"> {GITHUB_USER.commits} GitHub commits</span> over the past year,
+                and the <span className="neon-cyan font-semibold"> lks work</span> with {PROJECTS[0].stars} stars as
+                the leading open-source project.
               </p>
               </div>
             </Reveal>
@@ -764,10 +764,10 @@ function AboutSection() {
 
             <div className="grid grid-cols-2 gap-4">
               {[
-                { label: "LOCATION", value: "UTC+8", icon: MapPin },
-                { label: "GITHUB", value: "@xiangjianan", icon: Github },
-                { label: "FOCUS", value: "Harness Engineering", icon: Code2 },
-                { label: "STATUS", value: "Open to Collab", icon: Zap },
+                { label: "SCOPE", value: "Works Catalog", icon: Globe },
+                { label: "SOURCE", value: "GitHub Repos", icon: Github },
+                { label: "FOCUS", value: "Harness Works", icon: Code2 },
+                { label: "STATUS", value: "Live Portfolio", icon: Zap },
               ].map((item, index) => (
                 <Reveal key={item.label} delay={index * 70}>
                   <div className="clip-corner p-4 flex items-center gap-3 h-full"
