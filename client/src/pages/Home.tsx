@@ -95,6 +95,32 @@ const PROJECTS = [
     featured: false,
     color: "cyan",
   },
+  {
+    id: "primus",
+    name: "primus",
+    emoji: "⚛️",
+    desc: "Primus — A first-principles engine that drills any goal down into immediately doable steps: to do A, do B first; to do B, do C first — until the next step can be done right now.",
+    lang: "JavaScript",
+    stars: 0,
+    forks: 0,
+    url: "https://github.com/xiangjianan/primus",
+    demoUrl: "https://primus.helloxjn.com",
+    featured: false,
+    color: "violet",
+  },
+  {
+    id: "workout-checkin",
+    name: "workout-checkin",
+    emoji: "💪",
+    desc: "Workout Checkin — A 100-day workout check-in plan with commitment stakes, built as a fully local static page with zero backend.",
+    lang: "JavaScript",
+    stars: 0,
+    forks: 0,
+    url: "https://github.com/xiangjianan/workout-checkin",
+    demoUrl: "https://workout.helloxjn.com",
+    featured: false,
+    color: "orange",
+  },
 ];
 
 const SKILLS = [

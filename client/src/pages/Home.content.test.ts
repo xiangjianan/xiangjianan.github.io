@@ -9,6 +9,8 @@ const expectedProjectUrls = [
   "https://github.com/xiangjianan/taptap",
   "https://github.com/xiangjianan/jindou-blog",
   "https://github.com/xiangjianan/ai-daily-news",
+  "https://github.com/xiangjianan/primus",
+  "https://github.com/xiangjianan/workout-checkin",
 ];
 
 const expectedProjectDemoUrls = [
@@ -17,6 +19,8 @@ const expectedProjectDemoUrls = [
   "https://taptap.helloxjn.com",
   "https://aiblog.helloxjn.com",
   "https://xiangjianan.github.io/ai-daily-news/",
+  "https://primus.helloxjn.com",
+  "https://workout.helloxjn.com",
 ];
 
 const expectedRecentRepos = [
