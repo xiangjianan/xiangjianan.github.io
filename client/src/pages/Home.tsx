@@ -1,1252 +1,291 @@
 /* ============================================================
-   Home.tsx — Cyberpunk Identity Showcase
-   - Keeps the J-Cyberpunk / Akira-Wave skeleton (colors, motion, fonts)
-   - Reworks the content into an "identity engineering" story: who I am,
-     what I've shipped, the small numbers that make the case.
-   - Neon orange (oklch 0.72 0.22 42) + Electric cyan (oklch 0.82 0.18 195)
-   - Rajdhani headings, Space Grotesk body, JetBrains Mono code
-   - Mouse-follow glow, glitch text, diagonal cuts, clip-corner cards
-   - 100% AI Built badge is itself part of the identity, not just a claim
+   Home.tsx — Minimal, works-first landing
+   - Stripped-down: no narrative, no journey, no language list.
+   - Big-type hero for first-open impact, then straight into the work.
+   - Near-black base, one electric-violet accent, off-white type.
+   - Featured: mini-desk + taptap. The rest in a compact grid.
+   - All work links open in a new tab.
    ============================================================ */
 
-import { useEffect, useRef, useState } from "react";
-import {
-  Github, ExternalLink, Star, GitFork, Users,
-  Code2, Zap, Terminal, ChevronDown, Globe, Cpu, Sparkles, Bot, Mail,
-  Rocket, Compass, Layers, Trophy, Calendar, MapPin, BookOpen, Heart, Wrench,
-} from "lucide-react";
+import { ArrowDown, ArrowUpRight, Github, Mail, Star } from "lucide-react";
 
-// ─── Data ────────────────────────────────────────────────────────────────────
-
-const GITHUB_USER = {
-  name: "xiangjianan",
-  username: "xiangjianan",
-  avatar: "https://avatars.githubusercontent.com/xiangjianan",
-  title: "AI-Native Builder · Open-Source Curator",
-  bio: "I turn ideas into shipped things people actually use.",
-  line1: "Solo full-stack builder. Curator of high-quality things.",
-  line2: "Every tool I make is small, focused, and gets used.",
-  location: "UTC+8",
-  since: "2020",
-  followers: 119,
-  following: 2,
-  commits: 895,
-  yearlyContributions: 944,
-  repoCount: 19,
-  gists: 1,
-  github: "https://github.com/xiangjianan",
+const COLORS = {
+  bg: "#0a0a0b",
+  text: "#f5f5f7",
+  muted: "#8a8a93",
+  accent: "#7c5cff",
+  accentDim: "rgba(124, 92, 255, 0.16)",
+  card: "rgba(255, 255, 255, 0.03)",
+  cardHover: "rgba(255, 255, 255, 0.06)",
+  border: "rgba(255, 255, 255, 0.09)",
 };
 
-const FLAGSHIP = {
-  id: "lks",
-  name: "lks",
-  emoji: "📚",
-  desc: "A curated collection of 303 high-quality websites, compiled from the beloved Bilibili series by creator LKs. One of the internet's best resource lists, tidied up and made browsable.",
-  lang: "CSS",
-  stars: 449,
-  forks: 68,
-  count: 303,
-  url: "https://github.com/xiangjianan/lks",
-  demoUrl: "https://lkssite.vip",
-  color: "cyan",
-};
+const STATS = [
+  { value: "449★", label: "lks stars" },
+  { value: "19", label: "public repos" },
+  { value: "944", label: "contributions / yr" },
+];
 
-const PROJECTS = [
+const FEATURED = [
   {
-    id: "lks",
-    name: "lks",
-    emoji: "📚",
-    desc: "A curated collection of 303 high-quality websites from the Bilibili series by creator LKs.",
-    lang: "CSS",
-    stars: 449,
-    forks: 68,
-    url: "https://github.com/xiangjianan/lks",
-    demoUrl: "https://lkssite.vip",
-    featured: true,
-    color: "cyan",
-  },
-  {
-    id: "time-traveler",
-    name: "time-traveler",
-    emoji: "⏳",
-    desc: "A large-model-driven historical time-travel text adventure (Vite + React + Cloudflare Pages).",
-    lang: "TypeScript",
-    stars: 1,
-    forks: 0,
-    url: "https://github.com/xiangjianan/time-traveler",
-    demoUrl: undefined,
-    featured: false,
-    color: "violet",
-  },
-  {
-    id: "mini-desk",
     name: "mini-desk",
     emoji: "🖥️",
-    desc: "Do less, do it well. A local-first personal workspace for notes, reminders, quick actions, screenshots, and everyday tools.",
-    lang: "TypeScript",
-    stars: 1,
-    forks: 0,
-    url: "https://github.com/xiangjianan/mini-desk",
-    demoUrl: "https://minidesk.helloxjn.com",
-    featured: false,
-    color: "orange",
+    desc: "Do less, do it well. A local-first personal workspace — notes, reminders, quick actions, screenshots, everyday tools.",
+    meta: "TypeScript · local-first",
+    demo: "https://minidesk.helloxjn.com",
+    repo: "https://github.com/xiangjianan/mini-desk",
   },
   {
-    id: "taptap",
     name: "taptap",
     emoji: "🎯",
-    desc: "A WeChat Mini Game number-finding puzzle based on Voronoi diagrams.",
-    lang: "JavaScript",
-    stars: 2,
-    forks: 1,
-    url: "https://github.com/xiangjianan/taptap",
-    demoUrl: "https://taptap.helloxjn.com",
-    featured: false,
-    color: "cyan",
-  },
-  {
-    id: "ai-daily-news",
-    name: "ai-daily-news",
-    emoji: "🤖",
-    desc: "Automatically aggregates AI technology news every day so you can keep up with the latest.",
-    lang: "HTML",
-    stars: 1,
-    forks: 0,
-    url: "https://github.com/xiangjianan/ai-daily-news",
-    demoUrl: "https://xiangjianan.github.io/ai-daily-news/",
-    featured: false,
-    color: "cyan",
-  },
-  {
-    id: "jindou-blog",
-    name: "jindou-blog",
-    emoji: "📝",
-    desc: "AI research, explainers, and technical writing.",
-    lang: "MDX",
-    stars: 0,
-    forks: 0,
-    url: "https://github.com/xiangjianan/jindou-blog",
-    demoUrl: "https://aiblog.helloxjn.com",
-    featured: false,
-    color: "violet",
-  },
-  {
-    id: "primus",
-    name: "primus",
-    emoji: "⚛️",
-    desc: "Drills any goal down into immediately doable steps: to do A, do B first — until the next step can be done right now.",
-    lang: "JavaScript",
-    stars: 0,
-    forks: 0,
-    url: "https://github.com/xiangjianan/primus",
-    demoUrl: "https://primus.helloxjn.com",
-    featured: false,
-    color: "violet",
-  },
-  {
-    id: "workout-checkin",
-    name: "workout-checkin",
-    emoji: "💪",
-    desc: "A 100-day workout check-in plan with commitment stakes, built as a fully local static page.",
-    lang: "JavaScript",
-    stars: 0,
-    forks: 0,
-    url: "https://github.com/xiangjianan/workout-checkin",
-    demoUrl: "https://workout.helloxjn.com",
-    featured: false,
-    color: "orange",
+    desc: "「数一数噻」— a WeChat Mini Game. A number-finding puzzle built on Voronoi diagrams, playable in WeChat.",
+    meta: "JavaScript · WeChat Mini Game",
+    demo: "https://taptap.helloxjn.com",
+    repo: "https://github.com/xiangjianan/taptap",
   },
 ];
 
-const TOOLBELT = [
-  { name: "lkszj", emoji: "🎨", desc: "A creative-works submission platform", url: "https://github.com/xiangjianan/lkszj", lang: "JavaScript" },
-  { name: "scheduler", emoji: "⏱️", desc: "Python task scheduler + FastAPI", url: "https://github.com/xiangjianan/scheduler", lang: "Python" },
-  { name: "mermaid", emoji: "🧩", desc: "Pure-frontend Markdown Mermaid visualizer", url: "https://github.com/xiangjianan/mermaid", lang: "TypeScript" },
-  { name: "send-msg", emoji: "📡", desc: "LAN real-time broadcast (WebSocket + Express)", url: "https://github.com/xiangjianan/send-msg", lang: "HTML" },
+const MORE = [
+  { name: "lks", stars: 449, desc: "303 curated websites from LKs' Bilibili series", demo: "https://lkssite.vip", repo: "https://github.com/xiangjianan/lks" },
+  { name: "time-traveler", desc: "LLM-driven historical time-travel adventure", repo: "https://github.com/xiangjianan/time-traveler" },
+  { name: "primus", desc: "First-principles engine: any goal down to 'do it now'", demo: "https://primus.helloxjn.com", repo: "https://github.com/xiangjianan/primus" },
+  { name: "ai-daily-news", desc: "Auto-aggregated daily AI news", demo: "https://xiangjianan.github.io/ai-daily-news/", repo: "https://github.com/xiangjianan/ai-daily-news" },
+  { name: "jindou-blog", desc: "AI research & technical writing", demo: "https://aiblog.helloxjn.com", repo: "https://github.com/xiangjianan/jindou-blog" },
+  { name: "workout-checkin", desc: "100-day fitness bet", demo: "https://workout.helloxjn.com", repo: "https://github.com/xiangjianan/workout-checkin" },
+  { name: "lkszj", desc: "Creative-works submission platform", repo: "https://github.com/xiangjianan/lkszj" },
+  { name: "scheduler", desc: "Python task scheduler + FastAPI", repo: "https://github.com/xiangjianan/scheduler" },
+  { name: "mermaid", desc: "Pure-frontend Markdown Mermaid visualizer", repo: "https://github.com/xiangjianan/mermaid" },
+  { name: "send-msg", desc: "LAN real-time broadcast (WebSocket + Express)", repo: "https://github.com/xiangjianan/send-msg" },
 ];
 
-const STACK_CATEGORIES = [
-  {
-    title: "Agentic Systems",
-    icon: Bot,
-    color: "cyan" as const,
-    desc: "Systems where an agent plans, calls tools, and finishes the job.",
-    tags: ["Agent Orchestration", "Task Planning", "Tool Calling", "Multi-step Workflows", "AI Evals"],
-  },
-  {
-    title: "LLM & Generative AI",
-    icon: Sparkles,
-    color: "orange" as const,
-    desc: "Putting a capable model in charge, with clean interfaces around it.",
-    tags: ["LLM APIs", "Prompt Engineering", "RAG", "Function Calling", "Streaming", "Codex / Claude"],
-  },
-  {
-    title: "Full-Stack Web",
-    icon: Code2,
-    color: "violet" as const,
-    desc: "The rails that carry an AI-native product from idea to deployed.",
-    tags: ["React", "TypeScript", "Vite", "Tailwind CSS", "Node.js", "Express"],
-  },
-  {
-    title: "Automation & Services",
-    icon: Zap,
-    color: "cyan" as const,
-    desc: "The plumbing — scheduled jobs, async services, and glue between things.",
-    tags: ["Python", "FastAPI", "Django", "Task Scheduling", "WebSocket", "Shell"],
-  },
-];
-
-const AI_HIGHLIGHTS = [
-  { icon: Bot, title: "Agent workflows", text: "I build the loop where a model is the planner and clean tools are its hands." },
-  { icon: Sparkles, title: "LLM-first design", text: "From primus (a first-principles engine) to time-traveler (an LLM-driven adventure)." },
-  { icon: Compass, title: "AI-native build mode", text: "Vision and taste are mine; Codex does the typing. End-to-end, no hand-written lines." },
-];
-
-const LANG_COLORS: Record<string, string> = {
-  CSS: "#563d7c",
-  JavaScript: "#f1e05a",
-  HTML: "#e34c26",
-  MDX: "#fcb32c",
-  Python: "#3572A5",
-  TypeScript: "#2b7489",
-  Shell: "#89e051",
-};
-
-// ─── Sub-components ──────────────────────────────────────────────────────────
-
-function GlitchTitle({ text, className = "" }: { text: string; className?: string }) {
+function TopBar() {
   return (
-    <span className={`glitch-text ${className}`} data-text={text}>
-      {text}
-    </span>
-  );
-}
-
-function CyberTag({ children, variant = "cyan" }: { children: React.ReactNode; variant?: "cyan" | "orange" | "violet" }) {
-  const style =
-    variant === "orange"
-      ? { borderColor: "oklch(0.72 0.22 42 / 40%)", color: "oklch(0.72 0.22 42)", background: "oklch(0.72 0.22 42 / 8%)" }
-      : variant === "violet"
-      ? { borderColor: "oklch(0.58 0.28 290 / 40%)", color: "oklch(0.75 0.2 290)", background: "oklch(0.58 0.28 290 / 8%)" }
-      : {};
-  return (
-    <span className="cyber-tag" style={style}>
-      {children}
-    </span>
-  );
-}
-
-function Reveal({
-  children,
-  className = "",
-  delay = 0,
-  direction = "up",
-}: {
-  children: React.ReactNode;
-  className?: string;
-  delay?: number;
-  direction?: "up" | "left" | "right";
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
-      setVisible(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      { rootMargin: "0px 0px -48px 0px", threshold: 0.12 },
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div
-      ref={ref}
-      data-reveal
-      data-reveal-direction={direction}
-      data-reveal-visible={visible ? "true" : "false"}
-      className={className}
-      style={{ "--reveal-delay": `${delay}ms` } as React.CSSProperties}
-    >
-      {children}
-    </div>
-  );
-}
-
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex items-center gap-3 mb-2">
-      <span className="text-xs font-mono tracking-[0.3em] uppercase" style={{ color: "oklch(0.82 0.18 195 / 70%)" }}>
-        // {children}
-      </span>
-      <div className="flex-1 h-px" style={{ background: "linear-gradient(90deg, oklch(0.82 0.18 195 / 30%), transparent)" }} />
-    </div>
-  );
-}
-
-function StatCard({ value, label, icon: Icon, delay = 0 }: { value: string | number; label: string; icon: React.ElementType; delay?: number }) {
-  return (
-    <Reveal delay={delay} className="h-full">
-      <div className="cyber-card no-card-hover clip-corner p-4 text-center h-full">
-        <Icon size={18} className="mx-auto mb-2" style={{ color: "oklch(0.82 0.18 195)" }} />
-        <div className="text-2xl font-bold" style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.72 0.22 42)" }}>
-          {value}
-        </div>
-        <div className="text-xs mt-1" style={{ color: "oklch(0.6 0.04 220)", fontFamily: "JetBrains Mono, monospace" }}>
-          {label}
-        </div>
-      </div>
-    </Reveal>
-  );
-}
-
-function ProjectCard({ project, delay = 0 }: { project: typeof PROJECTS[0]; delay?: number }) {
-  const colorMap = {
-    cyan:   { border: "oklch(0.82 0.18 195 / 40%)", glow: "oklch(0.82 0.18 195 / 15%)", text: "oklch(0.82 0.18 195)" },
-    orange: { border: "oklch(0.72 0.22 42 / 40%)",  glow: "oklch(0.72 0.22 42 / 15%)",  text: "oklch(0.72 0.22 42)"  },
-    violet: { border: "oklch(0.58 0.28 290 / 40%)", glow: "oklch(0.58 0.28 290 / 15%)", text: "oklch(0.75 0.2 290)"  },
-  };
-  const c = colorMap[project.color as keyof typeof colorMap];
-
-  return (
-    <Reveal delay={delay} className="h-full">
-      <div className="group h-full">
-        <div
-          className="clip-corner h-full p-5 transition-all duration-300 relative overflow-hidden flex flex-col"
-          style={{ background: "oklch(0.11 0.022 265 / 80%)", backdropFilter: "blur(12px)", border: `1px solid ${c.border}` }}
-          onMouseEnter={(e) => {
-            const el = e.currentTarget as HTMLElement;
-            el.style.boxShadow = `0 0 24px ${c.glow}, 0 8px 32px oklch(0 0 0 / 40%)`;
-            el.style.transform = "translateY(-6px)";
-            el.style.borderColor = c.text;
-          }}
-          onMouseLeave={(e) => {
-            const el = e.currentTarget as HTMLElement;
-            el.style.boxShadow = "";
-            el.style.transform = "";
-            el.style.borderColor = c.border;
-          }}
-        >
-          <div className="absolute top-0 left-0 right-0 h-px" style={{ background: `linear-gradient(90deg, transparent, ${c.text}, transparent)` }} />
-          <div className="absolute top-0 right-0 w-6 h-6 overflow-hidden">
-            <div className="absolute top-0 right-0 w-0 h-0" style={{ borderLeft: "24px solid transparent", borderTop: `24px solid ${c.text}`, opacity: 0.4 }} />
-          </div>
-
-          <div className="relative z-20 flex flex-col flex-1">
-            <div className="flex items-start justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <span className="text-xl">{project.emoji}</span>
-                <h3 className="text-base font-bold tracking-wide" style={{ fontFamily: "Rajdhani, sans-serif", color: c.text }}>
-                  {project.name}
-                </h3>
-              </div>
-            </div>
-
-            <p className="text-sm leading-relaxed mb-4" style={{ color: "oklch(0.65 0.04 220)" }}>
-              {project.desc}
-            </p>
-
-            <div className="flex items-center justify-between mt-auto mb-4">
-              <div className="flex items-center gap-1.5">
-                <div className="w-3 h-3 rounded-full" style={{ background: LANG_COLORS[project.lang] || "#888" }} />
-                <span className="text-xs" style={{ color: "oklch(0.6 0.04 220)", fontFamily: "JetBrains Mono, monospace" }}>
-                  {project.lang}
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                {project.stars > 0 && (
-                  <span className="flex items-center gap-1 text-xs" style={{ color: "oklch(0.72 0.22 42)" }}>
-                    <Star size={11} fill="currentColor" /> {project.stars}
-                  </span>
-                )}
-                {project.forks > 0 && (
-                  <span className="flex items-center gap-1 text-xs" style={{ color: "oklch(0.6 0.04 220)" }}>
-                    <GitFork size={11} /> {project.forks}
-                  </span>
-                )}
-              </div>
-            </div>
-            <div className="flex items-center justify-between gap-3 pt-3" style={{ borderTop: `1px solid ${c.border}` }}>
-              {project.demoUrl ? (
-                <a
-                  href={project.demoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-bold tracking-widest transition-colors"
-                  style={{ color: c.text, fontFamily: "Rajdhani, sans-serif", textTransform: "uppercase", textDecoration: "none" }}
-                >
-                  <ExternalLink size={12} /> View Work
-                </a>
-              ) : (
-                <span className="inline-flex items-center gap-1.5 text-xs font-bold tracking-widest" style={{ color: "oklch(0.5 0.04 220)", fontFamily: "Rajdhani, sans-serif", textTransform: "uppercase" }}>
-                  <Star size={12} /> {project.stars} Star project
-                </span>
-              )}
-              <a
-                href={project.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${project.name} source code`}
-                className="inline-flex h-8 w-8 items-center justify-center clip-corner transition-all duration-300"
-                style={{ border: `1px solid ${c.border}`, color: c.text, textDecoration: "none", background: "oklch(0.07 0.018 265 / 35%)" }}
-                onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = c.glow; el.style.borderColor = c.text; }}
-                onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = "oklch(0.07 0.018 265 / 35%)"; el.style.borderColor = c.border; }}
-              >
-                <Github size={14} />
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Reveal>
-  );
-}
-
-// ─── Mouse glow ───────────────────────────────────────────────────────────────
-
-function MouseGlow() {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const fn = (e: MouseEvent) => {
-      if (ref.current) { ref.current.style.left = `${e.clientX}px`; ref.current.style.top = `${e.clientY}px`; }
-    };
-    window.addEventListener("mousemove", fn);
-    return () => window.removeEventListener("mousemove", fn);
-  }, []);
-  return (
-    <div ref={ref} className="fixed pointer-events-none z-0" style={{
-      width: "600px", height: "600px", borderRadius: "50%",
-      background: "radial-gradient(circle, oklch(0.82 0.18 195 / 4%) 0%, transparent 70%)",
-      transform: "translate(-50%, -50%)", transition: "left 0.1s ease, top 0.1s ease",
-    }} />
-  );
-}
-
-// ─── Background ───────────────────────────────────────────────────────────────
-
-function CyberBackground() {
-  return (
-    <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-      <div className="absolute inset-0 cyber-ambient-layer" style={{
-        background: "radial-gradient(ellipse at 20% 50%, oklch(0.58 0.28 290 / 6%) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, oklch(0.82 0.18 195 / 5%) 0%, transparent 50%), radial-gradient(ellipse at 60% 80%, oklch(0.72 0.22 42 / 4%) 0%, transparent 50%)",
-      }} />
-      <div className="absolute inset-0 cyber-grid-layer" style={{
-        backgroundImage: `linear-gradient(oklch(0.82 0.18 195 / 4%) 1px, transparent 1px), linear-gradient(90deg, oklch(0.82 0.18 195 / 4%) 1px, transparent 1px)`,
-        backgroundSize: "60px 60px",
-      }} />
-    </div>
-  );
-}
-
-// ─── AI Built Banner ──────────────────────────────────────────────────────────
-
-function AIBuiltBanner() {
-  return (
-    <div
-      id="ai-banner"
-      className="relative overflow-hidden py-2"
-      style={{
-        background: "oklch(0.07 0.018 265)",
-        borderBottom: "1px solid oklch(0.82 0.18 195 / 15%)",
-      }}
-    >
-      {/* Scrolling ticker — two identical copies side by side so the loop is seamless */}
-      <div style={{ overflow: "hidden", width: "100%" }}>
-        <div
-          style={{
-            display: "flex",
-            width: "max-content",
-            animation: "marquee 28s linear infinite",
-            willChange: "transform",
-          }}
-        >
-          {/* Render two identical sets so the second seamlessly follows the first */}
-          {[0, 1].map((set) => (
-            <div key={set} style={{ display: "flex", alignItems: "center" }}>
-              {[0, 1, 2, 3, 4].map((i) => (
-                <span
-                  key={i}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "12px",
-                    padding: "0 24px",
-                    fontFamily: "JetBrains Mono, monospace",
-                    fontSize: "0.65rem",
-                    letterSpacing: "0.2em",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  <Bot size={11} style={{ color: "oklch(0.72 0.22 42)", flexShrink: 0 }} />
-                  <span style={{ color: "oklch(0.72 0.22 42)" }}>100% AI BUILT</span>
-                  <span style={{ color: "oklch(0.5 0.04 220)" }}>·</span>
-                  <Cpu size={11} style={{ color: "oklch(0.82 0.18 195)", flexShrink: 0 }} />
-                  <span style={{ color: "oklch(0.82 0.18 195)" }}>POWERED BY CODEX</span>
-                  <span style={{ color: "oklch(0.5 0.04 220)" }}>·</span>
-                  <Sparkles size={11} style={{ color: "oklch(0.75 0.2 290)", flexShrink: 0 }} />
-                  <span style={{ color: "oklch(0.75 0.2 290)" }}>ZERO HUMAN CODE</span>
-                  <span style={{ color: "oklch(0.5 0.04 220)" }}>·</span>
-                  <Heart size={11} style={{ color: "oklch(0.72 0.22 42)", flexShrink: 0 }} />
-                  <span style={{ color: "oklch(0.72 0.22 42)" }}>BUILD · CURATE · SHIP</span>
-                  <span style={{ color: "oklch(0.5 0.04 220)" }}>·</span>
-                </span>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-      <style>{`
-        @keyframes marquee {
-          from { transform: translateX(0); }
-          to   { transform: translateX(-50%); }
-        }
-      `}</style>
-    </div>
-  );
-}
-
-// ─── Navbar ───────────────────────────────────────────────────────────────────
-
-function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [active, setActive] = useState("hero");
-  const [bannerHeight, setBannerHeight] = useState(0);
-
-  useEffect(() => {
-    const banner = document.getElementById("ai-banner");
-    if (banner) setBannerHeight(banner.offsetHeight);
-    const ro = new ResizeObserver(() => {
-      if (banner) setBannerHeight(banner.offsetHeight);
-    });
-    if (banner) ro.observe(banner);
-    return () => ro.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const fn = () => {
-      setScrolled(window.scrollY > bannerHeight);
-      const ids = ["hero", "identity", "journey", "works", "skills", "contact"];
-      for (const id of [...ids].reverse()) {
-        const el = document.getElementById(id);
-        if (el && window.scrollY >= el.offsetTop - 120) { setActive(id); break; }
-      }
-    };
-    window.addEventListener("scroll", fn);
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
-
-  const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-
-  return (
-    <nav
+    <header
       className="fixed left-0 right-0 z-50"
-      style={{
-        top: scrolled ? 0 : bannerHeight,
-        transition: "top 0.3s ease, background 0.3s ease",
-        background: scrolled ? "oklch(0.07 0.018 265 / 97%)" : "oklch(0.07 0.018 265 / 85%)",
-        backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)",
-        borderBottom: "1px solid oklch(0.82 0.18 195 / 15%)",
-        boxShadow: scrolled ? "0 2px 20px oklch(0 0 0 / 40%)" : "none",
-      }}
+      style={{ background: "rgba(10, 10, 11, 0.7)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)", borderBottom: `1px solid ${COLORS.border}` }}
     >
-      <div className="container flex items-center justify-between py-4">
-        <button onClick={() => scrollTo("hero")} className="flex items-center gap-2">
-          <div className="w-8 h-8 clip-corner flex items-center justify-center text-xs font-bold"
-            style={{ background: "oklch(0.72 0.22 42)", color: "oklch(0.07 0.018 265)", fontFamily: "Rajdhani, sans-serif" }}>
+      <div className="flex items-center justify-between" style={{ maxWidth: 1200, margin: "0 auto", padding: "14px 24px" }}>
+        <div className="flex items-center gap-2.5">
+          <div className="flex items-center justify-center" style={{ width: 30, height: 30, borderRadius: 8, background: COLORS.accent, color: "#fff", fontWeight: 800, fontFamily: "Rajdhani, sans-serif", fontSize: 15 }}>
             XJ
           </div>
-          <span className="font-bold tracking-widest text-sm hidden sm:block"
-            style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.85 0.01 220)" }}>
-            XIANGJIANAN
-          </span>
-        </button>
+          <span className="font-bold tracking-widest" style={{ fontFamily: "Rajdhani, sans-serif", color: COLORS.text, letterSpacing: "0.12em", fontSize: 14 }}>XIANGJIANAN</span>
+        </div>
+        <a
+          href="https://github.com/xiangjianan"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5"
+          style={{ color: COLORS.muted, fontSize: 13, fontWeight: 600, letterSpacing: "0.08em", textDecoration: "none", fontFamily: "Space Grotesk, sans-serif" }}
+          onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = COLORS.text)}
+          onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = COLORS.muted)}
+        >
+          <Github size={15} /> GitHub
+        </a>
+      </div>
+    </header>
+  );
+}
 
-        <div className="flex items-center gap-3 sm:gap-6">
-          <div className="hidden md:flex items-center gap-5">
-            {[
-              { id: "identity", label: "Identity" },
-              { id: "journey", label: "Journey" },
-              { id: "works", label: "Works" },
-              { id: "skills", label: "Skills" },
-              { id: "contact", label: "Contact" },
-            ].map((item) => (
-              <button key={item.id} onClick={() => scrollTo(item.id)} className={`nav-link ${active === item.id ? "active" : ""}`}>
-                {item.label}
-              </button>
-            ))}
-          </div>
-          <a href="https://github.com/xiangjianan" target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-3 py-1.5 clip-corner transition-all duration-300"
-            style={{ border: "1px solid oklch(0.82 0.18 195 / 40%)", color: "oklch(0.82 0.18 195)", fontFamily: "Rajdhani, sans-serif", fontSize: "0.8rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", whiteSpace: "nowrap" }}
-            onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = "oklch(0.82 0.18 195 / 10%)"; el.style.boxShadow = "0 0 12px oklch(0.82 0.18 195 / 30%)"; }}
-            onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = ""; el.style.boxShadow = ""; }}
+function Hero() {
+  return (
+    <section className="relative flex flex-col items-center justify-center text-center" style={{ minHeight: "calc(100vh - 60px)", padding: "120px 24px 60px" }}>
+      <div className="text-sm tracking-[0.35em] mb-6" style={{ fontFamily: "JetBrains Mono, monospace", color: COLORS.accent, letterSpacing: "0.35em" }}>
+        AI-NATIVE BUILDER · OPEN-SOURCE
+      </div>
+
+      <h1
+        className="leading-none font-black"
+        style={{ fontFamily: "Rajdhani, sans-serif", color: COLORS.text, fontSize: "clamp(4rem, 15vw, 10.5rem)", letterSpacing: "0.02em", margin: 0 }}
+      >
+        XIANGJIANAN
+      </h1>
+
+      <p className="mt-5 text-lg sm:text-xl font-light" style={{ color: COLORS.muted, fontFamily: "Space Grotesk, sans-serif", fontWeight: 300 }}>
+        I build tools I actually use.
+      </p>
+
+      {/* Highlights */}
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+        {["mini-desk", "taptap", "lks · 449★"].map((chip, i) => (
+          <span
+            key={chip}
+            className="inline-flex items-center gap-2 px-4 py-2"
+            style={{ background: COLORS.card, border: `1px solid ${COLORS.border}`, borderRadius: 999, color: i === 2 ? COLORS.accent : COLORS.text, fontSize: 13, fontFamily: "Space Grotesk, sans-serif" }}
           >
-            <Github size={14} /> GitHub
-          </a>
-        </div>
+            {i === 2 && <Star size={12} fill={COLORS.accent} color={COLORS.accent} />}
+            {chip}
+          </span>
+        ))}
       </div>
-    </nav>
+
+      {/* Stats */}
+      <div className="mt-10 grid grid-cols-3 gap-0" style={{ borderTop: `1px solid ${COLORS.border}`, borderBottom: `1px solid ${COLORS.border}`, width: "min(680px, 100%)" }}>
+        {STATS.map((s) => (
+          <div key={s.label} className="py-5 px-3" style={{ borderRight: `1px solid ${COLORS.border}` }}>
+            <div className="text-2xl font-bold" style={{ fontFamily: "Rajdhani, sans-serif", color: COLORS.text }}>{s.value}</div>
+            <div className="text-xs mt-1" style={{ fontFamily: "JetBrains Mono, monospace", color: COLORS.muted }}>{s.label}</div>
+          </div>
+        ))}
+      </div>
+
+      <a
+        href="#work"
+        className="mt-12 inline-flex items-center gap-2"
+        style={{ color: COLORS.muted, fontSize: 12, letterSpacing: "0.2em", textDecoration: "none", fontFamily: "JetBrains Mono, monospace" }}
+      >
+        SEE THE WORK <ArrowDown size={14} style={{ animation: "float 2s ease-in-out infinite" }} />
+      </a>
+
+      <style>{`@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }`}</style>
+    </section>
   );
 }
 
-// ─── Hero Section ─────────────────────────────────────────────────────────────
-
-function HeroSection() {
-  const [lineIndex, setLineIndex] = useState(0);
-  const [bootDone, setBootDone] = useState(false);
-
-  const bootLines = [
-    "> INITIALIZING IDENTITY...",
-    "> LOADING PROFILE: xiangjianan",
-    `> EST. ${GITHUB_USER.since} · AI-NATIVE BUILDER`,
-    `> FLAGSHIP: lks — ${FLAGSHIP.stars}★ / ${FLAGSHIP.count} sites curated`,
-    "> STATUS: SHIPPING. ALWAYS.",
-    "> SYSTEM READY.",
-  ];
-
-  useEffect(() => {
-    if (lineIndex < bootLines.length) {
-      const t = setTimeout(() => setLineIndex((i) => i + 1), 360);
-      return () => clearTimeout(t);
-    } else {
-      const t = setTimeout(() => setBootDone(true), 300);
-      return () => clearTimeout(t);
-    }
-  }, [lineIndex]);
-
+function FeaturedCard({ project }: { project: typeof FEATURED[0] }) {
   return (
-    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden" style={{ paddingTop: "80px" }}>
-      <div className="absolute inset-0 z-0" style={{
-        backgroundImage: `url(https://d2xsxph8kpxj0f.cloudfront.net/310519663477683331/4sx3vvAvTnDT8BfZNUWKkp/hero-bg-QTc3JRDXbPjeqHMuV3dbNJ.webp)`,
-        backgroundSize: "cover", backgroundPosition: "center top", opacity: 0.25,
-      }} />
-      <div className="absolute inset-0 z-0" style={{
-        background: "linear-gradient(to right, oklch(0.07 0.018 265) 30%, oklch(0.07 0.018 265 / 60%) 60%, oklch(0.07 0.018 265 / 20%) 100%), linear-gradient(to top, oklch(0.07 0.018 265) 0%, transparent 40%)",
-      }} />
+    <div
+      className="group relative overflow-hidden p-8"
+      style={{ background: COLORS.card, border: `1px solid ${COLORS.border}`, borderRadius: 20, transition: "all 0.25s ease" }}
+      onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = COLORS.cardHover; el.style.borderColor = COLORS.accent; el.style.transform = "translateY(-4px)"; }}
+      onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = COLORS.card; el.style.borderColor = COLORS.border; el.style.transform = ""; }}
+    >
+      <div className="flex items-start justify-between">
+        <div className="text-4xl">{project.emoji}</div>
+        <span className="text-xs" style={{ fontFamily: "JetBrains Mono, monospace", color: COLORS.muted }}>{project.meta}</span>
+      </div>
 
-      <div className="container relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left */}
-          <div>
-            {/* Boot terminal */}
-            <div className="mb-8 p-3 clip-corner" style={{
-              background: "oklch(0.07 0.018 265 / 80%)", border: "1px solid oklch(0.82 0.18 195 / 20%)",
-              fontFamily: "JetBrains Mono, monospace", fontSize: "0.72rem", color: "oklch(0.82 0.18 195 / 70%)", minHeight: "118px",
-            }}>
-              {bootLines.slice(0, lineIndex).map((line, i) => (
-                <div key={i} style={{ opacity: i < lineIndex - 1 ? 0.5 : 1, color: line.includes("FLAGSHIP") ? "oklch(0.72 0.22 42)" : undefined }}>
-                  {line}
-                </div>
-              ))}
-              {!bootDone && <span style={{ animation: "blink 1s infinite" }}>█</span>}
-            </div>
+      <h3 className="mt-5 text-2xl font-bold" style={{ fontFamily: "Rajdhani, sans-serif", color: COLORS.text }}>
+        {project.name}
+      </h3>
+      <p className="mt-2 text-sm leading-relaxed" style={{ color: COLORS.muted, fontFamily: "Space Grotesk, sans-serif" }}>
+        {project.desc}
+      </p>
 
-            {/* Title */}
-            <div style={{ opacity: bootDone ? 1 : 0, transform: bootDone ? "translateY(0)" : "translateY(20px)", transition: "all 0.6s ease" }}>
-              <div className="text-sm tracking-[0.4em] uppercase mb-2" style={{ color: "oklch(0.72 0.22 42)", fontFamily: "JetBrains Mono, monospace" }}>
-                // {GITHUB_USER.title}
-              </div>
-              <h1 className="font-black leading-none mb-1" style={{ fontFamily: "Rajdhani, sans-serif", fontSize: "clamp(3rem, 8vw, 6rem)", color: "oklch(0.92 0.01 220)", letterSpacing: "0.05em" }}>
-                <GlitchTitle text="XIANG" />
-              </h1>
-              <h1 className="font-black leading-none" style={{ fontFamily: "Rajdhani, sans-serif", fontSize: "clamp(3rem, 8vw, 6rem)", letterSpacing: "0.05em" }}>
-                <span className="neon-cyan">JIANAN</span>
-                <span className="text-base align-middle ml-3" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.72 0.22 42)", letterSpacing: "0.2em" }}>EST. {GITHUB_USER.since}</span>
-              </h1>
-            </div>
+      <div className="mt-6 flex items-center gap-4">
+        <a
+          href={project.demo}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 px-4 py-2 font-semibold"
+          style={{ background: COLORS.accent, color: "#fff", borderRadius: 10, fontSize: 13, textDecoration: "none", fontFamily: "Space Grotesk, sans-serif" }}
+        >
+          Live <ArrowUpRight size={14} />
+        </a>
+        <a
+          href={project.repo}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5"
+          style={{ color: COLORS.text, fontSize: 13, fontWeight: 600, textDecoration: "none", fontFamily: "Space Grotesk, sans-serif" }}
+        >
+          <Github size={15} /> Repo
+        </a>
+      </div>
+    </div>
+  );
+}
 
-            {/* Bio */}
-            <p className="text-base mb-2 max-w-md leading-relaxed mt-4" style={{ color: "oklch(0.7 0.04 220)", opacity: bootDone ? 1 : 0, transition: "opacity 0.6s ease 0.2s" }}>
-              {GITHUB_USER.line1}
-            </p>
-            <p className="text-base mb-6 max-w-md leading-relaxed" style={{ color: "oklch(0.6 0.04 220)", opacity: bootDone ? 1 : 0, transition: "opacity 0.6s ease 0.22s" }}>
-              {GITHUB_USER.line2}
-            </p>
+function MoreCard({ project }: { project: (typeof MORE)[0] }) {
+  return (
+    <a
+      href={project.demo || project.repo}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex flex-col justify-between p-6"
+      style={{ background: COLORS.card, border: `1px solid ${COLORS.border}`, borderRadius: 16, minHeight: 128, textDecoration: "none", transition: "all 0.2s ease" }}
+      onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.borderColor = COLORS.accent; el.style.background = COLORS.cardHover; el.style.transform = "translateY(-3px)"; }}
+      onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.borderColor = COLORS.border; el.style.background = COLORS.card; el.style.transform = ""; }}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <span className="font-bold" style={{ fontFamily: "Rajdhani, sans-serif", color: COLORS.text, fontSize: 18 }}>{project.name}</span>
+        <span className="flex items-center gap-1.5" style={{ color: COLORS.accent }}>
+          {typeof project.stars === "number" && (
+            <span className="inline-flex items-center gap-1 text-xs" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+              <Star size={11} fill={COLORS.accent} color={COLORS.accent} /> {project.stars}
+            </span>
+          )}
+          <ArrowUpRight size={14} />
+        </span>
+      </div>
+      <p className="mt-2 text-xs leading-relaxed" style={{ color: COLORS.muted, fontFamily: "Space Grotesk, sans-serif" }}>
+        {project.desc}
+      </p>
+    </a>
+  );
+}
 
-            {/* AI Built badge */}
-            <div className="mb-6" style={{ opacity: bootDone ? 1 : 0, transition: "opacity 0.6s ease 0.25s" }}>
-              <div className="inline-flex items-center gap-2 px-4 py-2 clip-corner" style={{
-                background: "linear-gradient(135deg, oklch(0.72 0.22 42 / 12%), oklch(0.82 0.18 195 / 12%))",
-                border: "1px solid oklch(0.72 0.22 42 / 50%)",
-                boxShadow: "0 0 20px oklch(0.72 0.22 42 / 15%), 0 0 40px oklch(0.82 0.18 195 / 8%)",
-              }}>
-                <Bot size={14} style={{ color: "oklch(0.72 0.22 42)" }} />
-                <span style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.72rem", color: "oklch(0.72 0.22 42)", letterSpacing: "0.15em" }}>
-                  100% AI BUILT
-                </span>
-                <span style={{ color: "oklch(0.5 0.04 220)", fontSize: "0.65rem", fontFamily: "JetBrains Mono, monospace" }}>·</span>
-                <Cpu size={12} style={{ color: "oklch(0.82 0.18 195)" }} />
-                <span style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.72rem", color: "oklch(0.82 0.18 195)", letterSpacing: "0.1em" }}>
-                  POWERED BY CODEX
-                </span>
-              </div>
-            </div>
-
-            {/* Tags */}
-            <div className="flex flex-wrap gap-2 mb-8" style={{ opacity: bootDone ? 1 : 0, transition: "opacity 0.6s ease 0.3s" }}>
-              <CyberTag variant="orange">Builder</CyberTag>
-              <CyberTag>Curator</CyberTag>
-              <CyberTag variant="violet">Indie Maker</CyberTag>
-              <CyberTag variant="orange">AI-Native</CyberTag>
-            </div>
-
-            {/* CTA */}
-            <div className="flex flex-wrap gap-4" style={{ opacity: bootDone ? 1 : 0, transition: "opacity 0.6s ease 0.4s" }}>
-              <a href="https://github.com/xiangjianan" target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-2 px-6 py-3 clip-corner font-bold tracking-widest text-sm transition-all duration-300"
-                style={{ background: "oklch(0.72 0.22 42)", color: "oklch(0.07 0.018 265)", fontFamily: "Rajdhani, sans-serif", textTransform: "uppercase" }}
-                onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = "0 0 20px oklch(0.72 0.22 42 / 50%)"; el.style.transform = "translateY(-2px)"; }}
-                onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = ""; el.style.transform = ""; }}>
-                <Github size={16} /> View GitHub
-              </a>
-              <button onClick={() => document.getElementById("journey")?.scrollIntoView({ behavior: "smooth" })}
-                className="flex items-center gap-2 px-6 py-3 clip-corner font-bold tracking-widest text-sm transition-all duration-300"
-                style={{ border: "1px solid oklch(0.82 0.18 195 / 50%)", color: "oklch(0.82 0.18 195)", fontFamily: "Rajdhani, sans-serif", textTransform: "uppercase" }}
-                onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = "oklch(0.82 0.18 195 / 10%)"; el.style.boxShadow = "0 0 16px oklch(0.82 0.18 195 / 30%)"; }}
-                onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = ""; el.style.boxShadow = ""; }}>
-                <Rocket size={16} /> The Journey
-              </button>
-            </div>
-          </div>
-
-          {/* Right: Avatar + stats */}
-          <div className="flex flex-col items-center lg:items-end gap-8">
-            <div className="relative animate-float">
-              <div className="absolute -inset-4 rounded-full" style={{ border: "1px solid oklch(0.82 0.18 195 / 20%)", animation: "rotate-slow 20s linear infinite" }}>
-                {[0, 90, 180, 270].map((deg) => (
-                  <div key={deg} className="absolute w-2 h-2" style={{ top: "50%", left: "50%", transform: `rotate(${deg}deg) translateX(calc(50% + 12px)) translateY(-50%)` }}>
-                    <div className="w-1 h-1 rounded-full" style={{ background: "oklch(0.82 0.18 195)" }} />
-                  </div>
-                ))}
-              </div>
-              <div className="relative w-48 h-48 overflow-hidden" style={{
-                clipPath: "polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px))",
-                border: "2px solid oklch(0.82 0.18 195 / 40%)",
-                boxShadow: "0 0 30px oklch(0.82 0.18 195 / 20%), 0 0 60px oklch(0.72 0.22 42 / 10%)",
-              }}>
-                <img src={GITHUB_USER.avatar} alt={GITHUB_USER.name} className="w-full h-full object-cover"
-                  onError={(e) => { (e.target as HTMLImageElement).src = "https://ui-avatars.com/api/?name=XJ&background=0d1b2a&color=00d4ff&size=200"; }} />
-                <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 0%, oklch(0.82 0.18 195 / 5%) 50%, transparent 100%)", animation: "scan-line 3s linear infinite" }} />
-              </div>
-              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-3 py-1 clip-corner text-xs" style={{
-                background: "oklch(0.07 0.018 265)", border: "1px solid oklch(0.72 0.22 42 / 60%)", color: "oklch(0.72 0.22 42)", fontFamily: "JetBrains Mono, monospace", whiteSpace: "nowrap",
-              }}>
-                <span className="inline-block w-1.5 h-1.5 rounded-full mr-1.5" style={{ background: "oklch(0.72 0.22 42)", boxShadow: "0 0 6px oklch(0.72 0.22 42)" }} />
-                ONLINE · {GITHUB_USER.location}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3 w-full max-w-xs">
-              <StatCard value={GITHUB_USER.followers} label="FOLLOWERS" icon={Users} delay={80} />
-              <StatCard value={GITHUB_USER.commits} label="COMMITS" icon={Zap} delay={160} />
-              <StatCard value={GITHUB_USER.repoCount} label="PUBLIC REPOS" icon={Code2} delay={240} />
-              <StatCard value={GITHUB_USER.yearlyContributions} label="CONTRIBUTIONS/YR" icon={Compass} delay={320} />
-            </div>
-          </div>
+function Works() {
+  return (
+    <section id="work" style={{ maxWidth: 1200, margin: "0 auto", padding: "60px 24px 90px" }}>
+      <div className="mb-8 flex items-end justify-between">
+        <div>
+          <div className="text-xs tracking-[0.3em] mb-2" style={{ fontFamily: "JetBrains Mono, monospace", color: COLORS.accent }}>// WORK</div>
+          <h2 className="text-4xl font-black" style={{ fontFamily: "Rajdhani, sans-serif", color: COLORS.text }}>Selected Work</h2>
         </div>
+        <a
+          href="https://github.com/xiangjianan?tab=repositories"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 text-sm"
+          style={{ color: COLORS.muted, textDecoration: "none", fontFamily: "Space Grotesk, sans-serif" }}
+          onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = COLORS.text)}
+          onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = COLORS.muted)}
+        >
+          View all on GitHub <ArrowUpRight size={14} />
+        </a>
+      </div>
 
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60">
-          <span className="text-xs tracking-widest" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.82 0.18 195)" }}>SCROLL</span>
-          <ChevronDown size={16} style={{ color: "oklch(0.82 0.18 195)", animation: "float 2s ease-in-out infinite" }} />
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+        {FEATURED.map((p) => <FeaturedCard key={p.name} project={p} />)}
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {MORE.map((p) => <MoreCard key={p.name} project={p} />)}
       </div>
     </section>
   );
 }
 
-// ─── Identity Section ─────────────────────────────────────────────────────────
-
-function IdentitySection() {
+function StackLine() {
   return (
-    <section id="identity" className="relative py-24">
-      <div className="container">
-        <Reveal>
-          <SectionLabel>IDENTITY ENGINE</SectionLabel>
-          <div className="flex items-end justify-between mb-12">
-            <h2 className="text-4xl font-black" style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.92 0.01 220)" }}>
-              Who I <span className="neon-cyan">Am</span>
-            </h2>
-          </div>
-        </Reveal>
-
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-          <div className="lg:col-span-3 space-y-6">
-            <Reveal direction="left">
-              <div className="cyber-card no-card-hover clip-corner p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <Terminal size={16} style={{ color: "oklch(0.82 0.18 195)" }} />
-                  <span className="text-xs tracking-widest" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.82 0.18 195 / 70%)" }}>identity.manifest</span>
-                </div>
-                <p className="text-sm leading-relaxed mb-4" style={{ color: "oklch(0.7 0.04 220)" }}>
-                  I'm a builder who believes the best software is the kind you actually use. It doesn't have to be big — it has to <span className="neon-orange font-semibold">ship</span>. I've been on GitHub since <span className="neon-cyan font-semibold">{GITHUB_USER.since}</span>, and I haven't stopped: from curating <span className="neon-orange font-semibold">{FLAGSHIP.count} high-quality sites</span> into one collection, to a daily AI news pipeline, to a first-principles engine that turns a vague goal into "do it now" steps.
-                </p>
-                <p className="text-sm leading-relaxed" style={{ color: "oklch(0.7 0.04 220)" }}>
-                  The catalog is anchored by <span className="neon-orange font-semibold">{GITHUB_USER.repoCount} public repositories</span> and <span className="neon-orange font-semibold">{GITHUB_USER.commits} commits</span>, led by the <span className="neon-cyan font-semibold">{FLAGSHIP.name}</span> work with {FLAGSHIP.stars} stars. The numbers are small by design — I care about <span className="neon-cyan font-semibold">shipping, not vanity metrics</span>.
-                </p>
-              </div>
-            </Reveal>
-
-            {/* AI Built card */}
-            <Reveal direction="left" delay={100}>
-              <div className="clip-corner p-6 relative overflow-hidden" style={{
-                background: "linear-gradient(135deg, oklch(0.11 0.022 265 / 90%), oklch(0.13 0.03 265 / 80%))",
-                border: "1px solid oklch(0.72 0.22 42 / 35%)",
-                boxShadow: "0 0 30px oklch(0.72 0.22 42 / 8%)",
-              }}>
-                <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, oklch(0.72 0.22 42 / 70%), transparent)" }} />
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-8 clip-corner flex items-center justify-center" style={{ background: "oklch(0.72 0.22 42 / 15%)", border: "1px solid oklch(0.72 0.22 42 / 40%)" }}>
-                    <Bot size={16} style={{ color: "oklch(0.72 0.22 42)" }} />
-                  </div>
-                  <div>
-                    <div className="text-sm font-bold tracking-widest" style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.72 0.22 42)", textTransform: "uppercase" }}>
-                      100% AI Built
-                    </div>
-                    <div className="text-xs" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.5 0.04 220)" }}>
-                      Powered by Codex
-                    </div>
-                  </div>
-                </div>
-                <p className="text-sm leading-relaxed" style={{ color: "oklch(0.65 0.04 220)" }}>
-                  This site — every line, every animation, every design decision — was built end-to-end with <span style={{ color: "oklch(0.82 0.18 195)" }}>Codex</span>, no hand-written code. That's the part of me that doesn't show up on a résumé: I shape the vision and the taste, AI does the typing. It's a whole new way to build, and I've gone all in.
-                </p>
-                <div className="flex flex-wrap gap-2 mt-4">
-                  <CyberTag variant="orange">React 19</CyberTag>
-                  <CyberTag>Tailwind CSS 4</CyberTag>
-                  <CyberTag variant="violet">Framer Motion</CyberTag>
-                  <CyberTag variant="orange">TypeScript</CyberTag>
-                  <CyberTag>Codex</CyberTag>
-                </div>
-              </div>
-            </Reveal>
-
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                { label: "MODE", value: "AI-Native Builder", icon: Bot },
-                { label: "FOCUS", value: "Tools & Curated Lists", icon: Wrench },
-                { label: "PHILOSOPHY", value: "Do less, do it well", icon: Compass },
-                { label: "STATUS", value: "Always Shipping", icon: Rocket },
-              ].map((item, index) => (
-                <Reveal key={item.label} delay={index * 70}>
-                  <div className="clip-corner p-4 flex items-center gap-3 h-full"
-                    style={{ background: "oklch(0.11 0.022 265 / 60%)", border: "1px solid oklch(0.82 0.18 195 / 15%)" }}>
-                    <item.icon size={16} style={{ color: "oklch(0.82 0.18 195)", flexShrink: 0 }} />
-                    <div>
-                      <div className="text-xs" style={{ color: "oklch(0.5 0.04 220)", fontFamily: "JetBrains Mono, monospace" }}>{item.label}</div>
-                      <div className="text-sm font-medium" style={{ color: "oklch(0.85 0.01 220)" }}>{item.value}</div>
-                    </div>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-
-          {/* Right: Identity pillars */}
-          <div className="lg:col-span-2">
-            <Reveal direction="right" delay={120} className="h-full">
-              <div className="cyber-card no-card-hover clip-corner p-6 h-full">
-                <div className="flex items-center gap-2 mb-6">
-                  <Layers size={16} style={{ color: "oklch(0.72 0.22 42)" }} />
-                  <span className="text-xs tracking-widest" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.72 0.22 42 / 70%)" }}>pillars.of.identity</span>
-                </div>
-                <div className="space-y-4">
-                  {[
-                    { icon: Rocket, title: "Builder", desc: "I ship. Full-stack, from pixels to deploy. Small, focused, used." },
-                    { icon: BookOpen, title: "Curator", desc: "I collect the internet's best and organize it into something browsable." },
-                    { icon: Bot, title: "AI-Native", desc: "I build with AI end-to-end, then apply judgment and taste to the result." },
-                    { icon: Wrench, title: "Toolmaker", desc: "Local-first utilities that make daily life easier. Less noise, more signal." },
-                  ].map((p) => (
-                    <div key={p.title} className="clip-corner p-4 flex items-start gap-3"
-                      style={{ background: "oklch(0.07 0.018 265 / 50%)", border: "1px solid oklch(0.82 0.18 195 / 12%)" }}>
-                      <p.icon size={18} className="mt-0.5 flex-shrink-0" style={{ color: "oklch(0.82 0.18 195)" }} />
-                      <div>
-                        <div className="text-sm font-bold tracking-widest mb-1" style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.85 0.01 220)", textTransform: "uppercase" }}>{p.title}</div>
-                        <div className="text-xs leading-relaxed" style={{ color: "oklch(0.6 0.04 220)" }}>{p.desc}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </div>
-    </section>
+    <div className="flex flex-wrap items-center justify-center gap-3 py-8" style={{ borderTop: `1px solid ${COLORS.border}` }}>
+      <span className="text-xs tracking-widest" style={{ fontFamily: "JetBrains Mono, monospace", color: COLORS.muted }}>BUILT WITH</span>
+      {["React", "TypeScript", "Node", "Python", "Tailwind", "Codex"].map((t) => (
+        <span key={t} className="px-3 py-1 text-xs" style={{ border: `1px solid ${COLORS.border}`, borderRadius: 999, color: COLORS.text, fontFamily: "JetBrains Mono, monospace" }}>
+          {t}
+        </span>
+      ))}
+    </div>
   );
 }
-
-// ─── Journey Section ──────────────────────────────────────────────────────────
-
-const JOURNEY = [
-  {
-    year: "2020",
-    title: "First Commit",
-    desc: "Joined GitHub and started building. The seeds of everything that came after.",
-    icon: Calendar,
-    color: "cyan",
-  },
-  {
-    year: "lks",
-    title: "Flagship — 449★",
-    desc: `Curated ${FLAGSHIP.count} high-quality websites from the Bilibili series by creator LKs into one clean collection. My most-loved work.`,
-    icon: Trophy,
-    color: "orange",
-  },
-  {
-    year: "toolbelt",
-    title: "Shipped the Everyday Toolkit",
-    desc: "mini-desk, primus, workout-checkin, ai-daily-news, taptap, send-msg, scheduler — small, useful, done.",
-    icon: Wrench,
-    color: "violet",
-  },
-  {
-    year: "now",
-    title: "Went Fully AI-Native",
-    desc: "Built this site end-to-end with Codex. Zero hand-written code. A new way to make things.",
-    icon: Bot,
-    color: "cyan",
-  },
-];
-
-function JourneySection() {
-  return (
-    <section id="journey" className="relative py-24">
-      <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, oklch(0.82 0.18 195 / 30%), oklch(0.72 0.22 42 / 30%), transparent)" }} />
-      <div className="container">
-        <Reveal>
-          <SectionLabel>JOURNEY</SectionLabel>
-          <h2 className="text-4xl font-black mb-12" style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.92 0.01 220)" }}>
-            At A <span className="neon-orange">Glance</span>
-          </h2>
-        </Reveal>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {JOURNEY.map((item, index) => {
-            const colorMap = {
-              cyan:   { border: "oklch(0.82 0.18 195 / 35%)", text: "oklch(0.82 0.18 195)", glow: "oklch(0.82 0.18 195 / 14%)" },
-              orange: { border: "oklch(0.72 0.22 42 / 35%)",  text: "oklch(0.72 0.22 42)",  glow: "oklch(0.72 0.22 42 / 14%)"  },
-              violet: { border: "oklch(0.58 0.28 290 / 35%)", text: "oklch(0.75 0.2 290)",  glow: "oklch(0.58 0.28 290 / 14%)" },
-            };
-            const c = colorMap[item.color as keyof typeof colorMap];
-            return (
-              <Reveal key={item.title} delay={index * 80}>
-                <div className="clip-corner p-5 h-full transition-all duration-300"
-                  style={{ background: "oklch(0.11 0.022 265 / 75%)", border: `1px solid ${c.border}`, backdropFilter: "blur(12px)" }}
-                  onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.borderColor = c.text; el.style.boxShadow = `0 0 20px ${c.glow}`; el.style.transform = "translateY(-4px)"; }}
-                  onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.borderColor = c.border; el.style.boxShadow = ""; el.style.transform = ""; }}>
-                  <item.icon size={18} className="mb-4" style={{ color: c.text }} />
-                  <div className="text-xs tracking-widest mb-1" style={{ fontFamily: "JetBrains Mono, monospace", color: c.text }}>{item.year}</div>
-                  <div className="text-base font-bold mb-2" style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.85 0.01 220)" }}>{item.title}</div>
-                  <div className="text-xs leading-relaxed" style={{ color: "oklch(0.6 0.04 220)" }}>{item.desc}</div>
-                </div>
-              </Reveal>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── Works / Projects Sections ────────────────────────────────────────────────
-
-function ProjectsSection() {
-  const featured = PROJECTS.find((p) => p.featured) || PROJECTS[0];
-  return (
-    <section id="works" className="relative py-24">
-      <div className="container">
-        <Reveal>
-          <SectionLabel>WORKS</SectionLabel>
-          <div className="flex items-end justify-between mb-12">
-            <h2 className="text-4xl font-black" style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.92 0.01 220)" }}>
-              The <span className="neon-cyan">Catalogue</span>
-            </h2>
-            <a href="https://github.com/xiangjianan?tab=repositories" target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-sm transition-colors"
-              style={{ color: "oklch(0.82 0.18 195 / 60%)", fontFamily: "JetBrains Mono, monospace" }}
-              onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "oklch(0.82 0.18 195)"}
-              onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "oklch(0.82 0.18 195 / 60%)"}>
-              View All Works <ExternalLink size={12} />
-            </a>
-          </div>
-        </Reveal>
-
-        {/* Featured */}
-        <Reveal className="mb-6">
-          <div className="group">
-            <div className="relative overflow-hidden p-8 transition-all duration-300"
-              style={{
-                background: "linear-gradient(135deg, oklch(0.11 0.022 265 / 90%) 0%, oklch(0.14 0.025 265 / 80%) 100%)",
-                backdropFilter: "blur(12px)", border: "1px solid oklch(0.82 0.18 195 / 30%)",
-                clipPath: "polygon(0 0, calc(100% - 32px) 0, 100% 32px, 100% 100%, 32px 100%, 0 calc(100% - 32px))",
-              }}
-              onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "oklch(0.82 0.18 195 / 60%)"; el.style.boxShadow = "0 0 40px oklch(0.82 0.18 195 / 15%)"; }}
-              onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "oklch(0.82 0.18 195 / 30%)"; el.style.boxShadow = ""; }}>
-              <div className="absolute inset-0 opacity-10" style={{ backgroundImage: `url(https://d2xsxph8kpxj0f.cloudfront.net/310519663477683331/4sx3vvAvTnDT8BfZNUWKkp/project-card-bg-RbRrV9YYN8YY7KQLzuQx6n.webp)`, backgroundSize: "cover" }} />
-              <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, oklch(0.82 0.18 195 / 80%), transparent)" }} />
-              <div className="absolute top-0 right-0 w-8 h-8 overflow-hidden">
-                <div className="absolute top-0 right-0 w-0 h-0" style={{ borderLeft: "32px solid transparent", borderTop: "32px solid oklch(0.82 0.18 195 / 50%)" }} />
-              </div>
-              <div className="relative z-20 flex flex-col md:flex-row md:items-center gap-6">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="text-2xl">{featured.emoji}</span>
-                    <div>
-                      <div className="text-xs tracking-widest mb-1" style={{ color: "oklch(0.72 0.22 42)", fontFamily: "JetBrains Mono, monospace" }}>FEATURED WORK</div>
-                      <h3 className="text-2xl font-black tracking-wide neon-cyan" style={{ fontFamily: "Rajdhani, sans-serif" }}>{featured.name}</h3>
-                    </div>
-                  </div>
-                  <p className="text-sm leading-relaxed mb-4" style={{ color: "oklch(0.7 0.04 220)" }}>{featured.desc}</p>
-                  <div className="flex flex-wrap items-center gap-4">
-                    <CyberTag>{featured.lang}</CyberTag>
-                    <span className="flex items-center gap-1.5 text-sm" style={{ color: "oklch(0.72 0.22 42)" }}><Star size={14} fill="currentColor" /> {featured.stars} Stars</span>
-                    <span className="flex items-center gap-1.5 text-sm" style={{ color: "oklch(0.6 0.04 220)" }}><GitFork size={14} /> {featured.forks} Forks</span>
-                    <span className="flex items-center gap-1.5 text-sm" style={{ color: "oklch(0.82 0.18 195)" }}><BookOpen size={14} /> {FLAGSHIP.count} Curated Sites</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 flex-shrink-0">
-                  <a
-                    href={featured.demoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-5 py-3 clip-corner text-sm font-bold tracking-widest transition-all duration-300"
-                    style={{ border: "1px solid oklch(0.82 0.18 195 / 50%)", color: "oklch(0.82 0.18 195)", fontFamily: "Rajdhani, sans-serif", textTransform: "uppercase", textDecoration: "none" }}>
-                    <ExternalLink size={14} /> View Work
-                  </a>
-                  <a
-                    href={featured.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`${featured.name} source code`}
-                    className="flex h-11 w-11 items-center justify-center clip-corner transition-all duration-300"
-                    style={{ border: "1px solid oklch(0.82 0.18 195 / 35%)", color: "oklch(0.82 0.18 195)", background: "oklch(0.07 0.018 265 / 35%)" }}>
-                    <Github size={16} />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Reveal>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {PROJECTS.filter((p) => !p.featured).map((p, index) => <ProjectCard key={p.id} project={p} delay={index * 70} />)}
-        </div>
-
-        {/* Toolbelt strip */}
-        <Reveal delay={120} className="mt-6">
-          <div className="clip-corner p-5" style={{ background: "oklch(0.11 0.022 265 / 60%)", border: "1px solid oklch(0.58 0.28 290 / 25%)" }}>
-            <div className="flex items-center gap-2 mb-4">
-              <Wrench size={15} style={{ color: "oklch(0.75 0.2 290)" }} />
-              <span className="text-sm font-bold tracking-widest" style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.75 0.2 290)", textTransform: "uppercase" }}>The Toolbelt — More Repos</span>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              {TOOLBELT.map((t) => (
-                <a key={t.name} href={t.url} target="_blank" rel="noopener noreferrer" className="group block clip-corner p-3 transition-all duration-300" style={{ textDecoration: "none", background: "oklch(0.07 0.018 265 / 45%)", border: "1px solid oklch(0.58 0.28 290 / 15%)" }}
-                  onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "oklch(0.75 0.2 290)"; el.style.background = "oklch(0.58 0.28 290 / 8%)"; }}
-                  onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "oklch(0.58 0.28 290 / 15%)"; el.style.background = "oklch(0.07 0.018 265 / 45%)"; }}>
-                  <div className="text-lg mb-1">{t.emoji}</div>
-                  <div className="text-sm font-bold" style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.75 0.2 290)" }}>{t.name}</div>
-                  <div className="text-xs mt-0.5" style={{ color: "oklch(0.6 0.04 220)" }}>{t.desc}</div>
-                </a>
-              ))}
-            </div>
-          </div>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
-// ─── Skills Section ───────────────────────────────────────────────────────────
-
-function SkillsSection() {
-  const colorMap = {
-    cyan:   { border: "oklch(0.82 0.18 195 / 25%)", icon: "oklch(0.82 0.18 195)", glow: "oklch(0.82 0.18 195 / 12%)", tag: "cyan" as const },
-    orange: { border: "oklch(0.72 0.22 42 / 25%)",  icon: "oklch(0.72 0.22 42)",  glow: "oklch(0.72 0.22 42 / 12%)",  tag: "orange" as const },
-    violet: { border: "oklch(0.58 0.28 290 / 25%)", icon: "oklch(0.75 0.2 290)",  glow: "oklch(0.58 0.28 290 / 12%)", tag: "violet" as const },
-  };
-  return (
-    <section id="skills" className="relative py-24">
-      <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, oklch(0.72 0.22 42 / 30%), oklch(0.82 0.18 195 / 30%), transparent)" }} />
-      <div className="container">
-        <SectionLabel>TOOLKIT</SectionLabel>
-        <h2 className="text-4xl font-black mb-3" style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.92 0.01 220)" }}>
-          The <span className="neon-orange">Stack</span>
-        </h2>
-        <p className="text-sm mb-12 max-w-lg" style={{ color: "oklch(0.6 0.04 220)" }}>
-          Not a list of languages — a stack built around AI-native agents, and the engineering that makes them run.
-        </p>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Stack pillars */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {STACK_CATEGORIES.map((cat, i) => {
-              const c = colorMap[cat.color];
-              return (
-                <Reveal key={cat.title} delay={i * 80}>
-                  <div className="clip-corner p-5 h-full transition-all duration-300"
-                    style={{ background: "oklch(0.11 0.022 265 / 70%)", border: `1px solid ${c.border}`, backdropFilter: "blur(12px)" }}
-                    onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.borderColor = c.icon; el.style.boxShadow = `0 0 22px ${c.glow}`; el.style.transform = "translateY(-4px)"; }}
-                    onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.borderColor = c.border; el.style.boxShadow = ""; el.style.transform = ""; }}>
-                    <cat.icon size={18} className="mb-3" style={{ color: c.icon }} />
-                    <div className="text-base font-bold tracking-widest mb-1" style={{ fontFamily: "Rajdhani, sans-serif", color: c.icon, textTransform: "uppercase" }}>{cat.title}</div>
-                    <p className="text-xs leading-relaxed mb-3" style={{ color: "oklch(0.6 0.04 220)" }}>{cat.desc}</p>
-                    <div className="flex flex-wrap gap-2">
-                      {cat.tags.map((item) => <CyberTag key={item} variant={c.tag}>{item}</CyberTag>)}
-                    </div>
-                  </div>
-                </Reveal>
-              );
-            })}
-          </div>
-
-          {/* AI-native highlight */}
-          <div className="space-y-4">
-            <Reveal delay={80}>
-              <div className="clip-corner p-6 relative overflow-hidden" style={{
-                background: "linear-gradient(135deg, oklch(0.11 0.022 265 / 90%), oklch(0.13 0.03 265 / 80%))",
-                border: "1px solid oklch(0.72 0.22 42 / 35%)",
-                boxShadow: "0 0 30px oklch(0.72 0.22 42 / 8%)",
-              }}>
-                <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, oklch(0.72 0.22 42 / 70%), transparent)" }} />
-                <div className="flex items-center gap-2 mb-4">
-                  <Bot size={16} style={{ color: "oklch(0.72 0.22 42)" }} />
-                  <span className="text-xs tracking-widest" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.72 0.22 42 / 70%)" }}>ai.native.mode</span>
-                </div>
-                <p className="text-sm leading-relaxed" style={{ color: "oklch(0.65 0.04 220)" }}>
-                  I don't build for the sake of a language — I build systems where a model is the <span className="neon-orange font-semibold">planner</span> and I'm the architect. Give it clean tools, a clear goal, and let it finish. From a first-principles engine that breaks any goal into doable steps (<span className="neon-cyan">primus</span>) to an LLM-driven adventure (<span className="neon-cyan">time-traveler</span>), the thread is the same: put a capable model in charge, and wire up the loop around it.
-                </p>
-                <div className="flex flex-wrap gap-2 mt-4">
-                  <CyberTag variant="orange">Agent</CyberTag>
-                  <CyberTag>LLM</CyberTag>
-                  <CyberTag variant="violet">GenAI</CyberTag>
-                  <CyberTag variant="orange">Codex</CyberTag>
-                  <CyberTag>RAG</CyberTag>
-                  <CyberTag variant="violet">Automation</CyberTag>
-                </div>
-              </div>
-            </Reveal>
-
-            {AI_HIGHLIGHTS.map((h, i) => (
-              <Reveal key={h.title} delay={120 + i * 80}>
-                <div className="clip-corner p-4 flex items-start gap-3"
-                  style={{ background: "oklch(0.11 0.022 265 / 60%)", border: "1px solid oklch(0.82 0.18 195 / 15%)" }}>
-                  <h.icon size={17} className="mt-0.5 flex-shrink-0" style={{ color: "oklch(0.82 0.18 195)" }} />
-                  <div>
-                    <div className="text-sm font-bold tracking-widest mb-1" style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.85 0.01 220)", textTransform: "uppercase" }}>{h.title}</div>
-                    <div className="text-xs leading-relaxed" style={{ color: "oklch(0.6 0.04 220)" }}>{h.text}</div>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── Contact Section ──────────────────────────────────────────────────────────
-
-function ContactSection() {
-  return (
-    <section id="contact" className="relative py-24 pb-32">
-      <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, oklch(0.82 0.18 195 / 30%), transparent)" }} />
-      <div className="container">
-        <SectionLabel>CONTACT</SectionLabel>
-        <h2 className="text-4xl font-black mb-4" style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.92 0.01 220)" }}>
-          Establish <span className="neon-cyan">Connection</span>
-        </h2>
-        <p className="text-sm mb-12 max-w-lg" style={{ color: "oklch(0.6 0.04 220)" }}>
-          Got an interesting work to collaborate on, a site worth curating, or just want to say hello?
-          Reach out anytime.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl">
-          {[
-            { href: "https://github.com/xiangjianan", icon: Github, label: "GitHub", sub: "@xiangjianan", border: "oklch(0.82 0.18 195 / 25%)", hoverBorder: "oklch(0.82 0.18 195 / 60%)", hoverGlow: "oklch(0.82 0.18 195 / 15%)", iconColor: "oklch(0.82 0.18 195)" },
-            { href: "mailto:xiang9872@gmail.com", icon: Mail, label: "Email", sub: "xiang9872@gmail.com", border: "oklch(0.8 0.15 150 / 25%)", hoverBorder: "oklch(0.8 0.15 150 / 60%)", hoverGlow: "oklch(0.8 0.15 150 / 15%)", iconColor: "oklch(0.8 0.15 150)" },
-          ].map((item) => (
-            <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer" className="block" style={{ textDecoration: "none" }}>
-              <div className="clip-corner p-6 transition-all duration-300"
-                style={{ background: "oklch(0.11 0.022 265 / 80%)", border: `1px solid ${item.border}` }}
-                onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.borderColor = item.hoverBorder; el.style.boxShadow = `0 0 20px ${item.hoverGlow}`; el.style.transform = "translateY(-4px)"; }}
-                onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.borderColor = item.border; el.style.boxShadow = ""; el.style.transform = ""; }}>
-                <item.icon size={24} className="mb-3" style={{ color: item.iconColor }} />
-                <div className="text-base font-bold mb-1" style={{ fontFamily: "Rajdhani, sans-serif", color: "oklch(0.85 0.01 220)", textTransform: "uppercase", letterSpacing: "0.1em" }}>{item.label}</div>
-                <div className="text-sm" style={{ color: "oklch(0.6 0.04 220)", fontFamily: "JetBrains Mono, monospace" }}>{item.sub}</div>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── Footer ───────────────────────────────────────────────────────────────────
 
 function Footer() {
   return (
-    <footer className="relative py-8" style={{ borderTop: "1px solid oklch(0.82 0.18 195 / 10%)" }}>
-      <div className="container flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-6 clip-corner flex items-center justify-center text-xs font-bold"
-            style={{ background: "oklch(0.72 0.22 42)", color: "oklch(0.07 0.018 265)", fontFamily: "Rajdhani, sans-serif" }}>
-            XJ
-          </div>
-          <span className="text-xs" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.5 0.04 220)" }}>xiangjianan since {GITHUB_USER.since}</span>
+    <footer className="py-8" style={{ borderTop: `1px solid ${COLORS.border}` }}>
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
+        <span className="text-xs" style={{ fontFamily: "JetBrains Mono, monospace", color: COLORS.muted }}>© {new Date().getFullYear()} xiangjianan · since 2020</span>
+        <div className="flex items-center gap-5">
+          <a href="https://github.com/xiangjianan" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm" style={{ color: COLORS.muted, textDecoration: "none" }}>
+            <Github size={15} /> github.com/xiangjianan
+          </a>
+          <a href="mailto:xiang9872@gmail.com" className="inline-flex items-center gap-1.5 text-sm" style={{ color: COLORS.muted, textDecoration: "none" }}>
+            <Mail size={15} /> xiang9872@gmail.com
+          </a>
         </div>
-
-        <div className="flex items-center gap-2 px-3 py-1.5 clip-corner"
-          style={{ border: "1px solid oklch(0.72 0.22 42 / 30%)", background: "oklch(0.72 0.22 42 / 5%)" }}>
-          <Bot size={11} style={{ color: "oklch(0.72 0.22 42)" }} />
-          <span className="text-xs" style={{ fontFamily: "JetBrains Mono, monospace", color: "oklch(0.72 0.22 42 / 80%)", letterSpacing: "0.1em" }}>
-            100% AI BUILT · CODEX · {new Date().getFullYear()}
-          </span>
-        </div>
-
-        <a href="https://github.com/xiangjianan" target="_blank" rel="noopener noreferrer"
-          className="flex items-center gap-1.5 text-xs transition-colors"
-          style={{ color: "oklch(0.5 0.04 220)", fontFamily: "JetBrains Mono, monospace" }}
-          onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "oklch(0.82 0.18 195)"}
-          onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "oklch(0.5 0.04 220)"}>
-          <Github size={12} /> github.com/{GITHUB_USER.name}
-        </a>
       </div>
     </footer>
   );
 }
 
-// ─── Main ─────────────────────────────────────────────────────────────────────
-
 export default function Home() {
   return (
-    <div className="relative min-h-screen flex flex-col" style={{ background: "oklch(0.07 0.018 265)" }}>
-      <CyberBackground />
-      <MouseGlow />
-      <AIBuiltBanner />
-      <Navbar />
-      <main className="flex-1" style={{ paddingTop: 0 }}>
-        <HeroSection />
-        <IdentitySection />
-        <JourneySection />
-        <ProjectsSection />
-        <SkillsSection />
-        <ContactSection />
+    <div className="relative min-h-screen flex flex-col" style={{ background: COLORS.bg, color: COLORS.text, fontFamily: "Space Grotesk, sans-serif" }}>
+      <TopBar />
+      <main className="flex-1">
+        <Hero />
+        <Works />
+        <StackLine />
       </main>
       <Footer />
     </div>
