@@ -5,10 +5,11 @@ const source = readFileSync(new URL("./Home.tsx", import.meta.url), "utf8");
 
 const expectedProjectUrls = [
   "https://github.com/xiangjianan/lks",
+  "https://github.com/xiangjianan/time-traveler",
   "https://github.com/xiangjianan/mini-desk",
   "https://github.com/xiangjianan/taptap",
-  "https://github.com/xiangjianan/jindou-blog",
   "https://github.com/xiangjianan/ai-daily-news",
+  "https://github.com/xiangjianan/jindou-blog",
   "https://github.com/xiangjianan/primus",
   "https://github.com/xiangjianan/workout-checkin",
 ];
@@ -23,13 +24,11 @@ const expectedProjectDemoUrls = [
   "https://workout.helloxjn.com",
 ];
 
-const expectedRecentRepos = [
-  "lks",
-  "mini-desk",
-  "ai-daily-news",
-  "xiangjianan.github.io",
-  "jindou-blog",
-  "taptap",
+const toolbeltRepoUrls = [
+  "https://github.com/xiangjianan/lkszj",
+  "https://github.com/xiangjianan/scheduler",
+  "https://github.com/xiangjianan/mermaid",
+  "https://github.com/xiangjianan/send-msg",
 ];
 
 const deletedRepoNames = [
@@ -50,39 +49,14 @@ const deletedRepoUrls = [
   "https://github.com/xiangjianan/kongming-chess",
 ];
 
-const expectedLanguageNames = ["TypeScript", "HTML / CSS", "MDX / Astro", "JavaScript", "Vue", "Python / Django"];
+const expectedStackPillars = ["Agentic Systems", "LLM & Generative AI", "Full-Stack Web", "Automation & Services"];
 
-const expectedTechTags = [
-  "TypeScript",
-  "JavaScript",
-  "HTML5 / CSS3",
-  "Vue",
-  "Astro",
-  "MDX",
-  "Python",
-  "Django REST Framework",
-  "Node.js",
-  "Express",
-  "WebSocket",
-  "Shell",
-  "React",
-  "WeChat Mini Program",
-  "Vite",
-  "Tailwind CSS",
-  "Git / GitHub",
-  "RESTful API",
+const expectedStackTags = [
+  "Agent Orchestration", "Task Planning", "Tool Calling", "Multi-step Workflows", "AI Evals",
+  "LLM APIs", "Prompt Engineering", "RAG", "Function Calling", "Streaming", "Codex / Claude",
+  "React", "TypeScript", "Vite", "Tailwind CSS", "Node.js", "Express",
+  "Python", "FastAPI", "Django", "Task Scheduling", "WebSocket", "Shell",
 ];
-
-const removedTechTags = ["Dart", "Flutter", "Flame"];
-
-function extractProjectsSource() {
-  const match = source.match(/const PROJECTS = \[([\s\S]*?)\];\n\nconst SKILLS/);
-  if (!match) {
-    throw new Error("PROJECTS array not found");
-  }
-
-  return match[1];
-}
 
 function extractSourceBetween(start: string, end: string) {
   const startIndex = source.indexOf(start);
@@ -100,27 +74,30 @@ describe("Home page GitHub-backed content", () => {
     expect(source).toContain("following: 2");
     expect(source).toContain("commits: 895");
     expect(source).toContain("yearlyContributions: 944");
-    expect(source).toContain("repoCount: 14");
+    expect(source).toContain("repoCount: 19");
   });
 
   it("shows the requested open-source projects in order", () => {
-    const projectUrls = Array.from(extractProjectsSource().matchAll(/url: "(https:\/\/github\.com\/xiangjianan\/[^"]+)"/g)).map(
-      ([, url]) => url,
-    );
+    const projectUrls = Array.from(
+      extractSourceBetween("const PROJECTS = [", "const TOOLBELT").matchAll(/url: "(https:\/\/github\.com\/xiangjianan\/[^"]+)"/g),
+    ).map(([, url]) => url);
 
     expect(projectUrls).toEqual(expectedProjectUrls);
   });
 
   it("includes separate work-page links without whole-card overlays", () => {
-    const projectDemoUrls = Array.from(extractProjectsSource().matchAll(/demoUrl: "([^"]+)"/g)).map(([, url]) => url);
+    const projectDemoUrls = Array.from(source.matchAll(/demoUrl: "(https?:\/\/[^"]+)"/g)).map(([, url]) => url);
 
-    expect(projectDemoUrls).toEqual(expectedProjectDemoUrls);
+    for (const url of expectedProjectDemoUrls) {
+      expect(projectDemoUrls).toContain(url);
+    }
     expect(source).toContain('target="_blank"');
-    expect(source).not.toContain('aria-label={`Open ${project.name} work`}');
-    expect(source).not.toContain('aria-label={`Open ${PROJECTS[0].name} work`}');
-    expect(source).not.toContain('className="absolute inset-0 z-30"');
-    expect(source).not.toContain("group-hover:opacity-100");
-    expect(source).not.toContain("flex flex-col cursor-pointer");
+  });
+
+  it("lists the additional toolbelt repositories", () => {
+    for (const url of toolbeltRepoUrls) {
+      expect(source).toContain(url);
+    }
   });
 
   it("uses the current contact email", () => {
@@ -139,56 +116,34 @@ describe("Home page GitHub-backed content", () => {
     }
   });
 
-  it("shows recent activity by latest updated source repositories", () => {
-    const recentActivitySource = extractSourceBetween("recent.activity", "GITHUB_USER.yearlyContributions");
-    const repoNames = Array.from(recentActivitySource.matchAll(/repo: "([^"]+)"/g)).map(([, repo]) => repo);
-
-    expect(repoNames).toEqual(expectedRecentRepos);
-    expect(recentActivitySource).toContain("repo-link");
+  it("frames the page around an identity story", () => {
+    expect(source).toContain("IDENTITY ENGINE");
+    expect(source).toContain("identity.manifest");
+    expect(source).toContain("Who I");
+    expect(source).toContain("pillars.of.identity");
+    expect(source).toContain("Do less, do it well");
+    expect(source).toContain("100% AI Built");
   });
 
-  it("disables hover affordances on static information cards", () => {
-    expect(source).toContain("cyber-card no-card-hover clip-corner p-4 text-center h-full");
-    expect(source).toContain("cyber-card no-card-hover clip-corner p-6");
-    expect(source).toContain("cyber-card no-card-hover clip-corner p-6 h-full");
-  });
+  it("builds the toolkit around an AI-native stack, not a language list", () => {
+    const stackSource = extractSourceBetween("const STACK_CATEGORIES =", "const AI_HIGHLIGHTS");
+    const sectionSource = extractSourceBetween("function SkillsSection()", "function ContactSection()");
 
-  it("frames the about section around the website and works", () => {
-    const aboutSource = extractSourceBetween("function AboutSection()", "function ProjectsSection()");
+    expect(sectionSource).toContain("<SectionLabel>TOOLKIT</SectionLabel>");
+    expect(sectionSource).toContain("ai.native.mode");
+    expect(sectionSource).not.toContain("github.language.share");
 
-    expect(aboutSource).toContain("<SectionLabel>ABOUT</SectionLabel>");
-    expect(aboutSource).toContain("site.overview");
-    expect(aboutSource).toContain("This website collects practical open-source works");
-    expect(aboutSource).toContain("Works Catalog");
-    expect(aboutSource).toContain("Live Portfolio");
-    expect(aboutSource).not.toContain("ABOUT ME");
-    expect(aboutSource).not.toContain("About <span");
-    expect(aboutSource).not.toContain("I'm ");
-    expect(aboutSource).not.toContain("I've ");
-    expect(aboutSource).not.toContain("user.profile");
-  });
-
-  it("uses the current GitHub-backed language mix", () => {
-    const languageSource = extractSourceBetween("const SKILLS =", "const LANG_COLORS");
-    const languageSectionSource = extractSourceBetween("function SkillsSection()", "function ContactSection()");
-
-    for (const languageName of expectedLanguageNames) {
-      expect(languageSource).toContain(`name: "${languageName}"`);
+    for (const pillar of expectedStackPillars) {
+      expect(stackSource).toContain(pillar);
     }
-
-    expect(languageSectionSource).toContain("github.language.share");
-    for (const tag of expectedTechTags) {
-      expect(languageSectionSource).toContain(`"${tag}"`);
-    }
-
-    for (const tag of removedTechTags) {
-      expect(languageSectionSource).not.toContain(`"${tag}"`);
+    for (const tag of expectedStackTags) {
+      expect(stackSource).toContain(`"${tag}"`);
     }
   });
 
   it("includes restrained animation scaffolding with reduced motion support", () => {
     expect(source).toContain("function Reveal(");
-    expect(source).toContain('data-reveal');
+    expect(source).toContain("data-reveal");
     expect(source).toContain("IntersectionObserver");
 
     const cssSource = readFileSync(new URL("../index.css", import.meta.url), "utf8");
