@@ -60,16 +60,16 @@ describe("Home page — minimal, works-first landing", () => {
     for (const url of moreUrls) {
       expect(source).toContain(url);
     }
-    expect(source).toContain("lks");
-    expect(source).toContain("449");
     expect(source).toContain("Selected Work");
   });
 
-  it("shows headline stats", () => {
-    expect(source).toContain("449★");
-    expect(source).toContain("public repos");
-    expect(source).toContain("contributions / yr");
+  it("keeps the intro concise — no name banner or vanity numbers", () => {
     expect(source).toContain("I build tools I actually use.");
+    expect(source).not.toContain("XIANGJIANAN");
+    expect(source).not.toContain("449★");
+    expect(source).not.toContain("public repos");
+    expect(source).not.toContain("contributions / yr");
+    expect(source).not.toContain("449");
   });
 
   it("uses the current contact email", () => {
