@@ -75,8 +75,8 @@
   --primary-foreground: oklch(0.06 0.015 265);
   --secondary: oklch(0.82 0.18 195);
   --secondary-foreground: oklch(0.06 0.015 265);
-  --background: oklch(0.07 0.018 265);
-  --foreground: oklch(0.92 0.01 220);
+  --background: #ffffff;
+  --foreground: #0a0a0a;
   --card: oklch(0.11 0.022 265);
   --card-foreground: oklch(0.92 0.01 220);
   --popover: oklch(0.11 0.022 265);
@@ -150,14 +150,14 @@
     width: 4px;
   }
   ::-webkit-scrollbar-track {
-    background: oklch(0.07 0.018 265);
+    background: #fafafa;
   }
   ::-webkit-scrollbar-thumb {
-    background: oklch(0.82 0.18 195 / 50%);
+    background: #d4d4d8;
     border-radius: 2px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: oklch(0.82 0.18 195 / 80%);
+    background: #a1a1aa;
   }
 }
 
