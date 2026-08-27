@@ -44,10 +44,6 @@ const MORE = [
   { name: "ai-daily-news", desc: "Auto-aggregated daily AI news", demo: "https://xiangjianan.github.io/ai-daily-news/", repo: "https://github.com/xiangjianan/ai-daily-news" },
   { name: "jindou-blog", desc: "AI research & technical writing", demo: "https://aiblog.helloxjn.com", repo: "https://github.com/xiangjianan/jindou-blog" },
   { name: "workout-checkin", desc: "100-day fitness bet", demo: "https://workout.helloxjn.com", repo: "https://github.com/xiangjianan/workout-checkin" },
-  { name: "lkszj", desc: "Creative-works submission platform", repo: "https://github.com/xiangjianan/lkszj" },
-  { name: "scheduler", desc: "Python task scheduler + FastAPI", repo: "https://github.com/xiangjianan/scheduler" },
-  { name: "mermaid", desc: "Pure-frontend Markdown Mermaid visualizer", repo: "https://github.com/xiangjianan/mermaid" },
-  { name: "send-msg", desc: "LAN real-time broadcast (WebSocket + Express)", repo: "https://github.com/xiangjianan/send-msg" },
 ];
 
 const mono = { fontFamily: "JetBrains Mono, monospace" };
@@ -89,7 +85,7 @@ function Intro() {
       </p>
 
       <div className="flex flex-wrap items-center justify-center gap-2.5" style={{ marginTop: 28 }}>
-        {["mini-desk", "taptap", "lks"].map((chip) => (
+        {["mini-desk", "taptap", "primus"].map((chip) => (
           <span key={chip} style={{ border: `1px solid ${C.line}`, borderRadius: 999, padding: "6px 16px", color: C.ink, fontSize: 12, ...mono }}>
             {chip}
           </span>

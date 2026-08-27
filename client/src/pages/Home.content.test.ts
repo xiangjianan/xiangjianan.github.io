@@ -17,6 +17,9 @@ const moreUrls = [
   "https://github.com/xiangjianan/ai-daily-news",
   "https://github.com/xiangjianan/jindou-blog",
   "https://github.com/xiangjianan/workout-checkin",
+];
+
+const hiddenRepoUrls = [
   "https://github.com/xiangjianan/lkszj",
   "https://github.com/xiangjianan/scheduler",
   "https://github.com/xiangjianan/mermaid",
@@ -53,6 +56,13 @@ describe("Home page — minimal, works-first landing", () => {
     expect(featuredSource).toContain("taptap");
     for (const url of featuredUrls) {
       expect(source).toContain(url);
+    }
+  });
+
+  it("shows mini-desk / taptap / primus chips and hides the toolbelt repos", () => {
+    expect(source).toContain('["mini-desk", "taptap", "primus"]');
+    for (const url of hiddenRepoUrls) {
+      expect(source).not.toContain(url);
     }
   });
 
