@@ -46,6 +46,23 @@ const MORE = [
   { name: "workout-checkin", desc: "100-day fitness bet", demo: "https://workout.helloxjn.com", repo: "https://github.com/xiangjianan/workout-checkin" },
 ];
 
+const FOCUS = [
+  { emoji: "🤖", title: "Agentic systems", desc: "The loop where a model plans, calls tools, and finishes the job." },
+  { emoji: "✨", title: "AI-native build", desc: "Designed end-to-end with Codex — vision and taste are mine, the typing is delegated." },
+  { emoji: "🧭", title: "Curated & useful", desc: "Small, focused tools and curated lists that actually get used. Do less, do it well." },
+];
+
+const STACK = [
+  { title: "Agent · LLM", tags: ["Agent Orchestration", "LLM", "RAG", "Prompt Engineering", "Tool Calling", "Function Calling"] },
+  { title: "Web", tags: ["React", "TypeScript", "Node", "Vite", "Tailwind CSS", "Cloudflare Pages"] },
+  { title: "Services · Data", tags: ["Python", "FastAPI", "Django", "WebSocket", "Shell"] },
+];
+
+const NOTES = [
+  { title: "AI Notes", desc: "AI research and technical writing", href: "https://aiblog.helloxjn.com", meta: "aiblog.helloxjn.com" },
+  { title: "jindou-blog", desc: "The source behind the AI notes", href: "https://github.com/xiangjianan/jindou-blog", meta: "MDX" },
+];
+
 const mono = { fontFamily: "JetBrains Mono, monospace" };
 const sans = { fontFamily: "Space Grotesk, sans-serif" };
 
@@ -195,14 +212,81 @@ function Works() {
   );
 }
 
-function StackLine() {
+function SectionHead({ label, title }: { label: string; title: string }) {
   return (
-    <div className="flex flex-wrap items-center justify-center gap-3" style={{ borderTop: `1px solid ${C.line}`, padding: "36px 28px" }}>
-      <span style={{ ...mono, color: C.muted, fontSize: 11, letterSpacing: "0.2em" }}>BUILT WITH</span>
-      {["React", "TypeScript", "Node", "Python", "Tailwind", "Codex"].map((t) => (
-        <span key={t} style={{ border: `1px solid ${C.line}`, borderRadius: 999, padding: "5px 14px", color: C.ink, fontSize: 12, ...mono }}>{t}</span>
-      ))}
+    <div className="mb-9 flex items-end justify-between" style={{ borderBottom: `1px solid ${C.line}`, paddingBottom: 18 }}>
+      <div>
+        <div style={{ ...mono, color: C.muted, fontSize: 12, letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: 8 }}>{label}</div>
+        <h2 style={{ ...sans, color: C.ink, fontSize: 26, fontWeight: 500, letterSpacing: "-0.01em", margin: 0 }}>{title}</h2>
+      </div>
     </div>
+  );
+}
+
+function FocusSection() {
+  return (
+    <section style={{ maxWidth: 1200, margin: "0 auto", padding: "44px 28px" }}>
+      <SectionHead label="Focus" title="What I work on" />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {FOCUS.map((f) => (
+          <div key={f.title} className="p-7" style={{ border: `1px solid ${C.line}`, borderRadius: 20 }}>
+            <div style={{ fontSize: 28 }}>{f.emoji}</div>
+            <h3 style={{ ...sans, color: C.ink, fontSize: 17, fontWeight: 500, marginTop: 20, marginBottom: 0 }}>{f.title}</h3>
+            <p style={{ ...sans, color: C.muted, fontSize: 13.5, lineHeight: 1.6, marginTop: 8 }}>{f.desc}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StackSection() {
+  return (
+    <section style={{ maxWidth: 1200, margin: "0 auto", padding: "44px 28px" }}>
+      <SectionHead label="Stack" title="What I build with" />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {STACK.map((s) => (
+          <div key={s.title} className="p-7" style={{ border: `1px solid ${C.line}`, borderRadius: 20 }}>
+            <h3 style={{ ...mono, color: C.ink, fontSize: 14, fontWeight: 500, marginBottom: 16 }}>{s.title}</h3>
+            <div className="flex flex-wrap gap-2">
+              {s.tags.map((t) => (
+                <span key={t} style={{ border: `1px solid ${C.line}`, borderRadius: 999, padding: "5px 12px", color: C.muted, fontSize: 12, ...mono }}>{t}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function NotesSection() {
+  return (
+    <section style={{ maxWidth: 1200, margin: "0 auto", padding: "44px 28px 90px" }}>
+      <SectionHead label="Writing" title="Notes & writing" />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {NOTES.map((n) => (
+          <a
+            key={n.title}
+            href={n.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center justify-between p-7"
+            style={{ border: `1px solid ${C.line}`, borderRadius: 20, textDecoration: "none", transition: "border-color 0.2s ease, transform 0.2s ease" }}
+            onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "#d4d4d8"; el.style.transform = "translateY(-3px)"; }}
+            onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.borderColor = C.line; el.style.transform = ""; }}
+          >
+            <div>
+              <div style={{ ...sans, color: C.ink, fontSize: 17, fontWeight: 500 }}>{n.title}</div>
+              <div style={{ ...sans, color: C.muted, fontSize: 13.5, marginTop: 4 }}>{n.desc}</div>
+            </div>
+            <span className="inline-flex items-center gap-2" style={{ ...mono, color: C.muted, fontSize: 11, flexShrink: 0 }}>
+              {n.meta} <ArrowUpRight size={14} />
+            </span>
+          </a>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -235,7 +319,9 @@ export default function Home() {
       <main className="flex-1">
         <Intro />
         <Works />
-        <StackLine />
+        <FocusSection />
+        <StackSection />
+        <NotesSection />
       </main>
       <Footer />
     </div>
