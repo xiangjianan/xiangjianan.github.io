@@ -46,12 +46,6 @@ const MORE = [
   { name: "workout-checkin", desc: "100-day fitness bet", demo: "https://workout.helloxjn.com", repo: "https://github.com/xiangjianan/workout-checkin" },
 ];
 
-const FOCUS = [
-  { emoji: "🤖", title: "Agentic systems", desc: "The loop where a model plans, calls tools, and finishes the job." },
-  { emoji: "✨", title: "AI-native build", desc: "Designed end-to-end with Codex — vision and taste are mine, the typing is delegated." },
-  { emoji: "🧭", title: "Curated & useful", desc: "Small, focused tools and curated lists that actually get used. Do less, do it well." },
-];
-
 const STACK = [
   { title: "Agent · LLM", tags: ["Agent Orchestration", "LLM", "RAG", "Prompt Engineering", "Tool Calling", "Function Calling"] },
   { title: "Web", tags: ["React", "TypeScript", "Node", "Vite", "Tailwind CSS", "Cloudflare Pages"] },
@@ -223,23 +217,6 @@ function SectionHead({ label, title }: { label: string; title: string }) {
   );
 }
 
-function FocusSection() {
-  return (
-    <section style={{ maxWidth: 1200, margin: "0 auto", padding: "44px 28px" }}>
-      <SectionHead label="Focus" title="What I work on" />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {FOCUS.map((f) => (
-          <div key={f.title} className="p-7" style={{ border: `1px solid ${C.line}`, borderRadius: 20 }}>
-            <div style={{ fontSize: 28 }}>{f.emoji}</div>
-            <h3 style={{ ...sans, color: C.ink, fontSize: 17, fontWeight: 500, marginTop: 20, marginBottom: 0 }}>{f.title}</h3>
-            <p style={{ ...sans, color: C.muted, fontSize: 13.5, lineHeight: 1.6, marginTop: 8 }}>{f.desc}</p>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 function StackSection() {
   return (
     <section style={{ maxWidth: 1200, margin: "0 auto", padding: "44px 28px" }}>
@@ -319,7 +296,6 @@ export default function Home() {
       <main className="flex-1">
         <Intro />
         <Works />
-        <FocusSection />
         <StackSection />
         <NotesSection />
       </main>
