@@ -19,19 +19,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: pnpm
+          cache: npm
 
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build
+      - run: npm ci
+      - run: npm run build
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/public
+          path: dist
 
   deploy:
     environment:
