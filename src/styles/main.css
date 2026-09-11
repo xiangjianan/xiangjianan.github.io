@@ -55,6 +55,8 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--bar-h) + var(--sp-2));
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -66,6 +68,8 @@ body {
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* nothing may force sideways scroll on phones */
+  overflow-x: clip;
 }
 
 ::selection {
@@ -138,6 +142,7 @@ a {
   display: flex;
   align-items: center;
   gap: var(--sp-4);
+  min-width: 0;
 }
 
 .topnav a {
@@ -213,6 +218,7 @@ a {
 .hero-index span {
   color: var(--hairline);
   padding-inline: 0.6em;
+  display: inline-block;
 }
 
 .hero-cue {
@@ -494,6 +500,8 @@ section {
 .stack-col p span {
   color: var(--hairline);
   padding-inline: 0.55em;
+  /* atomic inline = wrap opportunity at every item boundary, never mid-word */
+  display: inline-block;
 }
 
 /* ---------- writing ---------- */
@@ -625,13 +633,33 @@ footer {
     line-height: 1.55;
   }
 
+  /* writing rows carry a date/source, not a desc — keep it, below the name */
   .row-meta {
-    display: none;
+    grid-area: desc;
+    white-space: normal;
+    text-overflow: clip;
+    line-height: 1.55;
   }
 }
 
 @media (max-width: 560px) {
-  .topnav a:not(.gh) {
+  /* keep every section link reachable — compact, horizontally scrollable if cramped */
+  .topnav {
+    gap: 14px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .topnav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .topnav a {
+    padding-block: 10px;
+  }
+
+  .gh .gh-label {
     display: none;
   }
 
@@ -641,9 +669,56 @@ footer {
     gap: var(--sp-2);
   }
 
+  .section-more,
+  .hero-cue {
+    padding-block: 10px;
+  }
+
+  .feature-actions {
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+  }
+
   .action-repo,
   .footer-links a {
     padding: 10px 0;
+  }
+
+  /* footer links stack — the inline row is wider than a phone */
+  .footer-links {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+  }
+}
+
+/* touch feedback where :hover can't exist */
+@media (hover: none) {
+  .index-row:active {
+    background: var(--paper-wash);
+  }
+
+  .action-live:active {
+    background: var(--ink-soft);
+  }
+}
+
+/* SE-class phones: reclaim the last few px so the whole nav fits unscrolled */
+@media (max-width: 360px) {
+  .brand {
+    font-size: 0.9375rem;
+  }
+
+  .topbar-inner {
+    gap: var(--sp-2);
+  }
+
+  .topnav {
+    gap: 10px;
+  }
+
+  .topnav a {
+    letter-spacing: 0.1em;
   }
 }
 

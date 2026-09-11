@@ -18,9 +18,9 @@ defineProps({
           :href="`#${item.id}`"
           :aria-current="active === item.id ? 'true' : 'false'"
         >{{ item.label }}</a>
-        <a class="gh" :href="GITHUB_URL" target="_blank" rel="noopener noreferrer">
+        <a class="gh" :href="GITHUB_URL" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
           <AppIcon name="github" :size="15" />
-          GitHub
+          <span class="gh-label">GitHub</span>
         </a>
       </nav>
     </div>
