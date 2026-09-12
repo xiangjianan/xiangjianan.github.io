@@ -1,22 +1,24 @@
+**English** | [简体中文](README.zh-CN.md)
+
 <p align="center">
   <img src="https://img.shields.io/badge/🤖_100%25_AI_Developed-7C3AED?style=for-the-badge" alt="100% AI Developed" />
   <img src="https://img.shields.io/badge/✨_全程AI生成-00D4AA?style=for-the-badge" alt="全程AI生成" />
 </p>
 
-> **💡 本仓库 100% 由 AI 独立完成开发，从需求分析、代码编写到测试调试，全程由 AI 主导完成，无任何人工编写代码。**
+> **💡 This repo was developed 100% independently by AI — from requirements analysis and coding to testing and debugging, AI led the entire process with no human-written code.**
 
 # xiangjianan.github.io
 
-个人主页 — 白底墨色的 gallery-editorial 极简设计（[线上](https://xiangjianan.github.io/)）。
-设计稿出自 OpenDesign 单文件 artifact，本仓库是它的 Vue 3 工程化实现，视觉/布局/交互 1:1。
+Personal homepage — a minimalist gallery-editorial design in white and ink ([live site](https://xiangjianan.github.io/)).
+The design mockup came from an OpenDesign single-file artifact; this repo is its production-grade Vue 3 implementation, with visuals/layout/interactions 1:1.
 
-## 技术栈
+## Tech Stack
 
-- **Vue 3**（`<script setup>`）+ **Vite 7**
-- 原设计样式表逐字保留（`src/styles/main.css`，design tokens 全在 `:root`）
-- **Vitest** + **@vue/test-utils** 组件测试
+- **Vue 3** (`<script setup>`) + **Vite 7**
+- The original design stylesheet preserved verbatim (`src/styles/main.css`, all design tokens in `:root`)
+- **Vitest** + **@vue/test-utils** component tests
 
-## 结构
+## Structure
 
 ```
 ├── index.html              # 页面外壳（title/meta/favicon）
@@ -31,7 +33,7 @@
     └── __tests__/          # 组件测试
 ```
 
-## 本地开发
+## Local Development
 
 ```bash
 npm install
@@ -41,10 +43,10 @@ npm run build     # 生产构建 → dist/
 npm run preview   # 预览构建产物
 ```
 
-## 部署
+## Deployment
 
-push 到 `master` 后由 GitHub Actions（`.github/workflows/deploy.yml`）
-自动 `npm ci && npm run build` 并部署 `dist/` 到 GitHub Pages。
+After pushing to `master`, GitHub Actions (`.github/workflows/deploy.yml`)
+automatically runs `npm ci && npm run build` and deploys `dist/` to GitHub Pages.
 
 ## License
 
