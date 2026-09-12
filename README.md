@@ -30,7 +30,7 @@ The design mockup came from an OpenDesign single-file artifact; this repo is its
     ├── directives/reveal.js                # v-reveal 入场动画
     ├── composables/useActiveSection.js     # 导航 aria-current 联动
     ├── components/         # TopBar / Hero / SectionHead / FeatureCard / IndexRow …
-    └── __tests__/          # 组件测试
+    └── __tests__/          # component tests
 ```
 
 ## Local Development
