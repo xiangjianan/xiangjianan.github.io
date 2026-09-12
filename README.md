@@ -2,7 +2,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/🤖_100%25_AI_Developed-7C3AED?style=for-the-badge" alt="100% AI Developed" />
-  <img src="https://img.shields.io/badge/✨_全程AI生成-00D4AA?style=for-the-badge" alt="全程AI生成" />
+  <img src="https://img.shields.io/badge/✨_100%25_AI_Generated-00D4AA?style=for-the-badge" alt="100% AI Generated" />
 </p>
 
 > **💡 This repo was developed 100% independently by AI — from requirements analysis and coding to testing and debugging, AI led the entire process with no human-written code.**
@@ -21,14 +21,14 @@ The design mockup came from an OpenDesign single-file artifact; this repo is its
 ## Structure
 
 ```
-├── index.html              # 页面外壳（title/meta/favicon）
-├── public/                 # favicon.svg、manifest.json、_redirects 等静态资产
+├── index.html              # page shell (title/meta/favicon)
+├── public/                 # static assets: favicon.svg, manifest.json, _redirects, etc.
 └── src/
-    ├── App.vue             # 页面布局 + 当前 section 追踪
-    ├── styles/main.css     # 原设计样式，零改动
-    ├── data/site.js        # 全部文案与链接 —— 改内容只动这里
-    ├── directives/reveal.js                # v-reveal 入场动画
-    ├── composables/useActiveSection.js     # 导航 aria-current 联动
+    ├── App.vue             # page layout + active-section tracking
+    ├── styles/main.css     # original styles, untouched
+    ├── data/site.js        # all copy & links — edit content only here
+    ├── directives/reveal.js                # v-reveal entrance animation
+    ├── composables/useActiveSection.js     # nav aria-current sync
     ├── components/         # TopBar / Hero / SectionHead / FeatureCard / IndexRow …
     └── __tests__/          # component tests
 ```
@@ -38,9 +38,9 @@ The design mockup came from an OpenDesign single-file artifact; this repo is its
 ```bash
 npm install
 npm run dev       # http://localhost:5173
-npm run test      # 组件测试
-npm run build     # 生产构建 → dist/
-npm run preview   # 预览构建产物
+npm run test      # component tests
+npm run build     # production build → dist/
+npm run preview   # preview the build output
 ```
 
 ## Deployment
