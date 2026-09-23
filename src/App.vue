@@ -3,8 +3,7 @@ import { onBeforeUnmount, onMounted } from 'vue'
 import TopBar from './components/TopBar.vue'
 import HeroSection from './components/HeroSection.vue'
 import WorkSection from './components/WorkSection.vue'
-import StackSection from './components/StackSection.vue'
-import WritingSection from './components/WritingSection.vue'
+import ExploreSection from './components/ExploreSection.vue'
 import SiteFooter from './components/SiteFooter.vue'
 import { NAV_ITEMS } from './data/site'
 import { useActiveSection } from './composables/useActiveSection'
@@ -21,8 +20,7 @@ onBeforeUnmount(stop)
   <main id="top">
     <HeroSection />
     <WorkSection />
-    <StackSection />
-    <WritingSection />
+    <ExploreSection />
   </main>
   <SiteFooter />
 </template>

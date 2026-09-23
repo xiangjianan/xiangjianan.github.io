@@ -1,71 +1,19 @@
-// All page content in one place — edit copy here, not in components.
-// `delay` is the staggered-entrance offset in ms (matches the original artifact).
-
-export const NAV_ITEMS = [
-  { id: 'work', label: 'Work' },
-  { id: 'stack', label: 'Stack' },
-  { id: 'writing', label: 'Writing' },
-]
+import snapshot from './repositories.json'
 
 export const GITHUB_URL = 'https://github.com/xiangjianan'
-export const REPOSITORIES_URL = 'https://github.com/xiangjianan?tab=repositories'
+export const REPOSITORIES_URL = `${GITHUB_URL}?tab=repositories`
 export const EMAIL = 'xiang9872@gmail.com'
-
-export const HERO = {
-  eyebrow: 'AI-Native Builder · Open-Source',
-  index: ['mini-desk', 'taptap', 'primus'],
-  cue: { label: 'Work', href: '#work' },
-}
-
+export const NAV_ITEMS = [{ id: 'work', label: 'Work' }, { id: 'explore', label: 'Projects' }]
+export const CATEGORIES = [
+  { id: 'all', label: 'All' }, { id: 'tools', label: 'Tools' },
+  { id: 'games', label: 'Games' }, { id: 'ai', label: 'AI & Automation' },
+  { id: 'curation', label: 'Curation' }, { id: 'engineering', label: 'Engineering' },
+]
+export const REPOSITORIES = snapshot.repositories
+export const CHECKED_AT = snapshot.checkedAt
 export const FEATURED = [
-  {
-    num: '01',
-    tag: 'TypeScript · local-first',
-    name: 'mini-desk',
-    desc: 'Do less, do it well. A local-first personal workspace — notes, reminders, quick actions, screenshots, everyday tools.',
-    liveUrl: 'https://minidesk.helloxjn.com',
-    repoUrl: 'https://github.com/xiangjianan/mini-desk',
-    delay: 0,
-  },
-  {
-    num: '02',
-    tag: 'JavaScript · WeChat Mini Game',
-    name: 'taptap',
-    desc: '「数一数噻」— a WeChat Mini Game. A number-finding puzzle built on Voronoi diagrams, playable in WeChat.',
-    liveUrl: 'https://taptap.helloxjn.com',
-    repoUrl: 'https://github.com/xiangjianan/taptap',
-    delay: 80,
-  },
+  { name: 'Mini Desk', title: 'A little room for your everyday.', tag: 'Everyday tools', desc: 'Screenshots, notes, reminders, and quick actions, together on a quiet workspace. No sign-in. Your data stays local.', liveUrl: 'https://minidesk.online', repoUrl: `${GITHUB_URL}/mini-desk`, detail: 'Vue · TypeScript · Local-first', delay: 0 },
+  { name: 'jindou-blog', title: 'Notes from exploring AI.', tag: 'Research & writing', desc: 'AI research, technical explainers, and practical notes. A place to collect ideas and make complex topics easier to understand.', liveUrl: 'https://aiblog.helloxjn.com/', repoUrl: `${GITHUB_URL}/jindou-blog`, detail: 'AI research · Explainers · Notes', delay: 60 },
+  { name: 'daily-digest', title: 'A day of output, in one place.', tag: 'AI & Automation', desc: 'Daily outputs from automated tasks, collected into a digest made for mobile reading. Catch up on what ran and what it produced.', liveUrl: 'https://xiangjianan.github.io/daily-digest/', repoUrl: `${GITHUB_URL}/daily-digest`, detail: 'Daily summaries · Mobile-first · PWA', delay: 120 },
 ]
-
-export const PROJECTS = [
-  { num: '03', name: 'lks', desc: "303 curated websites from LKs' Bilibili series", href: 'https://lkssite.vip' },
-  { num: '04', name: 'time-traveler', desc: 'LLM-driven historical time-travel adventure', href: 'https://github.com/xiangjianan/time-traveler' },
-  { num: '05', name: 'primus', desc: 'First-principles engine: any goal down to ‘do it now’', href: 'https://primus.helloxjn.com' },
-  { num: '06', name: 'ai-daily-news', desc: 'Auto-aggregated daily AI news', href: 'https://xiangjianan.github.io/ai-daily-news/' },
-  { num: '07', name: 'jindou-blog', desc: 'AI research & technical writing', href: 'https://aiblog.helloxjn.com' },
-  { num: '08', name: 'workout-checkin', desc: '100-day fitness bet', href: 'https://workout.helloxjn.com' },
-]
-
-export const STACK = [
-  {
-    title: 'Agent · LLM',
-    items: ['Agent Orchestration', 'LLM', 'RAG', 'Prompt Engineering', 'Tool Calling', 'Function Calling'],
-    delay: 0,
-  },
-  {
-    title: 'Web',
-    items: ['React', 'TypeScript', 'Node', 'Vite', 'Tailwind CSS', 'Cloudflare Pages'],
-    delay: 70,
-  },
-  {
-    title: 'Services · Data',
-    items: ['Python', 'FastAPI', 'Django', 'WebSocket', 'Shell'],
-    delay: 140,
-  },
-]
-
-export const WRITING = [
-  { num: '01', name: 'AI Notes', meta: 'aiblog.helloxjn.com', href: 'https://aiblog.helloxjn.com' },
-  { num: '02', name: 'jindou-blog', meta: 'MDX', href: 'https://github.com/xiangjianan/jindou-blog' },
-]
+export const SELECTED_NAMES = ['daily-creative-tools', 'daily-original-games', 'taptap', 'primus', 'fm', 'time-traveler', 'lks', 'ai-daily-news', 'scheduler']
