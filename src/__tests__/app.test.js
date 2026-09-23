@@ -1,84 +1,47 @@
 import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
 import App from '../App.vue'
-import TopBar from '../components/TopBar.vue'
-import IndexRow from '../components/IndexRow.vue'
 import { reveal } from '../directives/reveal'
-import { FEATURED, PROJECTS, STACK, WRITING } from '../data/site'
-
+import { REPOSITORIES, SELECTED_NAMES, NAV_ITEMS } from '../data/site'
 const mountApp = () => mount(App, { global: { directives: { reveal } } })
 
-describe('App', () => {
-  it('renders the top bar, hero, all sections and the footer', () => {
+describe('portfolio navigation and discovery', () => {
+  it('has a destination for every navigation item and visible reveal fallback', () => {
     const wrapper = mountApp()
-
-    expect(wrapper.find('.topbar .brand').text()).toBe('xiangjianan')
-    expect(wrapper.find('.hero h1').text()).toBe('I build tools I actually use.')
-    expect(wrapper.find('.hero h1 em').exists()).toBe(true)
-    expect(wrapper.find('.hero-index').text()).toBe('mini-desk/taptap/primus')
-
-    expect(wrapper.findAll('.feature')).toHaveLength(FEATURED.length)
-    expect(wrapper.find('#work').findAll('.index-row')).toHaveLength(PROJECTS.length)
-    expect(wrapper.find('#stack .stack-grid .stack-col').exists()).toBe(true)
-    expect(wrapper.findAll('.stack-col')).toHaveLength(STACK.length)
-    expect(wrapper.find('#writing').findAll('.index-row')).toHaveLength(WRITING.length)
-
-    expect(wrapper.find('.footer-note').text()).toContain(String(new Date().getFullYear()))
-    expect(wrapper.findAll('.footer-links a')).toHaveLength(3)
+    NAV_ITEMS.forEach(item => expect(wrapper.find(`section#${item.id}`).exists()).toBe(true))
+    wrapper.findAll('.reveal').forEach(el => expect(el.classes()).toContain('in'))
   })
-
-  it('exposes every nav section id used by the active-section tracker', () => {
+  it('opens the full index, filters it, then restores the curated selection', async () => {
     const wrapper = mountApp()
-    const sectionIds = wrapper.findAll('main section').map((s) => s.attributes('id'))
-    expect(sectionIds).toEqual(['work', 'stack', 'writing'])
+    expect(wrapper.findAll('.project-row')).toHaveLength(SELECTED_NAMES.length)
+    await wrapper.find('.show-all').trigger('click')
+    expect(wrapper.findAll('.project-row')).toHaveLength(REPOSITORIES.length)
+    const tools = wrapper.findAll('.filters button').find(b => b.text() === 'Tools')
+    await tools.trigger('click')
+    expect(tools.attributes('aria-pressed')).toBe('true')
+    expect(wrapper.findAll('.project-row')).toHaveLength(REPOSITORIES.filter(p => p.category === 'tools').length)
+    expect(wrapper.find('.show-all').exists()).toBe(false)
+    await wrapper.find('.filters button').trigger('click')
+    expect(wrapper.findAll('.project-row')).toHaveLength(SELECTED_NAMES.length)
+    await wrapper.find('.show-all').trigger('click')
+    await wrapper.find('.show-all').trigger('click')
+    expect(wrapper.findAll('.project-row')).toHaveLength(SELECTED_NAMES.length)
   })
-
-  it('renders reveal elements visible when IntersectionObserver is unavailable (fallback)', () => {
+  it('keeps all repository source links accessible in the full index', async () => {
     const wrapper = mountApp()
-    const revealed = wrapper.findAll('.reveal')
-    expect(revealed.length).toBeGreaterThan(0)
-    revealed.forEach((el) => expect(el.classes()).toContain('in'))
+    await wrapper.find('.show-all').trigger('click')
+    const links = wrapper.findAll('#project-list a').map(a => a.attributes('href'))
+    REPOSITORIES.forEach(p => expect(links).toContain(p.href))
+    expect(new Set(REPOSITORIES.map(p => p.name)).size).toBe(REPOSITORIES.length)
   })
-})
+  it('labels preview and source actions clearly', () => {
+    const wrapper = mountApp()
+    const projectWithPreview = wrapper.findAll('.project-row').find(row => row.text().includes('daily-creative-tools'))
+    const repositoryOnly = wrapper.findAll('.project-row').find(row => row.text().includes('time-traveler'))
 
-describe('TopBar', () => {
-  it('marks only the active section with aria-current', () => {
-    const active = mount(TopBar, { props: { active: 'stack' } }).find('[aria-current="true"]')
-    expect(active.text()).toBe('Stack')
-  })
-
-  it('marks nothing active when active is empty', () => {
-    const wrapper = mount(TopBar, { props: { active: '' } })
-    expect(wrapper.find('[aria-current="true"]').exists()).toBe(false)
-  })
-})
-
-describe('IndexRow', () => {
-  const withReveal = (props) => mount(IndexRow, {
-    props,
-    global: { directives: { reveal } },
-  })
-
-  it('shows desc for work rows', () => {
-    const wrapper = withReveal({ num: '03', name: 'lks', href: 'https://lkssite.vip', desc: '303 curated websites' })
-    expect(wrapper.find('.row-desc').text()).toBe('303 curated websites')
-    expect(wrapper.find('.row-meta').exists()).toBe(false)
-    expect(wrapper.attributes('href')).toBe('https://lkssite.vip')
-  })
-
-  it('shows meta instead of desc for writing rows', () => {
-    const wrapper = withReveal({ num: '01', name: 'AI Notes', href: 'https://aiblog.helloxjn.com', meta: 'aiblog.helloxjn.com' })
-    expect(wrapper.find('.row-meta').text()).toBe('aiblog.helloxjn.com')
-    expect(wrapper.find('.row-desc').exists()).toBe(false)
-  })
-})
-
-describe('site data', () => {
-  it('gives every external entry a name and an https link', () => {
-    ;[...FEATURED, ...PROJECTS, ...WRITING].forEach((entry) => {
-      expect(entry.name).toBeTruthy()
-      expect(entry.href ?? entry.liveUrl).toMatch(/^https:\/\//)
-      if (entry.repoUrl) expect(entry.repoUrl).toMatch(/^https:\/\//)
-    })
+    expect(projectWithPreview.find('.project-preview').attributes('aria-label')).toBe('Preview daily-creative-tools')
+    expect(projectWithPreview.find('.project-source').attributes('aria-label')).toBe('View daily-creative-tools source code')
+    expect(repositoryOnly.find('.project-preview').exists()).toBe(false)
+    expect(repositoryOnly.find('.project-source').attributes('aria-label')).toBe('View time-traveler source code')
   })
 })

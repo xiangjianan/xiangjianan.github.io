@@ -1,0 +1,437 @@
+{
+  "checkedAt": "2026-09-23",
+  "repositories": [
+    {
+      "name": "daily-original-game-2026-09-23",
+      "desc": "Deliver stars by reading the wind and planning each landing.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/daily-original-game-2026-09-23",
+      "liveUrl": null,
+      "updated": "2026-09-23"
+    },
+    {
+      "name": "daily-original-games",
+      "desc": "A collection of original HTML games exploring new mechanics.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/daily-original-games",
+      "liveUrl": "https://xiangjianan.github.io/daily-original-games/",
+      "updated": "2026-09-23"
+    },
+    {
+      "name": "daily-digest",
+      "desc": "A mobile-friendly digest of daily automated task outputs.",
+      "category": "ai",
+      "href": "https://github.com/xiangjianan/daily-digest",
+      "liveUrl": "https://xiangjianan.github.io/daily-digest/",
+      "updated": "2026-09-23"
+    },
+    {
+      "name": "grazer-20260923",
+      "desc": "Graze the edges of a bullet storm to build your score.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/grazer-20260923",
+      "liveUrl": "https://xiangjianan.github.io/grazer-20260923/",
+      "updated": "2026-09-23"
+    },
+    {
+      "name": "ai-daily-news",
+      "desc": "Automatically collect AI news into daily reports and an archive.",
+      "category": "ai",
+      "href": "https://github.com/xiangjianan/ai-daily-news",
+      "liveUrl": "https://xiangjianan.github.io/ai-daily-news/",
+      "updated": "2026-09-23"
+    },
+    {
+      "name": "lslens-20260923",
+      "desc": "Turn ls -l output into a visual permission matrix.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/lslens-20260923",
+      "liveUrl": "https://xiangjianan.github.io/lslens-20260923/",
+      "updated": "2026-09-22"
+    },
+    {
+      "name": "jindou-blog",
+      "desc": "AI research, technical explainers, and practical notes.",
+      "category": "ai",
+      "href": "https://github.com/xiangjianan/jindou-blog",
+      "liveUrl": "https://aiblog.helloxjn.com/",
+      "updated": "2026-09-22"
+    },
+    {
+      "name": "spinfall-20260922",
+      "desc": "Rotate a dungeon and use gravity to solve one-button puzzles.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/spinfall-20260922",
+      "liveUrl": "https://xiangjianan.github.io/spinfall-20260922/",
+      "updated": "2026-09-22"
+    },
+    {
+      "name": "masker-20260922",
+      "desc": "Sanitize logs and JSON in your browser while preserving their format.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/masker-20260922",
+      "liveUrl": "https://xiangjianan.github.io/masker-20260922/",
+      "updated": "2026-09-21"
+    },
+    {
+      "name": "mini-desk",
+      "desc": "A local-first workspace for screenshots, notes, reminders, and quick actions.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/mini-desk",
+      "liveUrl": "https://minidesk.online",
+      "updated": "2026-09-21"
+    },
+    {
+      "name": "flatline-20260921",
+      "desc": "Tap when the shrinking ring reaches the heart.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/flatline-20260921",
+      "liveUrl": "https://xiangjianan.github.io/flatline-20260921/",
+      "updated": "2026-09-21"
+    },
+    {
+      "name": "dalton-20260921",
+      "desc": "Simulate different types of color vision to check image accessibility.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/dalton-20260921",
+      "liveUrl": "https://xiangjianan.github.io/dalton-20260921/",
+      "updated": "2026-09-20"
+    },
+    {
+      "name": "fireloop-20260920",
+      "desc": "Draw loops of light to catch fireflies while avoiding wasps.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/fireloop-20260920",
+      "liveUrl": "https://xiangjianan.github.io/fireloop-20260920/",
+      "updated": "2026-09-20"
+    },
+    {
+      "name": "sunarc-20260920",
+      "desc": "Explore sunrise, golden hours, and daylight throughout the year.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/sunarc-20260920",
+      "liveUrl": "https://xiangjianan.github.io/sunarc-20260920/",
+      "updated": "2026-09-19"
+    },
+    {
+      "name": "boomer-20260919",
+      "desc": "Throw a boomerang through fruit, then catch it on its return.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/boomer-20260919",
+      "liveUrl": "https://xiangjianan.github.io/boomer-20260919/",
+      "updated": "2026-09-19"
+    },
+    {
+      "name": "envport-20260919",
+      "desc": "Convert .env files to Shell, Docker, JSON, and other formats.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/envport-20260919",
+      "liveUrl": "https://xiangjianan.github.io/envport-20260919/",
+      "updated": "2026-09-18"
+    },
+    {
+      "name": "sifter-20260918",
+      "desc": "Switch between taps and holds to identify and collect targets.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/sifter-20260918",
+      "liveUrl": "https://xiangjianan.github.io/sifter-20260918/",
+      "updated": "2026-09-18"
+    },
+    {
+      "name": "ghosts-20260918",
+      "desc": "Find and remove invisible Unicode characters from text.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/ghosts-20260918",
+      "liveUrl": "https://xiangjianan.github.io/ghosts-20260918/",
+      "updated": "2026-09-17"
+    },
+    {
+      "name": "riposte-20260917",
+      "desc": "Swipe to parry bullets back at their senders.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/riposte-20260917",
+      "liveUrl": "https://xiangjianan.github.io/riposte-20260917/",
+      "updated": "2026-09-17"
+    },
+    {
+      "name": "daily-creative-tools",
+      "desc": "Lightweight tools for everyday problems, with no sign-in required.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/daily-creative-tools",
+      "liveUrl": "https://xiangjianan.github.io/daily-creative-tools/",
+      "updated": "2026-09-17"
+    },
+    {
+      "name": "squish-20260917",
+      "desc": "Explore text compression, entropy, and repetition.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/squish-20260917",
+      "liveUrl": "https://xiangjianan.github.io/squish-20260917/",
+      "updated": "2026-09-16"
+    },
+    {
+      "name": "inkfall-20260916",
+      "desc": "Draw fading ink ramps to guide falling gems.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/inkfall-20260916",
+      "liveUrl": "https://xiangjianan.github.io/inkfall-20260916/",
+      "updated": "2026-09-16"
+    },
+    {
+      "name": "ipatlas-20260916",
+      "desc": "Visualize IPv4 addresses and CIDR blocks.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/ipatlas-20260916",
+      "liveUrl": "https://xiangjianan.github.io/ipatlas-20260916/",
+      "updated": "2026-09-15"
+    },
+    {
+      "name": "daily-original-game-2026-09-16",
+      "desc": "Preview and rotate planters to collect different colors of rain.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/daily-original-game-2026-09-16",
+      "liveUrl": null,
+      "updated": "2026-09-15"
+    },
+    {
+      "name": "fm",
+      "desc": "Shanhe Radio: a PWA player for radio stations across China.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/fm",
+      "liveUrl": "https://xiangjianan.github.io/fm/",
+      "updated": "2026-09-15"
+    },
+    {
+      "name": "jaywalk-20260915",
+      "desc": "Judge gaps in traffic to guide pedestrians across the road.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/jaywalk-20260915",
+      "liveUrl": "https://xiangjianan.github.io/jaywalk-20260915/",
+      "updated": "2026-09-15"
+    },
+    {
+      "name": "bytelens-20260915",
+      "desc": "Inspect file structure, byte entropy, and format signatures.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/bytelens-20260915",
+      "liveUrl": "https://xiangjianan.github.io/bytelens-20260915/",
+      "updated": "2026-09-14"
+    },
+    {
+      "name": "cronlens-20260914",
+      "desc": "Explain Cron expressions and preview upcoming runs.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/cronlens-20260914",
+      "liveUrl": "https://xiangjianan.github.io/cronlens-20260914/",
+      "updated": "2026-09-14"
+    },
+    {
+      "name": "puff-drift-20260914",
+      "desc": "Hold to inflate and rise; release to shrink and sink.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/puff-drift-20260914",
+      "liveUrl": "https://xiangjianan.github.io/puff-drift-20260914/",
+      "updated": "2026-09-14"
+    },
+    {
+      "name": "reel-rage-20260913",
+      "desc": "Balance reeling and releasing to control fishing-line tension.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/reel-rage-20260913",
+      "liveUrl": "https://xiangjianan.github.io/reel-rage-20260913/",
+      "updated": "2026-09-13"
+    },
+    {
+      "name": "keytrace-20260913",
+      "desc": "Visualize a password's keyboard path entirely on your device.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/keytrace-20260913",
+      "liveUrl": "https://xiangjianan.github.io/keytrace-20260913/",
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "signpost-hub",
+      "desc": "Find business contacts and work handbooks in one place.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/signpost-hub",
+      "liveUrl": null,
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "lkszj",
+      "desc": "A platform for submitting and showcasing original work.",
+      "category": "curation",
+      "href": "https://github.com/xiangjianan/lkszj",
+      "liveUrl": null,
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "skill-map",
+      "desc": "Track learning progress with an unlockable skill tree.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/skill-map",
+      "liveUrl": "https://xiangjianan.github.io/skill-map/",
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "lks",
+      "desc": "Search and filter a collection of 303 websites recommended by LKs.",
+      "category": "curation",
+      "href": "https://github.com/xiangjianan/lks",
+      "liveUrl": "https://lkssite.vip",
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "time-traveler",
+      "desc": "An LLM-powered text adventure through history.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/time-traveler",
+      "liveUrl": null,
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "primus",
+      "desc": "Break a goal down to the next action you can take right now.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/primus",
+      "liveUrl": "https://primus.helloxjn.com",
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "taptap",
+      "desc": "A WeChat puzzle about finding numbers in irregular shapes.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/taptap",
+      "liveUrl": "https://taptap.helloxjn.com",
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "coin-fate",
+      "desc": "Explore the paths of simulated lives through chance and visualization.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/coin-fate",
+      "liveUrl": "https://xiangjianan.github.io/coin-fate/",
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "greedy-slope-20260910",
+      "desc": "Weigh risk against reward and decide when to cash out.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/greedy-slope-20260910",
+      "liveUrl": "https://xiangjianan.github.io/greedy-slope-20260910/",
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "magneto-swing-20260911",
+      "desc": "Swing from anchors and release to reach the next target.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/magneto-swing-20260911",
+      "liveUrl": "https://xiangjianan.github.io/magneto-swing-20260911/",
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "charge-rush-20260912",
+      "desc": "Switch polarity, collect matching orbs, and keep your combo alive.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/charge-rush-20260912",
+      "liveUrl": "https://xiangjianan.github.io/charge-rush-20260912/",
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "xiangjianan.github.io",
+      "desc": "The source code for this personal portfolio.",
+      "category": "engineering",
+      "href": "https://github.com/xiangjianan/xiangjianan.github.io",
+      "liveUrl": "https://xiangjianan.github.io/",
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "dotfiles",
+      "desc": "Personal development environment configuration.",
+      "category": "engineering",
+      "href": "https://github.com/xiangjianan/dotfiles",
+      "liveUrl": null,
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "scheduler",
+      "desc": "A Python task scheduler with priorities, concurrency, and serial groups.",
+      "category": "ai",
+      "href": "https://github.com/xiangjianan/scheduler",
+      "liveUrl": null,
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "attendance-converter",
+      "desc": "Convert DingTalk attendance CSV files into shift summaries.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/attendance-converter",
+      "liveUrl": "https://xiangjianan.github.io/attendance-converter/",
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "echo-abyss-20260909",
+      "desc": "Navigate a dark cave with a limited supply of sonar pings.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/echo-abyss-20260909",
+      "liveUrl": "https://xiangjianan.github.io/echo-abyss-20260909/",
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "game-find100",
+      "desc": "Tap numbers in order to test your eyes and reflexes.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/game-find100",
+      "liveUrl": "https://xiangjianan.github.io/game-find100/",
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "workout-checkin",
+      "desc": "Track exercise with a 100-day check-in plan.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/workout-checkin",
+      "liveUrl": "https://workout.helloxjn.com",
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "lks-api",
+      "desc": "A Django REST backend for the website recommendation directory.",
+      "category": "curation",
+      "href": "https://github.com/xiangjianan/lks-api",
+      "liveUrl": null,
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "send-msg",
+      "desc": "Broadcast real-time messages over a local network using WebSocket.",
+      "category": "engineering",
+      "href": "https://github.com/xiangjianan/send-msg",
+      "liveUrl": null,
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "employee-management-system",
+      "desc": "Manage employee records, attendance, and spreadsheet imports and exports.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/employee-management-system",
+      "liveUrl": null,
+      "updated": "2026-09-12"
+    },
+    {
+      "name": "xiangjianan",
+      "desc": "GitHub profile and project introduction.",
+      "category": "engineering",
+      "href": "https://github.com/xiangjianan/xiangjianan",
+      "liveUrl": null,
+      "updated": "2026-09-01"
+    },
+    {
+      "name": "mermaid",
+      "desc": "Preview Markdown and Mermaid diagrams in the browser.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/mermaid",
+      "liveUrl": null,
+      "updated": "2026-07-02"
+    }
+  ]
+}
