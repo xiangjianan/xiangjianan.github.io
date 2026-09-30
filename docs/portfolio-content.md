@@ -1,9 +1,9 @@
 # Portfolio content
 
-Reviewed 2026-09-23 against the public GitHub API:
-https://api.github.com/users/xiangjianan/repos?per_page=100&sort=pushed
+Reviewed 2026-09-30 against the public GitHub API:
+https://api.github.com/users/xiangjianan/repos?per_page=100&type=owner&sort=updated
 
-All 54 public repositories are included in `src/data/repositories.json`. Private repositories and actual personal usage frequency are not known. The snapshot is static; it does not make GitHub API calls in visitors' browsers. Update the snapshot date when refreshing it.
+All 29 public repositories are included in `src/data/repositories.json`. Private repositories and actual personal usage frequency are not known. The snapshot is static; it does not make GitHub API calls in visitors' browsers. Update the snapshot date when refreshing it.
 
 Selection combines the original homepage's emphasis, recent pushes, project descriptions and README content. A push date is activity evidence, not proof of substantial development or daily personal usage.
 
@@ -23,4 +23,4 @@ Readme sources:
 - https://github.com/xiangjianan/fm#readme
 - https://github.com/xiangjianan/scheduler#readme
 
-Categories describe purpose rather than implementation language. Dated game and utility repositories remain individual entries in the full index. The default selection is curated in `SELECTED_NAMES` in `src/data/site.js`; filtering exposes every repository in the selected category. Repository-only projects link to source rather than an inferred deployment.
+Categories describe purpose rather than implementation language. The index matches the current public repository list: 28 former entries were removed and world-fragments, daily-games, and daily-tools were added. Daily game and utility collections are listed through their current repositories. The default selection is curated in `SELECTED_NAMES` in `src/data/site.js`; filtering exposes every repository in the selected category. Repository-only projects link to source rather than an inferred deployment.

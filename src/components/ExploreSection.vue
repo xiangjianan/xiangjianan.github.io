@@ -12,11 +12,11 @@ function select(id) { category.value = id; expanded.value = false }
   <section id="explore" aria-labelledby="explore-title">
     <div class="container">
       <div class="section-head" v-reveal><h2 id="explore-title">More ideas in the making.</h2><a class="section-more" :href="REPOSITORIES_URL" target="_blank" rel="noopener noreferrer">GitHub <AppIcon name="arrow-up-right" /></a></div>
-      <p class="section-intro">Useful tools, playful experiments, and everything in between. Explore my open-source projects.</p>
+      <p class="section-intro">Useful tools, playful experiments, and everything in between. Explore my public GitHub repositories.</p>
       <div class="filters" role="group" aria-label="Filter projects by category">
         <button v-for="item in CATEGORIES" :key="item.id" :aria-pressed="category === item.id" aria-controls="project-list" @click="select(item.id)">{{ item.label }}</button>
       </div>
-      <p class="catalog-status" role="status">{{ category === 'all' && !expanded ? visible.length + ' selected projects' : filtered.length + ' projects' }}</p>
+      <p class="catalog-status" role="status">{{ category === 'all' && !expanded ? visible.length + ' selected projects · ' + REPOSITORIES.length + ' public repositories' : filtered.length + ' projects' }}</p>
       <ul id="project-list" class="project-list">
         <li v-for="project in visible" :key="project.name" class="project-row">
           <a class="project-main" :href="project.liveUrl || project.href" target="_blank" rel="noopener noreferrer"><span class="project-name">{{ project.name }}</span><span class="project-desc">{{ project.desc }}</span></a>
@@ -27,7 +27,7 @@ function select(id) { category.value = id; expanded.value = false }
         </li>
       </ul>
       <div class="catalog-footer">
-        <button v-if="category === 'all'" class="show-all" @click="expanded = !expanded">{{ expanded ? 'Show selected projects −' : `Show all ${REPOSITORIES.length} repositories +` }}</button>
+        <button v-if="category === 'all'" class="show-all" @click="expanded = !expanded">{{ expanded ? 'Show selected projects −' : `Show all ${REPOSITORIES.length} public repositories +` }}</button>
         <span>Repository snapshot · {{ CHECKED_AT }}</span>
       </div>
     </div>

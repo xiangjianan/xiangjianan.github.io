@@ -16,4 +16,4 @@ export const FEATURED = [
   { name: 'jindou-blog', title: 'Notes from exploring AI.', tag: 'Research & writing', desc: 'AI research, technical explainers, and practical notes. A place to collect ideas and make complex topics easier to understand.', liveUrl: 'https://aiblog.helloxjn.com/', repoUrl: `${GITHUB_URL}/jindou-blog`, detail: 'AI research · Explainers · Notes', delay: 60 },
   { name: 'daily-digest', title: 'A day of output, in one place.', tag: 'AI & Automation', desc: 'Daily outputs from automated tasks, collected into a digest made for mobile reading. Catch up on what ran and what it produced.', liveUrl: 'https://xiangjianan.github.io/daily-digest/', repoUrl: `${GITHUB_URL}/daily-digest`, detail: 'Daily summaries · Mobile-first · PWA', delay: 120 },
 ]
-export const SELECTED_NAMES = ['daily-creative-tools', 'daily-original-games', 'taptap', 'primus', 'fm', 'time-traveler', 'lks', 'ai-daily-news', 'scheduler']
+export const SELECTED_NAMES = ['daily-creative-tools', 'daily-original-games', 'daily-tools', 'daily-games', 'world-fragments', 'taptap', 'primus', 'fm', 'time-traveler', 'lks', 'ai-daily-news', 'scheduler']
