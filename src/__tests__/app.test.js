@@ -37,11 +37,14 @@ describe('portfolio navigation and discovery', () => {
   it('labels preview and source actions clearly', () => {
     const wrapper = mountApp()
     const projectWithPreview = wrapper.findAll('.project-row').find(row => row.text().includes('daily-creative-tools'))
-    const repositoryOnly = wrapper.findAll('.project-row').find(row => row.text().includes('time-traveler'))
+    const traveler = wrapper.findAll('.project-row').find(row => row.text().includes('time-traveler'))
+    const repositoryOnly = wrapper.findAll('.project-row').find(row => row.text().includes('scheduler'))
 
     expect(projectWithPreview.find('.project-preview').attributes('aria-label')).toBe('Preview daily-creative-tools')
     expect(projectWithPreview.find('.project-source').attributes('aria-label')).toBe('View daily-creative-tools source code')
+    expect(traveler.find('.project-preview').attributes('href')).toBe('https://traveler.helloxjn.com/')
+    expect(traveler.find('.project-source').attributes('href')).toBe('https://github.com/xiangjianan/time-traveler')
     expect(repositoryOnly.find('.project-preview').exists()).toBe(false)
-    expect(repositoryOnly.find('.project-source').attributes('aria-label')).toBe('View time-traveler source code')
+    expect(repositoryOnly.find('.project-source').attributes('aria-label')).toBe('View scheduler source code')
   })
 })
