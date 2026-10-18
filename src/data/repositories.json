@@ -1,6 +1,126 @@
 {
-  "checkedAt": "2026-09-30",
+  "checkedAt": "2026-10-18",
   "repositories": [
+    {
+      "name": "jindou-blog",
+      "desc": "AI research, technical explainers, and practical notes.",
+      "category": "ai",
+      "href": "https://github.com/xiangjianan/jindou-blog",
+      "liveUrl": "https://jindou-blog.pages.dev",
+      "updated": "2026-10-18"
+    },
+    {
+      "name": "ai-daily-news",
+      "desc": "Automatically collect AI news into daily reports and an archive.",
+      "category": "ai",
+      "href": "https://github.com/xiangjianan/ai-daily-news",
+      "liveUrl": "https://xiangjianan.github.io/ai-daily-news/",
+      "updated": "2026-10-18"
+    },
+    {
+      "name": "daily-digest",
+      "desc": "A mobile-friendly digest of daily automated task outputs.",
+      "category": "ai",
+      "href": "https://github.com/xiangjianan/daily-digest",
+      "liveUrl": "https://xiangjianan.github.io/daily-digest/",
+      "updated": "2026-10-17"
+    },
+    {
+      "name": "daily-tools",
+      "desc": "Daily local-first micro-tools, each in a single file with no dependencies.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/daily-tools",
+      "liveUrl": "https://xiangjianan.github.io/daily-tools/",
+      "updated": "2026-10-17"
+    },
+    {
+      "name": "loom-ios",
+      "desc": "A native multi-model AI workspace for iPhone and iPad.",
+      "category": "ai",
+      "href": "https://github.com/xiangjianan/loom-ios",
+      "liveUrl": null,
+      "updated": "2026-10-17"
+    },
+    {
+      "name": "minidesk-ios",
+      "desc": "Capture reminders and quick notes on iPhone and sync them to your desktop.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/minidesk-ios",
+      "liveUrl": null,
+      "updated": "2026-10-17"
+    },
+    {
+      "name": "mini-desk",
+      "desc": "A local-first workspace for screenshots, notes, reminders, and quick actions.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/mini-desk",
+      "liveUrl": "https://minidesk.online",
+      "updated": "2026-10-17"
+    },
+    {
+      "name": "world-fragments",
+      "desc": "Three daily ideas connecting everyday observations, delivered by a local agent.",
+      "category": "ai",
+      "href": "https://github.com/xiangjianan/world-fragments",
+      "liveUrl": "https://xiangjianan.github.io/world-fragments/",
+      "updated": "2026-10-17"
+    },
+    {
+      "name": "finger",
+      "desc": "A real-time hand-tracking WebGL particle field.",
+      "category": "engineering",
+      "href": "https://github.com/xiangjianan/finger",
+      "liveUrl": "https://finger-804.pages.dev",
+      "updated": "2026-10-14"
+    },
+    {
+      "name": "daily-games",
+      "desc": "Daily HTML5 mini-games exploring one original mechanic at a time.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/daily-games",
+      "liveUrl": "https://xiangjianan.github.io/daily-games/",
+      "updated": "2026-10-10"
+    },
+    {
+      "name": "taptap",
+      "desc": "A WeChat puzzle about finding numbers in irregular shapes.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/taptap",
+      "liveUrl": "https://taptap.helloxjn.com",
+      "updated": "2026-10-09"
+    },
+    {
+      "name": "loom",
+      "desc": "Chat with multiple AI models in parallel and highlight responses to guide the conversation.",
+      "category": "ai",
+      "href": "https://github.com/xiangjianan/loom",
+      "liveUrl": "https://xiangjianan.github.io/loom/",
+      "updated": "2026-10-07"
+    },
+    {
+      "name": "workout-checkin",
+      "desc": "Track exercise with a 100-day check-in plan.",
+      "category": "tools",
+      "href": "https://github.com/xiangjianan/workout-checkin",
+      "liveUrl": "https://workout.helloxjn.com",
+      "updated": "2026-09-30"
+    },
+    {
+      "name": "xiangjianan.github.io",
+      "desc": "The source code for this personal portfolio.",
+      "category": "engineering",
+      "href": "https://github.com/xiangjianan/xiangjianan.github.io",
+      "liveUrl": "https://xiangjianan.github.io/",
+      "updated": "2026-09-30"
+    },
+    {
+      "name": "time-traveler",
+      "desc": "An LLM-powered text adventure through history.",
+      "category": "games",
+      "href": "https://github.com/xiangjianan/time-traveler",
+      "liveUrl": "https://traveler.helloxjn.com/",
+      "updated": "2026-09-30"
+    },
     {
       "name": "daily-original-games",
       "desc": "A collection of original HTML games exploring new mechanics.",
@@ -18,92 +138,12 @@
       "updated": "2026-09-30"
     },
     {
-      "name": "world-fragments",
-      "desc": "Three daily ideas connecting everyday observations, delivered by a local agent.",
-      "category": "ai",
-      "href": "https://github.com/xiangjianan/world-fragments",
-      "liveUrl": "https://xiangjianan.github.io/world-fragments/",
-      "updated": "2026-09-30"
-    },
-    {
-      "name": "taptap",
-      "desc": "A WeChat puzzle about finding numbers in irregular shapes.",
-      "category": "games",
-      "href": "https://github.com/xiangjianan/taptap",
-      "liveUrl": "https://taptap.helloxjn.com",
-      "updated": "2026-09-30"
-    },
-    {
-      "name": "mini-desk",
-      "desc": "A local-first workspace for screenshots, notes, reminders, and quick actions.",
-      "category": "tools",
-      "href": "https://github.com/xiangjianan/mini-desk",
-      "liveUrl": "https://minidesk.online",
-      "updated": "2026-09-30"
-    },
-    {
-      "name": "daily-digest",
-      "desc": "A mobile-friendly digest of daily automated task outputs.",
-      "category": "ai",
-      "href": "https://github.com/xiangjianan/daily-digest",
-      "liveUrl": "https://xiangjianan.github.io/daily-digest/",
-      "updated": "2026-09-30"
-    },
-    {
-      "name": "jindou-blog",
-      "desc": "AI research, technical explainers, and practical notes.",
-      "category": "ai",
-      "href": "https://github.com/xiangjianan/jindou-blog",
-      "liveUrl": "https://aiblog.helloxjn.com/",
-      "updated": "2026-09-30"
-    },
-    {
-      "name": "daily-games",
-      "desc": "Daily HTML5 mini-games exploring one original mechanic at a time.",
-      "category": "games",
-      "href": "https://github.com/xiangjianan/daily-games",
-      "liveUrl": "https://xiangjianan.github.io/daily-games/",
-      "updated": "2026-09-30"
-    },
-    {
-      "name": "ai-daily-news",
-      "desc": "Automatically collect AI news into daily reports and an archive.",
-      "category": "ai",
-      "href": "https://github.com/xiangjianan/ai-daily-news",
-      "liveUrl": "https://xiangjianan.github.io/ai-daily-news/",
-      "updated": "2026-09-30"
-    },
-    {
-      "name": "daily-tools",
-      "desc": "Daily local-first micro-tools, each in a single file with no dependencies.",
-      "category": "tools",
-      "href": "https://github.com/xiangjianan/daily-tools",
-      "liveUrl": "https://xiangjianan.github.io/daily-tools/",
-      "updated": "2026-09-29"
-    },
-    {
-      "name": "xiangjianan",
-      "desc": "GitHub profile and project introduction.",
-      "category": "engineering",
-      "href": "https://github.com/xiangjianan/xiangjianan",
-      "liveUrl": null,
-      "updated": "2026-09-23"
-    },
-    {
-      "name": "xiangjianan.github.io",
-      "desc": "The source code for this personal portfolio.",
-      "category": "engineering",
-      "href": "https://github.com/xiangjianan/xiangjianan.github.io",
-      "liveUrl": "https://xiangjianan.github.io/",
-      "updated": "2026-09-23"
-    },
-    {
       "name": "fm",
       "desc": "Shanhe Radio: a PWA player for radio stations across China.",
       "category": "tools",
       "href": "https://github.com/xiangjianan/fm",
       "liveUrl": "https://xiangjianan.github.io/fm/",
-      "updated": "2026-09-15"
+      "updated": "2026-09-23"
     },
     {
       "name": "signpost-hub",
@@ -135,14 +175,6 @@
       "category": "curation",
       "href": "https://github.com/xiangjianan/lks",
       "liveUrl": "https://lkssite.vip",
-      "updated": "2026-09-12"
-    },
-    {
-      "name": "time-traveler",
-      "desc": "An LLM-powered text adventure through history.",
-      "category": "games",
-      "href": "https://github.com/xiangjianan/time-traveler",
-      "liveUrl": "https://traveler.helloxjn.com/",
       "updated": "2026-09-12"
     },
     {
@@ -194,44 +226,12 @@
       "updated": "2026-09-12"
     },
     {
-      "name": "workout-checkin",
-      "desc": "Track exercise with a 100-day check-in plan.",
-      "category": "tools",
-      "href": "https://github.com/xiangjianan/workout-checkin",
-      "liveUrl": "https://workout.helloxjn.com",
-      "updated": "2026-09-12"
-    },
-    {
-      "name": "lks-api",
-      "desc": "A Django REST backend for the website recommendation directory.",
-      "category": "curation",
-      "href": "https://github.com/xiangjianan/lks-api",
-      "liveUrl": null,
-      "updated": "2026-09-12"
-    },
-    {
       "name": "send-msg",
       "desc": "Broadcast real-time messages over a local network using WebSocket.",
       "category": "engineering",
       "href": "https://github.com/xiangjianan/send-msg",
       "liveUrl": null,
       "updated": "2026-09-12"
-    },
-    {
-      "name": "employee-management-system",
-      "desc": "Manage employee records, attendance, and spreadsheet imports and exports.",
-      "category": "tools",
-      "href": "https://github.com/xiangjianan/employee-management-system",
-      "liveUrl": null,
-      "updated": "2026-09-12"
-    },
-    {
-      "name": "mermaid",
-      "desc": "Preview Markdown and Mermaid diagrams in the browser.",
-      "category": "tools",
-      "href": "https://github.com/xiangjianan/mermaid",
-      "liveUrl": null,
-      "updated": "2026-07-02"
     }
   ]
 }
