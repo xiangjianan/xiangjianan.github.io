@@ -1,4 +1,5 @@
 <script setup>
+import { t } from '../data/locale'
 import AppIcon from './AppIcon.vue'
 import { EMAIL, GITHUB_URL } from '../data/site'
 
@@ -18,7 +19,7 @@ const year = new Date().getFullYear()
           <AppIcon name="mail" :size="14" />
           {{ EMAIL }}
         </a>
-        <a href="#top">Top ↑</a>
+        <a href="#top">{{ t('Top ↑', '回到顶部 ↑') }}</a>
       </div>
     </div>
   </footer>

@@ -1,4 +1,5 @@
 <script setup>
+import { t } from '../data/locale'
 defineProps({ feature: { type: Object, required: true } })
 </script>
 <template>
@@ -9,8 +10,8 @@ defineProps({ feature: { type: Object, required: true } })
     <p>{{ feature.desc }}</p>
     <span class="feature-detail">{{ feature.detail }}</span>
     <div class="feature-actions">
-      <a class="action-live text-action" :href="feature.liveUrl" :aria-label="`Open ${feature.name}`" title="Visit site" target="_blank" rel="noopener noreferrer">Visit</a>
-      <a class="action-repo text-action" :href="feature.repoUrl" :aria-label="`View ${feature.name} source code`" title="Source on GitHub" target="_blank" rel="noopener noreferrer">Source</a>
+      <a class="action-live text-action" :href="feature.liveUrl" :aria-label="`Open ${feature.name}`" title="Visit site" target="_blank" rel="noopener noreferrer">{{ t('Visit', '访问') }}</a>
+      <a class="action-repo text-action" :href="feature.repoUrl" :aria-label="`View ${feature.name} source code`" title="Source on GitHub" target="_blank" rel="noopener noreferrer">{{ t('Source', '源码') }}</a>
     </div>
   </article>
 </template>
