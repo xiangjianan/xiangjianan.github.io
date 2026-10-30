@@ -18,14 +18,6 @@
       "updated": "2026-10-30"
     },
     {
-      "name": "loom",
-      "desc": "Chat with multiple AI models in parallel and highlight responses to guide the conversation.",
-      "category": "ai",
-      "href": "https://github.com/xiangjianan/loom",
-      "liveUrl": "https://xiangjianan.github.io/loom/",
-      "updated": "2026-10-07"
-    },
-    {
       "name": "daily-games",
       "desc": "Daily HTML5 mini-games exploring one original mechanic at a time.",
       "category": "games",
@@ -96,6 +88,14 @@
       "href": "https://github.com/xiangjianan/coin-fate",
       "liveUrl": "https://xiangjianan.github.io/coin-fate/",
       "updated": "2026-09-12"
+    },
+    {
+      "name": "daily-digest",
+      "desc": "A mobile-friendly digest of daily automated task outputs.",
+      "category": "ai",
+      "href": "https://github.com/xiangjianan/daily-digest",
+      "liveUrl": "https://xiangjianan.github.io/daily-digest/",
+      "updated": "2026-10-17"
     },
     {
       "name": "daily-tools",

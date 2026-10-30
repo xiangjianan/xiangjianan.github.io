@@ -14,8 +14,10 @@ describe('portfolio navigation and discovery', () => {
   it('shows all repositories in order and filters them by category', async () => {
     const wrapper = mountApp()
     expect(wrapper.findAll('.project-name').map(el => el.text())).toEqual(REPOSITORIES.map(p => p.name))
-    expect(REPOSITORIES.slice(0, 10).map(p => p.name)).toEqual(['taptap', 'minidesk-ios', 'loom', 'daily-games', 'time-traveler', 'fm', 'lks', 'daily-original-games', 'daily-creative-tools', 'ai-daily-news'])
-    expect(REPOSITORIES.map(p => p.name)).not.toEqual(expect.arrayContaining(['minidesk', 'jindou-blog', 'daily-digest']))
+    expect(REPOSITORIES.slice(0, 9).map(p => p.name)).toEqual(['taptap', 'minidesk-ios', 'daily-games', 'time-traveler', 'fm', 'lks', 'daily-original-games', 'daily-creative-tools', 'ai-daily-news'])
+    expect(REPOSITORIES.map(p => p.name)).not.toEqual(expect.arrayContaining(['minidesk', 'jindou-blog', 'loom']))
+    expect(REPOSITORIES.map(p => p.name)).toContain('daily-digest')
+    expect(wrapper.findAll('.feature h3').map(el => el.text())).toEqual(['minidesk', 'jindou-blog', 'loom'])
     expect(wrapper.find('.show-all').exists()).toBe(false)
     const tools = wrapper.findAll('.filters button').find(b => b.text() === 'Tools')
     await tools.trigger('click')
