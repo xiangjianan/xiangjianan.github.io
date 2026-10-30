@@ -4,10 +4,8 @@ import { computed, ref } from 'vue'
 import AppIcon from './AppIcon.vue'
 import { CATEGORIES, REPOSITORIES, REPOSITORIES_URL, CHECKED_AT } from '../data/site'
 const category = ref('all')
-const expanded = ref(false)
 const filtered = computed(() => category.value === 'all' ? REPOSITORIES : REPOSITORIES.filter(p => p.category === category.value))
-const visible = computed(() => category.value === 'all' && !expanded.value ? filtered.value.slice(0, 15) : filtered.value)
-function select(id) { category.value = id; expanded.value = false }
+function select(id) { category.value = id }
 </script>
 <template>
   <section id="explore" aria-labelledby="explore-title">
@@ -17,9 +15,9 @@ function select(id) { category.value = id; expanded.value = false }
       <div class="filters" role="group" :aria-label="t('Filter projects by category', '按类别筛选项目')">
         <button v-for="item in CATEGORIES" :key="item.id" :aria-pressed="category === item.id" aria-controls="project-list" @click="select(item.id)">{{ item.label }}</button>
       </div>
-      <p class="catalog-status" role="status">{{ category === 'all' && !expanded ? t('Showing ' + visible.length + ' of ' + REPOSITORIES.length + ' public repositories', '显示 ' + visible.length + ' / ' + REPOSITORIES.length + ' 个公开仓库') : t(filtered.length + ' projects', filtered.length + ' 个项目') }}</p>
+      <p class="catalog-status" role="status">{{ t(filtered.length + ' projects', filtered.length + ' 个项目') }}</p>
       <ul id="project-list" class="project-list">
-        <li v-for="project in visible" :key="project.name" class="project-row">
+        <li v-for="project in filtered" :key="project.name" class="project-row">
           <a class="project-main" :href="project.liveUrl || project.href" target="_blank" rel="noopener noreferrer"><span class="project-name">{{ project.name }}</span><span class="project-desc">{{ project.desc }}</span></a>
           <div class="project-actions">
             <a v-if="project.liveUrl" class="project-action project-preview text-action" :href="project.liveUrl" :aria-label="`Preview ${project.name}`" title="Visit site" target="_blank" rel="noopener noreferrer">{{ t('Visit', '访问') }}</a>
@@ -28,7 +26,6 @@ function select(id) { category.value = id; expanded.value = false }
         </li>
       </ul>
       <div class="catalog-footer">
-        <button v-if="category === 'all'" class="show-all" :aria-expanded="expanded" aria-controls="project-list" @click="expanded = !expanded">{{ expanded ? t('Show fewer −', '收起 −') : t(`Show all ${REPOSITORIES.length} public repositories +`, `显示全部 ${REPOSITORIES.length} 个公开仓库 +`) }}</button>
         <span>{{ t('Repository snapshot', '仓库快照') }} · {{ CHECKED_AT }}</span>
       </div>
     </div>

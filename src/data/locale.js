@@ -2,6 +2,7 @@ export const isChinese = typeof navigator !== 'undefined' && /^zh(?:-|$)/i.test(
 export const t = (en, zh) => isChinese ? zh : en
 
 export const descriptions = {
+  'xiangjianan': 'GitHub 个人主页。',
   'jindou-blog': '关于 AI、技术与探索的研究和笔记。',
   'ai-daily-news': '自动收集 AI 新闻，整理成每日简报与归档。',
   'daily-digest': '适合手机阅读的每日自动任务成果集。',
